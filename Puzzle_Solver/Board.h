@@ -1,5 +1,5 @@
 /*
- * File: Puzzle.h
+ * File: Board.h
  * ---------------------
  *
  * Created by Rick Boshae on 1/29/17.
@@ -7,23 +7,24 @@
  */
 
 
-#ifndef PUZZLE_H
-#define PUZZLE_H
+#ifndef BOARD_H
+#define BOARD_H
 
 #include <iostream>
 #include <string>
 
 using namespace std;
 
-class Puzzle
+class Board
 {
 public:
-	Puzzle();
-	~Puzzle();
+	Board();
+	~Board();
 
-	Puzzle setPuzzle();
+	Board setBoard();
+
 private:
-	int puzzle_configuration[3][3];
+	int board_configuration[3][3];
 };
 
 #endif
