@@ -21,7 +21,8 @@ public:
 	Board();
 	~Board();
 
-	Board setBoard();
+	void setBoard();
+	void printBoard();
 
 private:
 	int board_configuration[3][3];

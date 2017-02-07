@@ -5,6 +5,7 @@
 */
 #include <iostream>
 #include <string>
+#include "Board.h"
 
 using namespace std;
 
@@ -27,6 +28,7 @@ void menu() {
 
 	int menu_selection = 0;
 	bool valid = false;
+	Board* testBoard = new Board();
 	
 	//Prompt user
 	
@@ -51,7 +53,10 @@ void menu() {
 	{
 	case 1: cout << "default puzzle selected." << endl;
 		break;
-	case 2: cout << "custom puzzle selected." << endl;
+	case 2: cout << "custom puzzle selected." << endl; 
+		testBoard->setBoard(); 
+		cout << "This is your Board:" << endl;
+		testBoard->printBoard();
 		break;
 	default: cout << "Invalid Input. Please be sure to enter \"1\" or \"2.\"" << endl; menu(); //recursive call to menu
 		break;
