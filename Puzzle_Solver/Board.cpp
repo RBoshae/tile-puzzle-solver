@@ -4,12 +4,14 @@
 
 Board::Board()
 {
+	int count = 8;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 
-			board_configuration[i][j] = 0;
-
+			board_configuration[i][j] = count;
+			count--;
 		}
+		blank_col_pos = 2; blank_row_pos = 2;
 	}
 }
 
@@ -25,14 +27,21 @@ void Board::setBoard()
 
 	cout << "Enter your puzzle, use a zero to represent the blank" << endl;
 	
+	// TODO: Reduce the following code to a neat for loop.
+	
 	cout << "Enter the first row, use space or tabs between numbers" << endl;
 	cin.ignore();
-	cin.getline(user_input, sizeof(user_input));  cout << endl;
+	cin.getline(user_input, sizeof(user_input));  //cout << endl;
 		
 	//loop that will parse user input and store it in a Board data structure
 	for (int i = 0; i < 100; i++) {
 		if (user_input[i] >= '0' && user_input[i] <= '9') {
 			board_configuration[0][column_pos] = user_input[i] - '0';
+			
+			if (board_configuration[0][column_pos] == 0) {
+				blank_row_pos = 0;
+				blank_col_pos = column_pos;
+			}
 			column_pos++;
 		}
 	}
@@ -41,10 +50,16 @@ void Board::setBoard()
 
 	cout << "Enter the second row, use space or tabs between numbers" << endl;
 	
-	cin.getline(user_input, sizeof(user_input));  cout << endl;
+	cin.getline(user_input, sizeof(user_input));//  cout << endl;
 	for (int i = 0; i < 100; i++) {
 		if (user_input[i] >= '0' && user_input[i] <= '9') {
 			board_configuration[1][column_pos] = user_input[i] - '0';
+
+			if (board_configuration[1][column_pos] == 0) {
+				blank_row_pos = 1;
+				blank_col_pos = column_pos;
+			}
+
 			column_pos++;
 		}
 	}
@@ -53,10 +68,16 @@ void Board::setBoard()
 	
 	cout << "Enter the third row, use space or tabs between numbers" << endl;
 	
-	cin.getline(user_input, sizeof(user_input));  cout << endl;
+	cin.getline(user_input, sizeof(user_input));  //cout << endl;
 	for (int i = 0; i < 100; i++) {
 		if (user_input[i] >= '0' && user_input[i] <= '9') {
 			board_configuration[2][column_pos] = user_input[i] - '0';
+
+			if (board_configuration[2][column_pos] == 0) {
+				blank_row_pos = 2;
+				blank_col_pos = column_pos;
+			}
+
 			column_pos++;
 		}
 	}
@@ -78,4 +99,43 @@ void Board::printBoard()
 		cout << endl;
 	}
 	return;
+}
+
+void Board::move(int action)
+{
+	//locate position of blank tile on board. Reminder that 0 is the placeholder for the blank tile.
+	switch (action)
+	{
+	case 1: //up
+		if (blank_row_pos > 0) {
+			board_configuration[blank_row_pos][blank_col_pos] = board_configuration[blank_row_pos - 1][blank_col_pos];
+			board_configuration[blank_row_pos - 1][blank_col_pos] = 0;
+			blank_row_pos--;
+		}
+
+		break;
+	case 2: //down
+		if (blank_row_pos < 2) {
+			board_configuration[blank_row_pos][blank_col_pos] = board_configuration[blank_row_pos + 1][blank_col_pos];
+			board_configuration[blank_row_pos + 1][blank_col_pos] = 0;
+			blank_row_pos++;
+		}
+		break;
+	case 3: //left
+		if (blank_col_pos > 0) {
+			board_configuration[blank_row_pos][blank_col_pos] = board_configuration[blank_row_pos][blank_col_pos - 1];
+			board_configuration[blank_row_pos][blank_col_pos - 1] = 0;
+			blank_col_pos--;
+		}
+		break;
+	case 4: //right
+		if (blank_col_pos < 2) {
+			board_configuration[blank_row_pos][blank_col_pos] = board_configuration[blank_row_pos][blank_col_pos + 1];
+			board_configuration[blank_row_pos][blank_col_pos + 1] = 0;
+			blank_col_pos++;
+		}
+		break;
+	default:
+		break;
+	}
 }

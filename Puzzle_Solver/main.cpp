@@ -9,29 +9,17 @@
 
 using namespace std;
 
-void menu();
 
 int main() {
 
 	cout << "Welcome to Rick's 8-puzzle solver." << endl;
-	menu();
-	
-	system("PAUSE");
-	return 0;
-}
-
-
-
-
-
-void menu() {
 
 	int menu_selection = 0;
-	bool valid = false;
+	bool valid = false; //used to verify user input during prompts is valid
 	Board* testBoard = new Board();
-	
+
 	//Prompt user
-	
+
 	cout << "Type \"1\" to use a default puzzle, or \"2\" to enter your own puzzle." << endl;
 
 	while (!valid) {
@@ -48,20 +36,28 @@ void menu() {
 		} //end of if statement
 	} //end of while loop
 
-	
+
 	switch (menu_selection)
 	{
 	case 1: cout << "default puzzle selected." << endl;
+		testBoard->printBoard();
 		break;
-	case 2: cout << "custom puzzle selected." << endl; 
-		testBoard->setBoard(); 
+	case 2: cout << "custom puzzle selected." << endl;
+		testBoard->setBoard();
 		cout << "This is your Board:" << endl;
 		testBoard->printBoard();
 		break;
-	default: cout << "Invalid Input. Please be sure to enter \"1\" or \"2.\"" << endl; menu(); //recursive call to menu
+	default: cout << "Invalid Input. Please be sure to enter \"1\" or \"2.\"" << endl;
 		break;
 	} //end of switch
-		
+
+
+
 	
-	return;
-} //end of menu
+	system("PAUSE");
+	return 0;
+}
+
+
+
+

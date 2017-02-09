@@ -1,0 +1,27 @@
+
+cout << "Initial Board State:" << endl;
+testBoard->printBoard();
+
+cout << "Applying blank_up move." << endl;
+testBoard->move(1);
+testBoard->printBoard();
+
+cout << "Applying blank_up move." << endl;
+testBoard->move(1);
+testBoard->printBoard();
+
+cout << "Applying blank_left move." << endl;
+testBoard->move(3);
+testBoard->printBoard();
+
+cout << "Applying blank_down move." << endl;
+testBoard->move(2);
+testBoard->printBoard();
+
+cout << "Applying blank_left move." << endl;
+testBoard->move(3);
+testBoard->printBoard();
+
+cout << "Applying blank_right move." << endl;
+testBoard->move(4);
+testBoard->printBoard();
