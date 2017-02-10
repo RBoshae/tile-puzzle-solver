@@ -29,7 +29,7 @@ void Board::setBoard()
 	
 	// TODO: Reduce the following code to a neat for loop.
 	
-	cout << "Enter the first row, use space or tabs between numbers" << endl;
+	cout << "Enter the first row, use space or tabs between numbers      ";
 	cin.ignore();
 	cin.getline(user_input, sizeof(user_input));  //cout << endl;
 		
@@ -48,7 +48,7 @@ void Board::setBoard()
 	
 	column_pos = 0;
 
-	cout << "Enter the second row, use space or tabs between numbers" << endl;
+	cout << "Enter the second row, use space or tabs between numbers     ";
 	
 	cin.getline(user_input, sizeof(user_input));//  cout << endl;
 	for (int i = 0; i < 100; i++) {
@@ -66,7 +66,7 @@ void Board::setBoard()
 
 	column_pos = 0;
 	
-	cout << "Enter the third row, use space or tabs between numbers" << endl;
+	cout << "Enter the third row, use space or tabs between numbers      ";
 	
 	cin.getline(user_input, sizeof(user_input));  //cout << endl;
 	for (int i = 0; i < 100; i++) {
@@ -84,6 +84,25 @@ void Board::setBoard()
 
 	return;
 }
+
+
+
+void Board::setToGoalState() 
+{
+	int count = 1;
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+
+			board_configuration[i][j] = count;
+			count++;
+		}
+
+		board_configuration[blank_row_pos][blank_col_pos] = 0;
+		blank_col_pos = 2; blank_row_pos = 2;
+	}
+}
+
+
 
 void Board::printBoard()
 {
@@ -139,3 +158,4 @@ void Board::move(int action)
 		break;
 	}
 }
+

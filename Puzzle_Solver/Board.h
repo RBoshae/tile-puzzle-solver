@@ -1,6 +1,7 @@
 /*
  * File: Board.h
  * ---------------------
+ * Board.h provides an interface for 8-sliding tile puzzle.
  *
  * Created by Rick Boshae on 1/29/17.
  *
@@ -18,12 +19,15 @@ using namespace std;
 class Board
 {
 public:
-	//enum action { blank_up, blank_down, blank_left, blank_right };
+
+	// I would like to consider using a switch value rather than an integer value 
+	// enum action { blank_up, blank_down, blank_left, blank_right };
 
 	Board();
 	~Board();
 
 	void setBoard();
+	void setToGoalState();
 	void printBoard();
 	void move(int action);
 

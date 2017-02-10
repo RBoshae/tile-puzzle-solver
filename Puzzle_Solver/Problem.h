@@ -20,13 +20,14 @@ class Problem
 {
 public:
 	Problem();
+	Problem(Board* user_Board);
 	~Problem();
 
 
 	 
 private: 
-	Board initial_state;
-	Board goal_state;
+	Board* initial_state;
+	Board* goal_state;
 	const string blank_left = "blank left";
 	const string blank_right = "blank right";
 	const string blank_up = "blank up";
