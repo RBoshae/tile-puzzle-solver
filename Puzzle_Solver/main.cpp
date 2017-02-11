@@ -137,7 +137,7 @@ bool graph_search(Board b, int heuristic_decision) {
 		else {
 			for (int i = 0; i < 3; i++) {
 
-			childBoard = createChild(b, i);
+			childBoard = createChild(b, i);//
 
 			for (int i = 0; i < explored_set.size(); i++) {
 			
