@@ -6,19 +6,22 @@
  */
 #include <iostream>
 #include <string>
+#include <queue>
+#include <vector>
 #include "Board.h"
 //#include "Problem.h" - removing because it feels unecessary
 
 using namespace std;
 
-bool graph_search(Board* b, int heuristic_decision);
+bool graph_search(Board b, int heuristic_decision);
+Board createChild(Board parent, int action);
 
 int main() {
 
 
 	int menu_selection = 0;
 	bool valid = false; //used to verify user input during prompts is valid
-	Board* testBoard = new Board();
+	Board testBoard;
 	int heuristic_choice;
 
 	
@@ -52,7 +55,7 @@ int main() {
 		case 2: cout << "custom puzzle selected." << endl;
 			//no need to set default problem since the Board default constructor already contains a default board
 			cout << "This is your Board:" << endl;
-			testBoard->setBoard(); //declare new board object
+			testBoard.setBoard(); //declare new board object
 			break;
 		default: cout << "Invalid Input. Please be sure to enter \"1\" or \"2.\"" << endl;
 			break;
@@ -100,7 +103,7 @@ int main() {
 
 
 	cout << "Board Initial State:" <<endl;
-	testBoard->printBoard();
+	testBoard.printBoard();
 
 
 	
@@ -113,14 +116,58 @@ int main() {
 
 
 
+bool graph_search(Board b, int heuristic_decision) {
+
+	vector<Board> explored_set;
+	bool explored = false;
+
+	int graph_depth = 0;
+	Board goal_state;
+	Board childBoard;
+	goal_state.setToGoalState();
+
+	//Uniform Cost Search
+	if (heuristic_decision == 1) {
+		queue<Board> board_q;
+
+		if (b == goal_state) {
+			cout << "GOAL!!!";
+			return true;
+		}
+		else {
+			for (int i = 0; i < 3; i++) {
+
+			childBoard = createChild(b, i);
+
+			for (int i = 0; i < explored_set.size(); i++) {
+			
+				if (childBoard == explored_set.at(i)) {
+					explored = true;
+				}
+			}
+
+			if (explored == false) {
+				board_q.push(childBoard);
+			}
+
+			}
+		}
+
+		
+		return false;
+	}
 
 
-
-
-bool graph_search(Board* b, int heuristic_decision) {
+	//Manhattan
+	//Misplaced Tile
 
 	
-
+	return true;
 }
 
-
+Board createChild(Board parent, int action) {
+	Board child = parent;
+	child.move(1);
+	
+	return child;
+}

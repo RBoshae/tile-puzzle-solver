@@ -19,6 +19,8 @@ using namespace std;
 class Board
 {
 public:
+	int board_configuration[3][3];
+
 
 	// I would like to consider using a switch value rather than an integer value 
 	// enum action { blank_up, blank_down, blank_left, blank_right };
@@ -30,13 +32,16 @@ public:
 	void setToGoalState();
 	void printBoard();
 	void move(int action);
+	bool Board::operator==(const Board &other) const;
 
 private:
-	int board_configuration[3][3];
-	
 	//responsible for keeping track of blank tile so we do not have to search for it later.
 	int blank_row_pos;
 	int blank_col_pos;
+
+protected:
+	
+
 };
 
 #endif

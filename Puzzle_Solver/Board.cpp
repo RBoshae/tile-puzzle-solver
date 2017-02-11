@@ -157,5 +157,40 @@ void Board::move(int action)
 	default:
 		break;
 	}
+
+	return;
 }
+
+// overloaded == operator
+bool Board::operator==(const Board& other) const{
+	bool same = false;
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if (this->board_configuration[i][j] == other.board_configuration[i][j]) {
+
+				same = true;
+
+			}
+			else return false;
+		}
+	}
+	
+	return same;
+}
+
+//overloaded = operator
+//Board Board::operator=(Board other) {
+//
+//	for (int i = 0; i < 3; i++) {
+//		for (int j = 0; j < 3; j++) {
+//			if (this->board_configuration[i][j] = other.board_configuration[i][j]) {
+//
+//
+//			}
+//			
+//		}
+//	}
+//	return this;
+//}
+
 
