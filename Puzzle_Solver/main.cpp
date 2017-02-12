@@ -138,9 +138,9 @@ bool graph_search(Board b, int heuristic_decision) {
 
 	//Uniform Cost Search
 	if (heuristic_decision == 1) {
-		priority_queue<Node, vector<Node>, Comp> node_q;
+		priority_queue<Node*, vector<Node*>, Comp> node_q;
 		Board root_board = b;
-		Node root = createRootNode(root_board);
+		Node* root = createRootNode(root_board);
 		//Node current;                                   //Keeps track of current node in queue
 		
 		node_q.push(root);
