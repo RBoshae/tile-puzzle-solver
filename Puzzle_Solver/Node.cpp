@@ -7,6 +7,7 @@ Node::Node()
 	f_of_n = 0;
 	h_of_n = 0;
 	node_depth = 0;
+	path_cost = 0;
 	move_applied = "initial state";
 	parent = NULL;
 }
@@ -22,6 +23,7 @@ void Node::setParentNode(Node *passed_parent)
 	parent = passed_parent;
 	node_depth = passed_parent->getNodeDepth() + 1;
 	f_of_n = node_depth;
+	board_history.push_back(passed_parent->getBoard());
 }
 
 Node* Node::getParentNode() {

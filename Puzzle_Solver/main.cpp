@@ -8,9 +8,9 @@
 #include <string>
 #include <queue>
 #include <vector>
-#include <stack>
 #include "Board.h"
 #include "Node.h"
+#include <map>
 
 //#include "Problem.h" - removing because it feels unecessary
 
@@ -26,8 +26,9 @@ struct Comp {
 	}*/
 };
 
-bool graph_search(Board b, int heuristic_decision);
-Node createChildNode(Node* parent, int action);
+//bool graph_search(Board b, int heuristic_decision);
+bool uniform_cost_search(Board b);
+Node createChildNode(Node *parent, int action);
 //Node createRootNode(Board b);
 
 int main() {
@@ -105,7 +106,7 @@ int main() {
 	switch (heuristic_choice)
 	{
 
-	case 1: cout << "Uniform Cost Search selected" << endl; graph_search(testBoard, 1);
+	case 1: cout << "Uniform Cost Search selected" << endl; uniform_cost_search(testBoard);
 		break;
 	case 2: cout << "A* with the Misplaced Tile heuristic selected" << endl;
 		break;
@@ -124,8 +125,112 @@ int main() {
 }
 
 
+bool uniform_cost_search(Board b) {
 
+	Node current;
+	current.setBoard(b);               //Node contains initial state of Board b and path cost = 0
+	Board goal;                   ///
+	goal.setToGoalState();         ///
 
+	priority_queue<Node, vector<Node>, Comp> frontier;     //a priority quete ordered by Path-Cost, with node as the only element
+	frontier.push(current);
+
+	vector<Board> explored;            //an empty set
+	vector<Board> in_q;                //mimics priority q, used to compare to child node
+
+	while (true) {
+
+		//returns false if there are no nodes to expand
+		if (frontier.empty()) {
+			return false;
+		}
+
+		current = frontier.top();    //chooses the lowerst-cost node in frontier
+		frontier.pop();              //pop frontier
+		//remove popped board from in_q
+		for (int i = 0; i < in_q.size(); i++) {
+			if (current.getBoard() == in_q.at(i)) {
+				in_q.erase(in_q.begin() + i);
+				break; //if we found a match there is no need to continue the loop
+			}
+		}
+
+		//perform goal test on current node
+		if (current.getBoard() == goal) {
+			cout << "Goal State reached!" << endl;
+
+			cout << "would you like the solution(y/n)?" << endl;
+			string user_input;
+			cin >> user_input;
+			if (user_input == "y") {
+				cout << "Goal Path" << endl;
+				for (int i = 0; i < current.board_history.size(); i++)
+				{
+					//cout << "move applied: " << current.board_history.at(i) << endl;
+					current.board_history.at(i).printBoard();
+					cout << endl;
+				}
+				current.printNodeBoard();
+			}
+
+			return true;
+		}
+		explored.push_back(current.getBoard());         //add board to explored set
+
+		if (current.getNodeDepth() == 0)
+		{
+			cout << "Exanding state" << endl;
+			current.printNodeBoard();
+		}
+		else {
+			cout << "The best state to expand with g(n) = " << current.getNodeDepth() << " is..." << endl;
+			current.printNodeBoard();
+		}
+
+		//for each action, create a child node. If child node is not in explored or frontier add to priority queue
+		Node child_node;
+		bool already_explored = false;                            // assume that generated set has not been explored
+		
+		//generate children
+		for (int i = 1; i <= 4; i++) {
+			already_explored = false;
+
+			child_node = createChildNode(&current, i);            //create child node from parent node
+			
+
+			//check if child_node has been previously explored
+			//check explored set
+			for (int i = 0; i < explored.size(); i++) {
+
+				if (child_node.getBoard() == explored.at(i)) {
+					already_explored = true;
+					break;
+				}
+
+			}
+			//check in_q
+			if (!already_explored) {
+				for (int i = 0; i < in_q.size(); i++) {
+
+					if (child_node.getBoard() == in_q.at(i)) {
+						already_explored = true;
+						break;
+					}
+				}
+
+			}
+
+			//after checking explored_set and in_q add child to priority queue and in_q
+			if (!already_explored) {
+				frontier.push(child_node);
+				in_q.push_back(child_node.getBoard());
+			}
+		}
+	}
+	cout << "No Solution" << endl;
+		return false;
+}
+/*
 
 //Graph search takes in board and determines the goal state based on the heurisitc provided by the user
 bool graph_search(Board b, int heuristic_decision) {
@@ -163,16 +268,7 @@ bool graph_search(Board b, int heuristic_decision) {
 				cin >> user_response;
 				if (user_response == "y") {
 					
-					/*cout << "goal board: " << endl;
-					current_node.printNodeBoard();
-
-					cout << "previous state" << endl;
-					current_node.getParentNode()->printNodeBoard();
-
-					current_node = *current_node.getParentNode();
-					cout << "previous previous state" << endl;
-					current_node.getParentNode()->printNodeBoard();*/
-
+					
 					//store solution set in a vector
 					vector<Node> solution_set;
 					while (current_node.getParentNode() != NULL || current_node.getParentNode()->move_applied == "initial state") {
@@ -183,12 +279,6 @@ bool graph_search(Board b, int heuristic_decision) {
 						current_node = *current_node.getParentNode();
 
 					}
-
-					/*for (int i = solution_set.size(); i >= 0; i--) {
-
-						solution_set.at(i).printNodeBoard();
-
-					}*/
 
 
 
@@ -211,29 +301,32 @@ bool graph_search(Board b, int heuristic_decision) {
 
 			//generate child node from all possible moves
 			for (int i = 1; i <= 4; i++) {
+				explored = false;                                              //default state of explored is false
 				
 
 				child_node = createChildNode(&current_node, i);              //create child node from parent node
-				explored = false;                                              //default state of explored is false
-				//check if child_node has been previously explored
+				
+				
+		        //check if child_node has been previously explored
 				for (int i = 0; i < explored_set.size(); i++) {
 
 					if (child_node.getBoard() == explored_set.at(i).getBoard()) {
 						explored = true;
-						continue;
+						//continue;
+					}
+				
+					//after checking redundant state add child to queue
+					if (explored == false) {
+						//child_node.setParentNode(&explored_set.at(index-1));
+
+						node_q.push(child_node);
 					}
 				}
 
-				//after checking redundant state add child to queue
-				if (explored == false) {
-					child_node.setParentNode(&explored_set.at(index-1));
-
-					node_q.push(child_node);
-				}
 				explored = false; // reset explored to false state for next move application
 
 			}
-			node_q.pop();
+			//node_q.pop();
 			//current_node = node_q.top();
 		}
 		
@@ -250,14 +343,16 @@ bool graph_search(Board b, int heuristic_decision) {
 	return true;
 }
 
+*/
+
 //createChildNode takes a pointer to the parent Node, creates a copy of the parent and applies the appropriate move to it. 
 Node createChildNode(Node *parent, int action) {
 	
-	Node child = *parent;                             //create a copy of the parent node called child.   
+	Node child = *parent;                              //create a copy of the parent node called child.   
 	Board child_board = parent->getBoard();			  //create a copy of the parent nodes board
 	child.move_applied = child_board.move(action);    //apply move action to child board
 	child.setBoard(child_board);				      // save child board to child node
-	//child.setParentNode(parent);			          // child nodes points to parent node
+	child.setParentNode(parent);			          // child nodes points to parent node
 	
 	return child;
 }
