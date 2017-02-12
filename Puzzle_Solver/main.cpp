@@ -21,11 +21,14 @@ struct Comp {
 	bool operator () (Node lhs, Node rhs) {
 		return lhs.getFofN() > rhs.getFofN();
 	}
+	/*bool operator () (Node* lhs, Node* rhs) {
+		return lhs->getFofN() > rhs->getFofN();
+	}*/
 };
 
 bool graph_search(Board b, int heuristic_decision);
 Node createChildNode(Node* parent, int action);
-Node createRootNode(Board b);
+//Node createRootNode(Board b);
 
 int main() {
 
@@ -129,24 +132,28 @@ bool graph_search(Board b, int heuristic_decision) {
 
 	vector<Node> explored_set;           //explored set keeps an account of all boards that have been previously expanded.
 	bool explored = false;               //we assume upon the generation of a new board it has not been explored.
+	priority_queue<Node, vector<Node>, Comp> node_q;
 
 	int graph_depth = 0;                 //keeps track of graph depth.
+	int index = 0;
 	Board goal_state;                    //Declare an object naemd goal_state of type Board.
 	goal_state.setToGoalState();         //set goal_state to the problem goal state.
 
-	Node child_node;
+	Node child_node;                                 // allocate memory for child
 
 	//Uniform Cost Search
 	if (heuristic_decision == 1) {
-		priority_queue<Node*, vector<Node*>, Comp> node_q;
-		Board root_board = b;
-		Node* root = createRootNode(root_board);
-		//Node current;                                   //Keeps track of current node in queue
+
+		
+		Node root;
+		root.setBoard(b);
+		Node current_node;
 		
 		node_q.push(root);
-		Node current_node = node_q.top();
 		
 		while (!node_q.empty()) {
+			current_node = node_q.top();
+			node_q.pop();
 			
 			if (current_node.getBoard() == goal_state) {
 				cout << "Goal!!" << endl;
@@ -155,7 +162,8 @@ bool graph_search(Board b, int heuristic_decision) {
 				string user_response = "no";
 				cin >> user_response;
 				if (user_response == "y") {
-					cout << "goal board: " << endl;
+					
+					/*cout << "goal board: " << endl;
 					current_node.printNodeBoard();
 
 					cout << "previous state" << endl;
@@ -163,18 +171,20 @@ bool graph_search(Board b, int heuristic_decision) {
 
 					current_node = *current_node.getParentNode();
 					cout << "previous previous state" << endl;
-					current_node.getParentNode()->printNodeBoard();
+					current_node.getParentNode()->printNodeBoard();*/
 
 					//store solution set in a vector
-					/*vector<Node> solution_set;
-					while (current_node.getParentNode() != NULL) {
+					vector<Node> solution_set;
+					while (current_node.getParentNode() != NULL || current_node.getParentNode()->move_applied == "initial state") {
 
-						solution_set.push_back(current_node);
+						//solution_set.push_back(current_node);
+						current_node.printNodeBoard();
+						cout << endl;
 						current_node = *current_node.getParentNode();
 
 					}
 
-					for (int i = solution_set.size(); i >= 0; i--) {
+					/*for (int i = solution_set.size(); i >= 0; i--) {
 
 						solution_set.at(i).printNodeBoard();
 
@@ -187,6 +197,7 @@ bool graph_search(Board b, int heuristic_decision) {
 			}
 			
 			explored_set.push_back(current_node); //add soon to be expanded node to explored set.
+			index++;
 
 			if (current_node.getNodeDepth() == 0)
 			{
@@ -197,8 +208,10 @@ bool graph_search(Board b, int heuristic_decision) {
 				cout << "The best state to expand with g(n) = " << current_node.getNodeDepth() << " is..." << endl;
 				current_node.printNodeBoard();
 			}
-			//iterated through all possible moves
+
+			//generate child node from all possible moves
 			for (int i = 1; i <= 4; i++) {
+				
 
 				child_node = createChildNode(&current_node, i);              //create child node from parent node
 				explored = false;                                              //default state of explored is false
@@ -213,14 +226,15 @@ bool graph_search(Board b, int heuristic_decision) {
 
 				//after checking redundant state add child to queue
 				if (explored == false) {
-					child_node.setParentNode(&explored_set.at(explored_set.size()-1));
+					child_node.setParentNode(&explored_set.at(index-1));
+
 					node_q.push(child_node);
 				}
 				explored = false; // reset explored to false state for next move application
 
 			}
 			node_q.pop();
-			current_node = node_q.top();
+			//current_node = node_q.top();
 		}
 		
 
@@ -237,7 +251,7 @@ bool graph_search(Board b, int heuristic_decision) {
 }
 
 //createChildNode takes a pointer to the parent Node, creates a copy of the parent and applies the appropriate move to it. 
-Node createChildNode(Node* parent, int action) {
+Node createChildNode(Node *parent, int action) {
 	
 	Node child = *parent;                             //create a copy of the parent node called child.   
 	Board child_board = parent->getBoard();			  //create a copy of the parent nodes board
@@ -248,10 +262,10 @@ Node createChildNode(Node* parent, int action) {
 	return child;
 }
 
-Node createRootNode(Board parent) {
-	
-	Node root;
-	root.setBoard(parent);
-
-	return root;
-}
+//Node* createRootNode(Board parent) {
+//	
+//	Node root;
+//	root.setBoard(parent);
+//
+//	return root;
+//}

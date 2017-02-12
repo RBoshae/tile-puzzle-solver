@@ -20,8 +20,8 @@ Node::~Node()
 void Node::setParentNode(Node *passed_parent)
 {
 	parent = passed_parent;
-	node_depth = passed_parent->node_depth + 1;
-	f_of_n += node_depth;
+	node_depth = passed_parent->getNodeDepth() + 1;
+	f_of_n = node_depth;
 }
 
 Node* Node::getParentNode() {
