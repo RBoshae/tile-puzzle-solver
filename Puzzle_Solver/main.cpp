@@ -127,7 +127,7 @@ int main() {
 //Graph search takes in board and determines the goal state based on the heurisitc provided by the user
 bool graph_search(Board b, int heuristic_decision) {
 
-	vector<Board> explored_set;          //explored set keeps an account of all boards that have been previously expanded.
+	vector<Node> explored_set;           //explored set keeps an account of all boards that have been previously expanded.
 	bool explored = false;               //we assume upon the generation of a new board it has not been explored.
 
 	int graph_depth = 0;                 //keeps track of graph depth.
@@ -155,14 +155,13 @@ bool graph_search(Board b, int heuristic_decision) {
 				string user_response = "no";
 				cin >> user_response;
 				if (user_response == "y") {
-					Node* test_node = &current_node;
 					cout << "goal board: " << endl;
-					test_node->printNodeBoard();
+					current_node.printNodeBoard();
 
 					cout << "previous state" << endl;
-					test_node->getParentNode()->printNodeBoard();
+					current_node.getParentNode()->printNodeBoard();
 
-					current_node = *test_node->getParentNode();
+					current_node = *current_node.getParentNode();
 					cout << "previous previous state" << endl;
 					current_node.getParentNode()->printNodeBoard();
 
@@ -187,7 +186,7 @@ bool graph_search(Board b, int heuristic_decision) {
 				return true;
 			}
 			
-			explored_set.push_back(current_node.getBoard()); //add soon to be expanded node to explored set.
+			explored_set.push_back(current_node); //add soon to be expanded node to explored set.
 
 			if (current_node.getNodeDepth() == 0)
 			{
@@ -206,7 +205,7 @@ bool graph_search(Board b, int heuristic_decision) {
 				//check if child_node has been previously explored
 				for (int i = 0; i < explored_set.size(); i++) {
 
-					if (child_node.getBoard() == explored_set.at(i)) {
+					if (child_node.getBoard() == explored_set.at(i).getBoard()) {
 						explored = true;
 						continue;
 					}
@@ -214,6 +213,7 @@ bool graph_search(Board b, int heuristic_decision) {
 
 				//after checking redundant state add child to queue
 				if (explored == false) {
+					child_node.setParentNode(&explored_set.at(explored_set.size()-1));
 					node_q.push(child_node);
 				}
 				explored = false; // reset explored to false state for next move application
@@ -241,9 +241,9 @@ Node createChildNode(Node* parent, int action) {
 	
 	Node child = *parent;                             //create a copy of the parent node called child.   
 	Board child_board = parent->getBoard();			  //create a copy of the parent nodes board
-	child_board.move(action);                         //apply move action to child board
+	child.move_applied = child_board.move(action);    //apply move action to child board
 	child.setBoard(child_board);				      // save child board to child node
-	child.setParentNode(*parent);			          // child nodes points to parent node
+	//child.setParentNode(parent);			          // child nodes points to parent node
 	
 	return child;
 }

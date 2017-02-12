@@ -17,10 +17,10 @@ Node::~Node()
 }
 
 //set current node to point to parent. node_depth is modified here since we must know the depth of our parent to get the depth of the child
-void Node::setParentNode(Node  passed_parent)
+void Node::setParentNode(Node *passed_parent)
 {
-	parent = &passed_parent;
-	node_depth = passed_parent.node_depth + 1;
+	parent = passed_parent;
+	node_depth = passed_parent->node_depth + 1;
 	f_of_n += node_depth;
 }
 
@@ -28,6 +28,10 @@ Node* Node::getParentNode() {
 	return parent;
 }
 
+Node Node::previous_state(Node current_state)
+{
+	if (current_state.move_applied == "blank tile right") current_state.getBoard().move(3); return current_state;
+}
 void Node::setBoard(Board b)
 {
 	node_board = b;

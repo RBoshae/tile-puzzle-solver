@@ -17,8 +17,9 @@ public:
 	Node();
 	~Node();
 
-	void setParentNode(Node passed_parent);
+	void setParentNode(Node *passed_parent);
 	Node* getParentNode();
+	Node previous_state(Node current_state);
 	
 	void setBoard(Board b);
 	Board getBoard();
