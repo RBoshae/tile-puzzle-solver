@@ -31,13 +31,14 @@ public:
 	void setBoard();
 	void setToGoalState();
 	void printBoard();
-	void move(int action);
+	string move(int action);
 	bool Board::operator==(const Board &other) const;
 
 private:
 	//responsible for keeping track of blank tile so we do not have to search for it later.
 	int blank_row_pos;
 	int blank_col_pos;
+	string move_applied;
 
 protected:
 	

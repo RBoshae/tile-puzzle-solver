@@ -8,13 +8,24 @@
 #include <string>
 #include <queue>
 #include <vector>
+#include <stack>
 #include "Board.h"
+#include "Node.h"
+
 //#include "Problem.h" - removing because it feels unecessary
 
 using namespace std;
 
+//Used for priorty queue 
+struct Comp {
+	bool operator () (Node lhs, Node rhs) {
+		return lhs.getFofN() > rhs.getFofN();
+	}
+};
+
 bool graph_search(Board b, int heuristic_decision);
-Board createChild(Board parent, int action);
+Node createChildNode(Node* parent, int action);
+Node createRootNode(Board b);
 
 int main() {
 
@@ -36,15 +47,15 @@ int main() {
 
 		cin >> menu_selection;
 
-		if (cin.fail()) {//cin.fail() checks to see if the value in the cin stream is the correct type, if not returns true, otherwise false.
-			cin.clear(); //This corrects the stream
-			cin.ignore(); // This skips the left over stream data
+		if (cin.fail()) {                                          //cin.fail() checks to see if the value in the cin stream is the correct type, if not returns true, otherwise false.
+			cin.clear();                                           //This corrects the stream
+			cin.ignore();                                          // This skips the left over stream data
 			cout << "Please enter an integer value only." << endl;
-			valid = false; //The cin was not an integer so try again.
+			valid = false;                                         //The cin was not an integer so try again.
 		} 
 	}
 
-	valid = false; //valid will be resused so we set it back to false
+	valid = false;                                                 //valid will be resused so we set it back to false
 
 
 	switch (menu_selection)
@@ -55,7 +66,7 @@ int main() {
 		case 2: cout << "custom puzzle selected." << endl;
 			//no need to set default problem since the Board default constructor already contains a default board
 			cout << "This is your Board:" << endl;
-			testBoard.setBoard(); //declare new board object
+			testBoard.setBoard();                                //declare new board object
 			break;
 		default: cout << "Invalid Input. Please be sure to enter \"1\" or \"2.\"" << endl;
 			break;
@@ -74,15 +85,15 @@ int main() {
 
 	while (!valid) {
 
-		valid = true; //Assume the cin will be an integer
+		valid = true;                           //Assume the cin will be an integer
 
 		cin >> heuristic_choice;
 
-		if (cin.fail()) {//cin.fail() checks to see if the value in the cin stream is the correct type, if not returns true, otherwise false.
-			cin.clear(); //This corrects the stream
-			cin.ignore(); // This skips the left over stream data
+		if (cin.fail()) {                      //cin.fail() checks to see if the value in the cin stream is the correct type, if not returns true, otherwise false.
+			cin.clear();                       //This corrects the stream
+			cin.ignore();                      // This skips the left over stream data
 			cout << "Please enter an integer value only." << endl;
-			valid = false; //The cin was not an integer so try again.
+			valid = false;                     //The cin was not an integer so try again.
 		}
 	}
 
@@ -91,7 +102,7 @@ int main() {
 	switch (heuristic_choice)
 	{
 
-	case 1: cout << "Uniform Cost Search selected" << endl;
+	case 1: cout << "Uniform Cost Search selected" << endl; graph_search(testBoard, 1);
 		break;
 	case 2: cout << "A* with the Misplaced Tile heuristic selected" << endl;
 		break;
@@ -102,8 +113,6 @@ int main() {
 	}
 
 
-	cout << "Board Initial State:" <<endl;
-	testBoard.printBoard();
 
 
 	
@@ -115,43 +124,105 @@ int main() {
 
 
 
-
+//Graph search takes in board and determines the goal state based on the heurisitc provided by the user
 bool graph_search(Board b, int heuristic_decision) {
 
-	vector<Board> explored_set;
-	bool explored = false;
+	vector<Board> explored_set;          //explored set keeps an account of all boards that have been previously expanded.
+	bool explored = false;               //we assume upon the generation of a new board it has not been explored.
 
-	int graph_depth = 0;
-	Board goal_state;
-	Board childBoard;
-	goal_state.setToGoalState();
+	int graph_depth = 0;                 //keeps track of graph depth.
+	Board goal_state;                    //Declare an object naemd goal_state of type Board.
+	goal_state.setToGoalState();         //set goal_state to the problem goal state.
+
+	Node child_node;
 
 	//Uniform Cost Search
 	if (heuristic_decision == 1) {
-		queue<Board> board_q;
-
-		if (b == goal_state) {
-			cout << "GOAL!!!";
-			return true;
-		}
-		else {
-			for (int i = 0; i < 3; i++) {
-
-			childBoard = createChild(b, i);//
-
-			for (int i = 0; i < explored_set.size(); i++) {
+		priority_queue<Node, vector<Node>, Comp> node_q;
+		Board root_board = b;
+		Node root = createRootNode(root_board);
+		//Node current;                                   //Keeps track of current node in queue
+		
+		node_q.push(root);
+		Node current_node = node_q.top();
+		
+		while (!node_q.empty()) {
 			
-				if (childBoard == explored_set.at(i)) {
-					explored = true;
+			if (current_node.getBoard() == goal_state) {
+				cout << "Goal!!" << endl;
+
+				cout << "Would you like the parent?(y/n)";
+				string user_response = "no";
+				cin >> user_response;
+				if (user_response == "y") {
+					Node* test_node = &current_node;
+					cout << "goal board: " << endl;
+					test_node->printNodeBoard();
+
+					cout << "previous state" << endl;
+					test_node->getParentNode()->printNodeBoard();
+
+					current_node = *test_node->getParentNode();
+					cout << "previous previous state" << endl;
+					current_node.getParentNode()->printNodeBoard();
+
+					//store solution set in a vector
+					/*vector<Node> solution_set;
+					while (current_node.getParentNode() != NULL) {
+
+						solution_set.push_back(current_node);
+						current_node = *current_node.getParentNode();
+
+					}
+
+					for (int i = solution_set.size(); i >= 0; i--) {
+
+						solution_set.at(i).printNodeBoard();
+
+					}*/
+
+
+
 				}
+				return true;
 			}
+			
+			explored_set.push_back(current_node.getBoard()); //add soon to be expanded node to explored set.
 
-			if (explored == false) {
-				board_q.push(childBoard);
+			if (current_node.getNodeDepth() == 0)
+			{
+				cout << "Exanding state" << endl;
+				current_node.printNodeBoard();
 			}
+			else {
+				cout << "The best state to expand with g(n) = " << current_node.getNodeDepth() << " is..." << endl;
+				current_node.printNodeBoard();
+			}
+			//iterated through all possible moves
+			for (int i = 1; i <= 4; i++) {
+
+				child_node = createChildNode(&current_node, i);              //create child node from parent node
+				explored = false;                                              //default state of explored is false
+				//check if child_node has been previously explored
+				for (int i = 0; i < explored_set.size(); i++) {
+
+					if (child_node.getBoard() == explored_set.at(i)) {
+						explored = true;
+						continue;
+					}
+				}
+
+				//after checking redundant state add child to queue
+				if (explored == false) {
+					node_q.push(child_node);
+				}
+				explored = false; // reset explored to false state for next move application
 
 			}
+			node_q.pop();
+			current_node = node_q.top();
 		}
+		
 
 		
 		return false;
@@ -165,9 +236,22 @@ bool graph_search(Board b, int heuristic_decision) {
 	return true;
 }
 
-Board createChild(Board parent, int action) {
-	Board child = parent;
-	child.move(1);
+//createChildNode takes a pointer to the parent Node, creates a copy of the parent and applies the appropriate move to it. 
+Node createChildNode(Node* parent, int action) {
+	
+	Node child = *parent;                             //create a copy of the parent node called child.   
+	Board child_board = parent->getBoard();			  //create a copy of the parent nodes board
+	child_board.move(action);                         //apply move action to child board
+	child.setBoard(child_board);				      // save child board to child node
+	child.setParentNode(*parent);			          // child nodes points to parent node
 	
 	return child;
+}
+
+Node createRootNode(Board parent) {
+	
+	Node root;
+	root.setBoard(parent);
+
+	return root;
 }

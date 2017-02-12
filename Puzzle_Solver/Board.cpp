@@ -4,15 +4,19 @@
 
 Board::Board()
 {
-	int count = 8;
-	for (int i = 0; i < 3; i++) {
+	int count = 1;
+	move_applied = "initial state";
+	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 3; j++) {
 
 			board_configuration[i][j] = count;
-			count--;
+			count++;
 		}
-		blank_col_pos = 2; blank_row_pos = 2;
 	}
+		 blank_row_pos = 2; blank_col_pos = 0;
+		board_configuration[blank_row_pos][blank_col_pos] = 0;
+		board_configuration[2][1] = 7;
+		board_configuration[2][2] = 8;
 }
 
 
@@ -97,8 +101,9 @@ void Board::setToGoalState()
 			count++;
 		}
 
-		board_configuration[blank_row_pos][blank_col_pos] = 0;
 		blank_col_pos = 2; blank_row_pos = 2;
+		board_configuration[blank_row_pos][blank_col_pos] = 0;
+		
 	}
 }
 
@@ -120,7 +125,7 @@ void Board::printBoard()
 	return;
 }
 
-void Board::move(int action)
+string Board::move(int action)
 {
 	//locate position of blank tile on board. Reminder that 0 is the placeholder for the blank tile.
 	switch (action)
@@ -130,6 +135,7 @@ void Board::move(int action)
 			board_configuration[blank_row_pos][blank_col_pos] = board_configuration[blank_row_pos - 1][blank_col_pos];
 			board_configuration[blank_row_pos - 1][blank_col_pos] = 0;
 			blank_row_pos--;
+			move_applied = "blank tile up";
 		}
 
 		break;
@@ -138,6 +144,7 @@ void Board::move(int action)
 			board_configuration[blank_row_pos][blank_col_pos] = board_configuration[blank_row_pos + 1][blank_col_pos];
 			board_configuration[blank_row_pos + 1][blank_col_pos] = 0;
 			blank_row_pos++;
+			move_applied = "blank tile down";
 		}
 		break;
 	case 3: //left
@@ -145,6 +152,7 @@ void Board::move(int action)
 			board_configuration[blank_row_pos][blank_col_pos] = board_configuration[blank_row_pos][blank_col_pos - 1];
 			board_configuration[blank_row_pos][blank_col_pos - 1] = 0;
 			blank_col_pos--;
+			move_applied = "blank tile left";
 		}
 		break;
 	case 4: //right
@@ -152,13 +160,14 @@ void Board::move(int action)
 			board_configuration[blank_row_pos][blank_col_pos] = board_configuration[blank_row_pos][blank_col_pos + 1];
 			board_configuration[blank_row_pos][blank_col_pos + 1] = 0;
 			blank_col_pos++;
+			move_applied = "blank tile right";
 		}
 		break;
 	default:
 		break;
 	}
 
-	return;
+	return move_applied;
 }
 
 // overloaded == operator
