@@ -23,7 +23,7 @@ void Node::setParentNode(Node *passed_parent)
 	parent = passed_parent;
 	node_depth = passed_parent->getNodeDepth() + 1;
 	f_of_n = node_depth;
-	board_history.push_back(passed_parent->getBoard());
+	//board_history.push_back(passed_parent->getBoard());
 }
 
 Node* Node::getParentNode() {
