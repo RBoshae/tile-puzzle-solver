@@ -5,6 +5,9 @@
 Board::Board()
 {
 	int count = 1;
+	int misplaced_tile = 0;
+	int manhattan_distance = 0;
+
 	move_applied = "initial state";
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 3; j++) {
@@ -85,7 +88,8 @@ void Board::setBoard()
 			column_pos++;
 		}
 	}
-
+	compute_manhattan_distance();
+	compute_misplaced_tile_distance();
 	return;
 }
 
@@ -167,6 +171,9 @@ string Board::move(int action)
 		break;
 	}
 
+	compute_manhattan_distance();
+	compute_misplaced_tile_distance();
+
 	return move_applied;
 }
 
@@ -185,6 +192,58 @@ bool Board::operator==(const Board& other) const{
 	}
 	
 	return same;
+}
+
+int Board::getManhattanDistance()
+{
+	return manhattan_distance;
+}
+
+int Board::getMisplacedTileDistance()
+{
+	return misplaced_tile;
+}
+
+void Board::compute_manhattan_distance() {
+	manhattan_distance = 0; 
+	int counter = 1;
+	int row_delta = 0;
+	int col_delta = 0;
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+
+			if (board_configuration[i][j] != 0) {
+				row_delta = ((board_configuration[i][j] - 1) / 3) - (counter - 1) / 3;
+				col_delta = ((board_configuration[i][j] % 3) - 1) - ((counter % 1) - 1) / 3;
+			}
+			counter++;
+			}
+		}
+	manhattan_distance = row_delta + col_delta;
+	
+
+	}
+
+void Board::compute_misplaced_tile_distance() {
+	misplaced_tile = 0;
+	int counter = 1;
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+
+			if (board_configuration[i][j] != counter && i != 2 && j != 2) {
+				misplaced_tile++;
+			}
+			if (i == 2 & j == 2) {
+				if (board_configuration[i][j] != 0) {
+					misplaced_tile++;
+				}
+			}
+		}
+		counter++;
+
+	}
+
+
 }
 
 //overloaded = operator

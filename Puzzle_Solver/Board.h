@@ -33,12 +33,21 @@ public:
 	void printBoard();
 	string move(int action);
 	bool Board::operator==(const Board &other) const;
+	
+	int getManhattanDistance();
+	int getMisplacedTileDistance();
 
 private:
 	//responsible for keeping track of blank tile so we do not have to search for it later.
 	int blank_row_pos;
 	int blank_col_pos;
 	string move_applied;
+
+	int misplaced_tile;
+	int manhattan_distance;
+
+	void compute_manhattan_distance();
+	void compute_misplaced_tile_distance();
 
 protected:
 	
