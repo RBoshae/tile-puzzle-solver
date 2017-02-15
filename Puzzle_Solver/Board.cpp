@@ -196,11 +196,13 @@ bool Board::operator==(const Board& other) const{
 
 int Board::getManhattanDistance()
 {
+	compute_manhattan_distance();
 	return manhattan_distance;
 }
 
 int Board::getMisplacedTileDistance()
 {
+	compute_misplaced_tile_distance();
 	return misplaced_tile;
 }
 
@@ -213,15 +215,19 @@ void Board::compute_manhattan_distance() {
 		for (int j = 0; j < 3; j++) {
 
 			if (board_configuration[i][j] != 0) {
-				row_delta = ((board_configuration[i][j] - 1) / 3) - (counter - 1) / 3;
-				col_delta = ((board_configuration[i][j] % 3) - 1) - ((counter % 1) - 1) / 3;
+				row_delta += abs(((board_configuration[i][j] - 1) / 3) - (counter - 1) / 3);
+				col_delta += abs(((board_configuration[i][j] % 3) - 1) - ((counter % 3) - 1));
+			}
+			if (board_configuration[i][j] == 0) {
+				row_delta += (2 - i);
+				col_delta += (2 - i);
 			}
 			counter++;
 			}
 		}
 	manhattan_distance = row_delta + col_delta;
 	
-
+	return;
 	}
 
 void Board::compute_misplaced_tile_distance() {
@@ -242,7 +248,7 @@ void Board::compute_misplaced_tile_distance() {
 		counter++;
 
 	}
-
+	return;
 
 }
 
@@ -261,4 +267,23 @@ void Board::compute_misplaced_tile_distance() {
 //	return this;
 //}
 
+bool Board::operator<( const Board& other) const 
+{ 
 
+	stringstream total_other;
+	stringstream total_this;
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			//if (other.board_configuration[i][j] == 0) {} else
+			total_other << other.board_configuration[i][j];
+		}
+	}
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			total_this << this->board_configuration[i][j];
+		}
+	}
+	return (total_this.str() < total_other.str());
+}

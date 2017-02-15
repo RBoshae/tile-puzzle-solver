@@ -36,6 +36,9 @@ Node Node::previous_state(Node current_state)
 }
 void Node::setBoard(Board b)
 {
+	manhattan_distance = b.getManhattanDistance();
+	misplaced_tile = b.getMisplacedTileDistance();
+
 	node_board = b;
 }
 
@@ -54,5 +57,7 @@ int Node::getNodeDepth(){
 }
 
 int Node::getFofN() {
+	//possibly redundant
+	f_of_n = node_depth + h_of_n;
 	return f_of_n;
 }

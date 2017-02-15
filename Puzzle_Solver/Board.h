@@ -13,6 +13,8 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
+#include <sstream>
 
 using namespace std;
 
@@ -33,9 +35,10 @@ public:
 	void printBoard();
 	string move(int action);
 	bool Board::operator==(const Board &other) const;
-	
+	bool Board::operator<(const Board &other) const;
 	int getManhattanDistance();
 	int getMisplacedTileDistance();
+
 
 private:
 	//responsible for keeping track of blank tile so we do not have to search for it later.
