@@ -34,16 +34,19 @@ public:
 	void setToGoalState();
 	void printBoard();
 	string move(int action);
+	void randomBoard();
+
 	bool Board::operator==(const Board &other) const;
 	bool Board::operator<(const Board &other) const;
+	
 	int getManhattanDistance();
 	int getMisplacedTileDistance();
 
+	int blank_row_pos;
+	int blank_col_pos;
 
 private:
 	//responsible for keeping track of blank tile so we do not have to search for it later.
-	int blank_row_pos;
-	int blank_col_pos;
 	string move_applied;
 
 	int misplaced_tile;

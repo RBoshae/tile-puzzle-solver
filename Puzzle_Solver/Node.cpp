@@ -34,6 +34,10 @@ Node Node::previous_state(Node current_state)
 {
 	if (current_state.move_applied == "blank tile right") current_state.getBoard().move(3); return current_state;
 }
+
+
+
+
 void Node::setBoard(Board b)
 {
 	manhattan_distance = b.getManhattanDistance();
@@ -61,3 +65,4 @@ int Node::getFofN() {
 	f_of_n = node_depth + h_of_n;
 	return f_of_n;
 }
+

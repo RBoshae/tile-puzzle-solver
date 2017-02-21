@@ -177,6 +177,11 @@ string Board::move(int action)
 	return move_applied;
 }
 
+
+void Board::randomBoard() 
+{
+	// Later I may include a function to randomize the board.
+}
 // overloaded == operator
 bool Board::operator==(const Board& other) const{
 	bool same = false;

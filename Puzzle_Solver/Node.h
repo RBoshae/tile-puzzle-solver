@@ -22,6 +22,7 @@ public:
 	Node* getParentNode();
 	Node previous_state(Node current_state);
 	
+	
 	void setBoard(Board b);
 	Board getBoard();
 	void printNodeBoard();
