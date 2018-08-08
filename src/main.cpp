@@ -64,100 +64,116 @@ int main() {
  * Usage: 	 main_menu();
  * --------------------------------
  * main_menu is the interface provided to the user to interact with the program.
- * The user is greeted and asked to input a 8 tile puzzle (also referred to as a
- * board.) The user has the option to select a computer-generated board or input
- * a custom board.
- * Following the users board type selection, the user is prompted to select a
- * heuristic to be used in the A* search.
+ * The user is greeted and given three options: Default Puzzle, Custom Puzzle, or Quit.
+ * The Default Puzzle option uses a computer-generated board. The Custom Puzzle option
+ * allows the user to input their own board. Quit exits the program.
+ *
+ * The following menu prompts the user to choose a heuristic to use for A* search.
+ * At present there are three options: Uniform Cost Search (the slowest), Misplaced Tile,
+ * or Manhattan Distance. There is also a secret fourth option to test all heuristics.
+ *
+ * After the user has chosen their desired heuristic the program proceeds to solve the
+ * the 8-tile puzzle. Each best state board is outputted to the terminal before it is expanded.
+ * Stats are also shown to indicate the g(n), h(n), and f(n) values ate each state.
+ *
+ * When a goal state is reached the program outputs the total number of nodes expanded. The
+ * maximum number of nodes in queue at any one time. The depth of the goal node. Finally the
+ * user if asked if they would like to view the solution trace.
  */
 void main_menu() {
-	int menu_selection = 0;
-	bool valid = false;                        //used to verify user input during prompts is valid
+	int userInput = 0;                // stores menu option inputted by user.
 	Board testBoard = random_board();
-	int heuristic_choice;
+	int heuristic_choice;							// Alternative to using userInput. Allows for easier to read code.
 
 	// Prompt #1
-cout <<	" _____   _        _     _                                                           " << endl;
-cout << "|  __ \\ (_)      | |   ( )                                                          " << endl;
-cout << "| |__) | _   ___ | | __|/ ___                                                       " << endl;
-cout << "|  _  / | | / __|| |/ /  / __|                                                      " << endl;
-cout << "| | \\ \\ | || (__ |   <   \\__ \\                                                      " << endl;
+cout <<	" _____   _        _     _                                                           " 			<< endl;
+cout << "|  __ \\ (_)      | |   ( )                                                          " 		<< endl;
+cout << "| |__) | _   ___ | | __|/ ___                                                       " 			<< endl;
+cout << "|  _  / | | / __|| |/ /  / __|                                                      " 			<< endl;
+cout << "| | \\ \\ | || (__ |   <   \\__ \\                                                      " 	<< endl;
 cout << "|_|  \\ \\|_| \\___||_|\\_\\  |___/                                                      " << endl;
-cout <<	"  ___          _____                   _          _____         _                   " << endl;
-cout <<	" / _ \\        |  __ \\                 | |        / ____|       | |                  " << endl;
-cout << "| (_) |______ | |__) |_   _  ____ ____| |  ___  | (___    ___  | |__   __ ___  _ __ " << endl;
-cout <<	" > _ <|______||  ___/| | | ||_  /|_  /| | / _ \  \\___  \\  / _ \\ | |\\ \\ / // _ \\| '__|" << endl;
-cout << "| (_) |       | |    | |_| | / /  / / | ||  __/  ____) || (_) || | \\ V /|  __/| |   " << endl;
-cout <<	" \\___/        |_|     \\__,_|/___|/___||_| \\___| |_____/  \\___/ |_|  \\_/  \\___||_|   " << endl;
-cout << "====================================================================================" << endl;
-cout << "  Welcome to Rick's 8-puzzle solver."                                                  << endl;
-cout << "  Select Puzzle Option:"                                                               << endl;
-cout << "  1 - Use default puzzle"                                                              << endl;
-cout << "  2 - Enter your own puzzle."                                                          << endl;
-cout << "------------------------------------------------------------------------------------" << endl;
-cout << "  choice:                                                                            " << endl;
-// cout << "====================================================================================" << endl;
-	// while loop validates user input
-	while (!valid) {
+cout <<	"  ___          _____                   _          _____         _                   " 			<< endl;
+cout <<	" / _ \\        |  __ \\                 | |        / ____|       | |                  " 		<< endl;
+cout << "| (_) |______ | |__) |_   _  ____ ____| |  ___  | (___    ___  | |__   __ ___  _ __ " 			<< endl;
+cout <<	" > _ <|______||  ___/| | | ||_  /|_  /| | / _ \   \\___ \\  / _ \\ | |\\ \\ / // _ \\| '__|" << endl;
+cout << "| (_) |       | |    | |_| | / /  / / | ||  __/  ____) || (_) || | \\ V / | __/| |   " 		<< endl;
+cout <<	" \\___/        |_|     \\__,_|/___|/___||_| \\___| |_____/  \\___/ |_|  \\_/  \\___||_|   " 	<< endl;
+cout << "====================================================================================" 			<< endl;
+cout << "  Welcome to Rick's 8-puzzle solver."                                                  		<< endl;
+cout << endl;
+cout << "  Enter Puzzle Option:"                            	                                   		<< endl;
+cout << "  1 - Use default puzzle"                                                              		<< endl;
+cout << "  2 - Enter your own puzzle."                                                          		<< endl;
+cout << "  0 - Quit."                                                                            		<< endl;
+cout << "------------------------------------------------------------------------------------" 			<< endl;
+cout << "  choice: ";
 
-		valid = true; //Assume the cin will be an integer
+cin >> userInput;
+	// TODO: Write test cases for while(cin.fail()){...}
+	// Validate user input. If userInput is invalid try again, otherwise continue.
+	while (cin.fail() || userInput > 2 || userInput < -1) {		 // cin.fail() checks to see if the value in the
+																														 // cin stream is the correct type, if not returns
+																														 // true, otherwise false.
 
-		cin >> menu_selection;
-
-		if (cin.fail()) {                                          //cin.fail() checks to see if the value in the cin stream is the correct type, if not returns true, otherwise false.
-			cin.clear();                                           //This corrects the stream
-			cin.ignore();                                          // This skips the left over stream data
-			cout << "Please enter an integer value only." << endl;
-			valid = false;                                         //The cin was not an integer so try again.
+			cin.clear();                                           // cin.clear() corrects the stream
+			cin.ignore();                                          // cin.ignore() skips the left over stream data
+			cout << "  Please enter 1 or 2 only." << endl;
+			cout << "  "; 																				 // whitespace buffer
+			cin >> userInput;
 		}
-	}
 
-	valid = false;                                                 //valid will be resused so we set it back to false
+cout << "====================================================================================" << endl;
 
-
-	switch (menu_selection)
+	// Confirm userInput. If userInput selected Default Puzzle option print the puzzle to the display.
+	// If user selected custom puzzle call .setBoard() to input custom puzzle. If selected quit, exit program.
+	switch (userInput)
 	{
+		case 0: cout << "  Quitting Program" << endl;
+			exit(0);
+		break;
 
-		case 1: cout << "default puzzle selected:" << endl;
+		case 1:
+			cout << "  Default puzzle selected." << endl << endl;
+			cout << "  Default Puzzle:" << endl;
 			testBoard.printBoard();
-				cout << endl;
-			break;
-		case 2: cout << "custom puzzle selected." << endl;
+			cout << endl;
+		break;
 
+		case 2: cout << "  Custom puzzle selected." << endl << endl;
 			cout << "This is your Board:" << endl;
-			testBoard.setBoard();                                //declare new board object
-			break;
-		default: cout << "Invalid Input. Please be sure to enter \"1\" or \"2.\"" << endl;
-			break;
+			testBoard.setBoard();                                // declare new board object
+		break;
+
+		default: cout << "Error, Invalid input." << endl;
+			exit(1);
+		break;
 	}
 
 
 
 
 	//Prompt #2
+	cout << "====================================================================================" 			<< endl;
+	cout << "  Pick an algorithm to solve your puzzle." 		 << endl;
 	cout << endl;
-	cout << "Enter your choice of algorithm" << endl;
-	cout << "\t1. Uniform Cost Search" << endl;
-	cout << "\t2. A* with the Misplaced Tile heuristic." << endl;
-	cout << "\t3. A* with the Manhattan distance heuristic." << endl;
-	cout << "\t";
+	cout << "  1 - Uniform Cost Search. (Warning: Likely to be VERY slow)" << endl;
+	cout << "  2 - A* with Misplaced Tile heuristic."     		<< endl;
+	cout << "  3 - A* with Manhattan Distance heuristic." 		<< endl;
+	cout << "------------------------------------------------------------------------------------" 			<< endl;
+	cout << "  choice: ";
 
-	while (!valid) {
+	cin >> heuristic_choice;
 
-		valid = true;                          //Assume the cin will be an integer
-
-		cin >> heuristic_choice;
-
-		if (cin.fail()) {                      //cin.fail() checks to see if the value in the cin stream is the correct type, if not returns true, otherwise false.
-			cin.clear();                       //This corrects the stream
-			cin.ignore();                      // This skips the left over stream data
-			cout << "Please enter an integer value only." << endl;
-			valid = false;                     //The cin was not an integer so try again.
+	while (cin.fail()) {					// cin.fail() checks to see if the value in the cin stream is the correct type, if not returns true, otherwise false.
+			cin.clear();              // cin.clear() corrects the stream
+			cin.ignore();             // cin.ignore() skips the left over stream data
+			cout << "  Please pick either 1, 2, or 3." << endl;
+			cout << "  "; 						// whitespace buffer.
+			cin >> heuristic_choice;
 		}
-	}
 
-
-
+	// Confirm userInput. If userInput selected Default Puzzle option print the puzzle to the display.
+	// If user selected custom puzzle call .setBoard() to input custom puzzle. If selected quit, exit program.
 	switch (heuristic_choice)
 	{
 
