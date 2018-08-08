@@ -4,7 +4,7 @@ In this project I implement the A* search algorithm using C++. A* evaluates node
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -14,30 +14,32 @@ To run this code you need GCC (or your favorite C++ compiler) installed on your 
 
 Once GCC has been installed on your machine you are ready to run the program.
 
-Start by opening a terminal. Next navigate to the project directory and enter "make" to compile the code:
+Start by opening a terminal. Next, navigate to the project directory and enter "make" to compile the code:
 
 ```
 make
 ```
 
-Next, run the code.
+Next, run the program:
 
 ```
 ./puzzle_solver
 ```
 
-Finally, follow the program interface and enjoy.
-
-
-## Running the tests
-
-### Break down into end to end tests
+Follow the program interface and enjoy.
 
 To halt the program press ctrl-c
 
 ```
 ctrl-c
 ```
+## Running the tests
+
+Follow the interface to enter custom puzzles.
+
+### Break down into end to end tests
+
+if a solution is found the program returns the solution trace, otherwise the program returns indicates there is no solution. 
 
 ## Author
 
