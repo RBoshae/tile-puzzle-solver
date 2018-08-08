@@ -20,7 +20,7 @@ Start by opening a terminal. Next, navigate to the project directory and enter "
 make
 ```
 
-Next, run the program:
+Next, navigate to the bin folder and run the program:
 
 ```
 ./puzzle_solver
