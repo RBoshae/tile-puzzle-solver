@@ -2,6 +2,7 @@
  * File: main.cpp
  * ----------------
  * Created by Rick Boshae on 1/29/17.
+ * Updated: 08/07/2018
  *
  */
 #include <iostream>
@@ -34,6 +35,8 @@ struct Comp {
 	}
 };
 
+void main_menu();		// calls interface for user to interact with program.
+
 bool graph_search(Board b, int heuristic_decision);
 bool uniform_cost_search(Board b);
 Node* createChildNode(Node *parent, int action, int h);
@@ -51,16 +54,50 @@ double Misplaced_Tile_Avg_PQ;
 
 int main() {
 
+	main_menu();
+
+	return 0;
+}
+
+/*
+ * Function: main_menu
+ * Usage: 	 main_menu();
+ * --------------------------------
+ * main_menu is the interface provided to the user to interact with the program.
+ * The user is greeted and asked to input a 8 tile puzzle (also referred to as a
+ * board.) The user has the option to select a computer-generated board or input
+ * a custom board.
+ * Following the users board type selection, the user is prompted to select a
+ * heuristic to be used in the A* search.
+ */
+void main_menu() {
 	int menu_selection = 0;
 	bool valid = false;                        //used to verify user input during prompts is valid
 	Board testBoard = random_board();
 	int heuristic_choice;
 
-	//Prompt #1
-	cout << "Welcome to Rick's 8-puzzle solver." << endl;
-	cout << "Type \"1\" to use a default puzzle, or \"2\" to enter your own puzzle." << endl;
-
-	//while loop validates user input
+	// Prompt #1
+cout <<	" _____   _        _     _                                                           " << endl;
+cout << "|  __ \\ (_)      | |   ( )                                                          " << endl;
+cout << "| |__) | _   ___ | | __|/ ___                                                       " << endl;
+cout << "|  _  / | | / __|| |/ /  / __|                                                      " << endl;
+cout << "| | \\ \\ | || (__ |   <   \\__ \\                                                      " << endl;
+cout << "|_|  \\ \\|_| \\___||_|\\_\\  |___/                                                      " << endl;
+cout <<	"  ___          _____                   _          _____         _                   " << endl;
+cout <<	" / _ \\        |  __ \\                 | |        / ____|       | |                  " << endl;
+cout << "| (_) |______ | |__) |_   _  ____ ____| |  ___  | (___    ___  | |__   __ ___  _ __ " << endl;
+cout <<	" > _ <|______||  ___/| | | ||_  /|_  /| | / _ \  \\___  \\  / _ \\ | |\\ \\ / // _ \\| '__|" << endl;
+cout << "| (_) |       | |    | |_| | / /  / / | ||  __/  ____) || (_) || | \\ V /|  __/| |   " << endl;
+cout <<	" \\___/        |_|     \\__,_|/___|/___||_| \\___| |_____/  \\___/ |_|  \\_/  \\___||_|   " << endl;
+cout << "====================================================================================" << endl;
+cout << "  Welcome to Rick's 8-puzzle solver."                                                  << endl;
+cout << "  Select Puzzle Option:"                                                               << endl;
+cout << "  1 - Use default puzzle"                                                              << endl;
+cout << "  2 - Enter your own puzzle."                                                          << endl;
+cout << "------------------------------------------------------------------------------------" << endl;
+cout << "  choice:                                                                            " << endl;
+// cout << "====================================================================================" << endl;
+	// while loop validates user input
 	while (!valid) {
 
 		valid = true; //Assume the cin will be an integer
@@ -154,10 +191,7 @@ int main() {
 	default: cout << "Invalid Input. Please be sure to enter \"1\" , \"2.\", or \"3.\"" << endl;
 		break;
 	}
-
-	return 0;
 }
-
 
 
 
