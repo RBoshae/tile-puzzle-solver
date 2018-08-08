@@ -8,34 +8,27 @@
 #include <string>
 #include <queue>
 #include <vector>
-#include "Board.h"
-#include "Node.h"
 #include <map>
 #include <set>
 #include <ctime>
 #include <algorithm>
-
-
-//#include "Problem.h" - removing because it feels unecessary
+#include "../include/Board.h"
+#include "../include/Node.h"
 
 using namespace std;
 
-//Used to make object comparison in priorty queue 
+//Used to make object comparison in priority queue
 struct Comp {
 	bool operator () (Node lhs, Node rhs) {
 		if (lhs.getFofN() == rhs.getFofN()) {
-
 			return lhs.getNodeDepth() > rhs.getNodeDepth();
-
 		}
 		return lhs.getFofN() > rhs.getFofN();
 	}
-	
+
 	bool operator () (Node* lhs, Node* rhs) {
 		if (lhs->getFofN() == rhs->getFofN()) {
-			
 			return lhs->getNodeDepth() > rhs->getNodeDepth();
-			
 		} else
 		return lhs->getFofN() > rhs->getFofN();
 	}
@@ -46,7 +39,7 @@ bool uniform_cost_search(Board b);
 Node* createChildNode(Node *parent, int action, int h);
 Board random_board();
 
-//Global Vaiables used to collect data on heuristics	
+//Global Vaiables used to collect data on heuristics
 double Uniform_Cost_Search_Avg_Expansions;
 double Uniform_Cost_Search_Avg_PQ;
 
@@ -62,7 +55,7 @@ int main() {
 	bool valid = false;                        //used to verify user input during prompts is valid
 	Board testBoard = random_board();
 	int heuristic_choice;
-	
+
 	//Prompt #1
 	cout << "Welcome to Rick's 8-puzzle solver." << endl;
 	cout << "Type \"1\" to use a default puzzle, or \"2\" to enter your own puzzle." << endl;
@@ -79,7 +72,7 @@ int main() {
 			cin.ignore();                                          // This skips the left over stream data
 			cout << "Please enter an integer value only." << endl;
 			valid = false;                                         //The cin was not an integer so try again.
-		} 
+		}
 	}
 
 	valid = false;                                                 //valid will be resused so we set it back to false
@@ -88,18 +81,18 @@ int main() {
 	switch (menu_selection)
 	{
 
-		case 1: cout << "default puzzle selected:" << endl; 
+		case 1: cout << "default puzzle selected:" << endl;
 			testBoard.printBoard();
 				cout << endl;
 			break;
 		case 2: cout << "custom puzzle selected." << endl;
-			
+
 			cout << "This is your Board:" << endl;
 			testBoard.setBoard();                                //declare new board object
 			break;
 		default: cout << "Invalid Input. Please be sure to enter \"1\" or \"2.\"" << endl;
 			break;
-	} 
+	}
 
 
 
@@ -138,15 +131,15 @@ int main() {
 	case 3: cout << "A* with the Manhattan distance heuristic selected." << endl; graph_search(testBoard, 2);
 		break;
 	//Secret Option Used to compare heuristics.
-	case 4: cout << "All tests selected" << endl; 
+	case 4: cout << "All tests selected" << endl;
 			cout << "Puzzle:" << endl;
 			testBoard.printBoard();
 			cout << "Uniform Cost Search test " << endl;
 			uniform_cost_search(testBoard);
 			cout << "Misplaced Tile test "  << endl;
-			graph_search(testBoard, 1); 
+			graph_search(testBoard, 1);
 			cout << "Manhattan Distance test "  << endl <<endl;
-			graph_search(testBoard, 2); 
+			graph_search(testBoard, 2);
 
 			//displays statistical information
 			cout << "Uniform_Cost_Search_Avg_Expansions: " << Uniform_Cost_Search_Avg_Expansions << endl;
@@ -161,7 +154,7 @@ int main() {
 	default: cout << "Invalid Input. Please be sure to enter \"1\" , \"2.\", or \"3.\"" << endl;
 		break;
 	}
-	
+
 	return 0;
 }
 
@@ -203,8 +196,8 @@ bool uniform_cost_search(Board b) {
 
 		current = frontier.top();       // Set current to the lowest-cost node in frontier
 		frontier.pop();                 // Pop frontier
-		
-	   
+
+
 		// Remove popped board from in_q
 		if (in_q.find(current->getBoard()) != in_q.end()) {
 			in_q.erase(in_q.find(current->getBoard()));
@@ -215,7 +208,7 @@ bool uniform_cost_search(Board b) {
 		if (current->getBoard() == goal) {
 			cout << "Goal State reached!" << endl;
 			goal_depth = current->getNodeDepth();
-			
+
 			cout << "To solve this problem the search algorithm expanded a total of " << nodes_expanded << " nodes." << endl;
 			cout << "The maximum number of nodes in queue at any one time was " << max_nodes_in_q << "." << endl;
 			cout << "The depth of the goal node was " << goal_depth << "." <<endl;
@@ -239,23 +232,23 @@ bool uniform_cost_search(Board b) {
 
 			// Prompt User if they would like the solution.
 			cout << "would you like the solution(y/n)?" << endl;
-			
+
 			string user_input;
 			cin >> user_input;
-			
+
 			if (user_input == "y") {
-				
+
 				cout << "Goal Path: " << endl;
-				
+
 				vector<Node*> goal_path;
-				
+
 				// Stores goal path to vector goal_path.
 				while(current != NULL)
 				{
 					goal_path.push_back(current);
 					current = current->getParentNode();
 				}
-				
+
 				// Prints contents of goal_path
 				for (int i = goal_path.size() - 1; i >= 0; i--) {
 					cout << "move applied: " << goal_path.at(i)->move_applied << endl;
@@ -263,14 +256,14 @@ bool uniform_cost_search(Board b) {
 				}
 			}
 
-			
+
 			return true;                                        // Uniform Cost Search is complete.
 		}
-		
-		
-		
+
+
+
 		//Should the goal test fail we continue with the following code.
-		
+
 		explored.insert(current->getBoard());                  // Add current node's board to explored set.
 
 		// Conditional output that will differ the first expansion from all others.
@@ -282,26 +275,26 @@ bool uniform_cost_search(Board b) {
 			cout << "The best state to expand with g(n) = " << current->getNodeDepth() << " is..." << endl;
 			current->printNodeBoard();
 		}
-		
+
 		nodes_expanded++;                                     //Increment number of nodes expanded.
 
 		// For each action, create a child node. If child node is not in explored or frontier add to priority queue.
 		Node* child_node = new Node;
 		bool already_explored = false;                            // Assume that generated children set has not been explored
-		
+
 		// Generate children
 		for (int i = 1; i <= 4; i++) {
 			already_explored = false;
 
 			child_node = createChildNode(current, i, 0);            // Create child node from parent node.
-			
+
 
 			// If child_node has been previously explored. Set already explored to true.
 			if (explored.find(child_node->getBoard()) != explored.end()) {
 				already_explored = true;
 			}
 
-		
+
 			// If child_node with the same board is in queue. Set already explored to true, so that it is not redundantly added.
 			if (!already_explored) {
 				if (in_q.find(child_node->getBoard()) != in_q.end() ) {
@@ -313,11 +306,11 @@ bool uniform_cost_search(Board b) {
 			if (!already_explored) {
 				frontier.push(child_node);
 				in_q.insert(child_node->getBoard());
-				
+
 				// Record maximum number of nodes in queue
-				if (frontier.size() > max_nodes_in_q) { 
-					max_nodes_in_q = frontier.size(); 
-				}     
+				if (frontier.size() > max_nodes_in_q) {
+					max_nodes_in_q = frontier.size();
+				}
 			}
 		}
 	}
@@ -367,7 +360,7 @@ bool graph_search(Board b, int heuristic_decision) {
 		frontier.pop();              // Pop frontier
 									 // Remove popped board from in_q
 
-	
+
 		if (in_q.find(current->getBoard()) != in_q.end()) {
 			in_q.erase(in_q.find(current->getBoard()));
 		}
@@ -417,7 +410,7 @@ bool graph_search(Board b, int heuristic_decision) {
 				Manhattan_Avg_PQ = max_nodes_in_q;
 			}
 
-			
+
 			cout << "would you like the solution(y/n)?" << endl;
 			string user_input;
 			cin >> user_input;
@@ -435,12 +428,12 @@ bool graph_search(Board b, int heuristic_decision) {
 					goal_path.at(i)->printNodeBoard();
 				}
 			}
-			
+
 			return true;
 		}
 		explored.insert(current->getBoard());                     // Add board to explored set
 
-	
+
 		// Conditional output that will differ the first expansion from all others.
 		if (current->getNodeDepth() == 0)
 		{
@@ -451,7 +444,7 @@ bool graph_search(Board b, int heuristic_decision) {
 			cout << "The best state to expand with g(n) = " << current->getNodeDepth() << ", h(n) = " << current->h_of_n << " and f(n) = " <<current->getFofN() <<" is..." << endl;
 			current->printNodeBoard();
 		}
-	
+
 
 		nodes_expanded++;                                         // Increment number of nodes expanded.
 
@@ -471,15 +464,15 @@ bool graph_search(Board b, int heuristic_decision) {
 			if (explored.find(child_node->getBoard()) != explored.end()) {
 				already_explored = true;
 			}
-					
+
 				if (!already_explored) {
-					
+
 
 					if (in_q.find(child_node->getBoard()) != in_q.end()) {
 						already_explored = true;
-						
+
 					}
-				
+
 
 				}
 
@@ -498,28 +491,28 @@ bool graph_search(Board b, int heuristic_decision) {
 
 
 
-//createChildNode takes a pointer to the parent Node, creates a copy of the parent and applies the appropriate move to it. 
+//createChildNode takes a pointer to the parent Node, creates a copy of the parent and applies the appropriate move to it.
 Node* createChildNode(Node *parent, int action) {
-	
+
 	Node* child = new Node;
-	*child = *parent;                                 //create a copy of the parent node called child.   
+	*child = *parent;                                 //create a copy of the parent node called child.
 	Board child_board = parent->getBoard();			  //create a copy of the parent nodes board
 	child->move_applied = child_board.move(action);   //apply move action to child board
 	child->setBoard(child_board);				      // save child board to child node
 	child->setParentNode(parent);			          // child nodes points to parent node
-	
+
 	return child;
 }
 
-//createChildNode takes a pointer to the parent Node, creates a copy of the parent and applies the appropriate move to it. 
+//createChildNode takes a pointer to the parent Node, creates a copy of the parent and applies the appropriate move to it.
 Node* createChildNode(Node *parent, int action, int h) {
 
 	Node* child = new Node;
-	*child = *parent;                                 //create a copy of the parent node called child.   
+	*child = *parent;                                 //create a copy of the parent node called child.
 	Board child_board = parent->getBoard();			  //create a copy of the parent nodes board
 	child->move_applied = child_board.move(action);   //apply move action to child board
 	child->setBoard(child_board);				      // save child board to child node
-	
+
 	if (h == 0) child->h_of_n = 0;
 	if (h == 1) child->h_of_n = child->getBoard().getMisplacedTileDistance();
 	if (h == 2) child->h_of_n = child->getBoard().getManhattanDistance();
@@ -530,7 +523,7 @@ Node* createChildNode(Node *parent, int action, int h) {
 
 // Used in testing to generate random boards.
 Board random_board() {
-	
+
 	Board b;
 	int n[9];
 	int index = 0;
@@ -540,9 +533,9 @@ Board random_board() {
 	bool is_solvable = false; //not solvable until proven to be solvable
 
 	srand(time(NULL));
-	
 
-	
+
+
 	//generate an array of unique random numbers to be used in random board.
 	while (!is_solvable)
 	{
@@ -568,7 +561,7 @@ Board random_board() {
 				already_has = false;
 			}
 		}
-	
+
 		//Inversion Test
 		for (int i = 0; i < 9 - 1; i++)
 		{
@@ -590,9 +583,9 @@ Board random_board() {
 			inv_count = 0;
 		}
 
-	} 
-	
-	
+	}
+
+
 	index = 0;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++)

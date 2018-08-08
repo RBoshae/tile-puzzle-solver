@@ -1,7 +1,7 @@
 /*
  * File: Board.h
  * ---------------------
- * Board.h provides an interface for 8-sliding tile puzzle.
+ * Board.h provides an abstraction for 8-sliding tile puzzle.
  *
  * Created by Rick Boshae on 1/29/17.
  *
@@ -24,7 +24,7 @@ public:
 	int board_configuration[3][3];
 
 
-	// I would like to consider using a switch value rather than an integer value 
+	// I would like to consider using a switch value rather than an integer value
 	// enum action { blank_up, blank_down, blank_left, blank_right };
 
 	Board();
@@ -36,9 +36,9 @@ public:
 	string move(int action);
 	void randomBoard();
 
-	bool Board::operator==(const Board &other) const;
-	bool Board::operator<(const Board &other) const;
-	
+	bool operator==(const Board &other) const;
+	bool operator<(const Board &other) const;
+
 	int getManhattanDistance();
 	int getMisplacedTileDistance();
 
@@ -56,7 +56,7 @@ private:
 	void compute_misplaced_tile_distance();
 
 protected:
-	
+
 
 };
 

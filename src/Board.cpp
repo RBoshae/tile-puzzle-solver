@@ -1,6 +1,4 @@
-#include "Board.h"
-
-
+#include "../include/Board.h"
 
 Board::Board()
 {
@@ -33,18 +31,18 @@ void Board::setBoard()
 	int column_pos = 0;
 
 	cout << "Enter your puzzle, use a zero to represent the blank" << endl;
-	
+
 	// TODO: Reduce the following code to a neat for loop.
-	
+
 	cout << "Enter the first row, use space or tabs between numbers      ";
 	cin.ignore();
 	cin.getline(user_input, sizeof(user_input));  //cout << endl;
-		
+
 	//loop that will parse user input and store it in a Board data structure
 	for (int i = 0; i < 100; i++) {
 		if (user_input[i] >= '0' && user_input[i] <= '9') {
 			board_configuration[0][column_pos] = user_input[i] - '0';
-			
+
 			if (board_configuration[0][column_pos] == 0) {
 				blank_row_pos = 0;
 				blank_col_pos = column_pos;
@@ -52,11 +50,11 @@ void Board::setBoard()
 			column_pos++;
 		}
 	}
-	
+
 	column_pos = 0;
 
 	cout << "Enter the second row, use space or tabs between numbers     ";
-	
+
 	cin.getline(user_input, sizeof(user_input));//  cout << endl;
 	for (int i = 0; i < 100; i++) {
 		if (user_input[i] >= '0' && user_input[i] <= '9') {
@@ -72,9 +70,9 @@ void Board::setBoard()
 	}
 
 	column_pos = 0;
-	
+
 	cout << "Enter the third row, use space or tabs between numbers      ";
-	
+
 	cin.getline(user_input, sizeof(user_input));  //cout << endl;
 	for (int i = 0; i < 100; i++) {
 		if (user_input[i] >= '0' && user_input[i] <= '9') {
@@ -95,7 +93,7 @@ void Board::setBoard()
 
 
 
-void Board::setToGoalState() 
+void Board::setToGoalState()
 {
 	int count = 1;
 	for (int i = 0; i < 3; i++) {
@@ -107,7 +105,7 @@ void Board::setToGoalState()
 
 		blank_col_pos = 2; blank_row_pos = 2;
 		board_configuration[blank_row_pos][blank_col_pos] = 0;
-		
+
 	}
 }
 
@@ -122,7 +120,7 @@ void Board::printBoard()
 			{
 				cout << board_configuration[i][j] << " ";
 			}
-			
+
 		}
 		cout << endl;
 	}
@@ -178,7 +176,7 @@ string Board::move(int action)
 }
 
 
-void Board::randomBoard() 
+void Board::randomBoard()
 {
 	// Later I may include a function to randomize the board.
 }
@@ -195,7 +193,7 @@ bool Board::operator==(const Board& other) const{
 			else return false;
 		}
 	}
-	
+
 	return same;
 }
 
@@ -212,7 +210,7 @@ int Board::getMisplacedTileDistance()
 }
 
 void Board::compute_manhattan_distance() {
-	manhattan_distance = 0; 
+	manhattan_distance = 0;
 	int counter = 1;
 	int row_delta = 0;
 	int col_delta = 0;
@@ -231,7 +229,7 @@ void Board::compute_manhattan_distance() {
 			}
 		}
 	manhattan_distance = row_delta + col_delta;
-	
+
 	return;
 	}
 
@@ -266,14 +264,14 @@ void Board::compute_misplaced_tile_distance() {
 //
 //
 //			}
-//			
+//
 //		}
 //	}
 //	return this;
 //}
 
-bool Board::operator<( const Board& other) const 
-{ 
+bool Board::operator<( const Board& other) const
+{
 
 	stringstream total_other;
 	stringstream total_this;

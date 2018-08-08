@@ -1,4 +1,4 @@
-#include "Node.h"
+#include "../include/Node.h"
 
 
 
@@ -65,4 +65,3 @@ int Node::getFofN() {
 	f_of_n = node_depth + h_of_n;
 	return f_of_n;
 }
-
