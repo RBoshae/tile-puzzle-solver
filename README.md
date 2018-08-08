@@ -35,7 +35,7 @@ ctrl-c
 ```
 ## Running the tests
 
-Follow the interface to enter custom puzzles. When a solution is found the program returns the solution trace, otherwise the program returns indicates there is no solution. 
+Follow the interface to enter custom puzzles. When a solution is found the program returns the solution trace, otherwise the program returns indicates there is no solution.
 
 ## Author
 
@@ -51,4 +51,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Resources
 
-* [Artificial Intelligence: A Modern Approach 3rd Ed](http://aima.cs.berkeley.edu/)
+* [Artificial Intelligence: A Modern Approach 3rd Ed](http://aima.cs.berkeley.edu/) by [Stuart Russell](https://people.eecs.berkeley.edu/~russell/) and [Peter Norvig](http://www.norvig.com/)
