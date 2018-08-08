@@ -113,7 +113,9 @@ cin >> userInput;
 	// Validate user input. If userInput is invalid try again, otherwise continue.
 	while (cin.fail() || userInput > 2 || userInput < -1) {		 // cin.fail() checks to see if the value in the
 																														 // cin stream is the correct type, if not returns
-																														 // true, otherwise false.
+																														 // true, otherwise false. Additional or statament
+																														 // validates the user seleceted an available
+																														 // option.
 
 			cin.clear();                                           // cin.clear() corrects the stream
 			cin.ignore();                                          // cin.ignore() skips the left over stream data
@@ -128,29 +130,30 @@ cout << "=======================================================================
 	// If user selected custom puzzle call .setBoard() to input custom puzzle. If selected quit, exit program.
 	switch (userInput)
 	{
-		case 0: cout << "  Quitting Program" << endl;
+		case 0: {
+			cout << "  Quitting Program" << endl;
 			exit(0);
-		break;
-
-		case 1:
+			break;
+		}
+		case 1: {
 			cout << "  Default puzzle selected." << endl << endl;
 			cout << "  Default Puzzle:" << endl;
 			testBoard.printBoard();
 			cout << endl;
-		break;
-
-		case 2: cout << "  Custom puzzle selected." << endl << endl;
-			cout << "This is your Board:" << endl;
+			break;
+		}
+		case 2: {
+			cout << "  Custom puzzle selected." << endl << endl;
+			cout << "  This is your Board:" 		<< endl;
 			testBoard.setBoard();                                // declare new board object
-		break;
-
-		default: cout << "Error, Invalid input." << endl;
+			break;
+		}
+		default: {
+			cout << "  Error, Invalid input." << endl;
 			exit(1);
-		break;
+			break;
+		}
 	}
-
-
-
 
 	//Prompt #2
 	cout << "====================================================================================" 			<< endl;
@@ -162,50 +165,59 @@ cout << "=======================================================================
 	cout << "------------------------------------------------------------------------------------" 			<< endl;
 	cout << "  choice: ";
 
-	cin >> heuristic_choice;
+	cin >> heuristic_choice;		// Store user choice in heuristic_choice variable.
 
-	while (cin.fail()) {					// cin.fail() checks to see if the value in the cin stream is the correct type, if not returns true, otherwise false.
-			cin.clear();              // cin.clear() corrects the stream
-			cin.ignore();             // cin.ignore() skips the left over stream data
+	while (cin.fail() || heuristic_choice < 0 || heuristic_choice > 3){		// cin.fail() checks to see if the value in the
+		 																																		// cin stream is the correct type, if not returns
+																																				// true, otherwise false.
+			cin.clear();              							// cin.clear() corrects the stream
+			cin.ignore();             							// cin.ignore() skips the left over stream data
 			cout << "  Please pick either 1, 2, or 3." << endl;
-			cout << "  "; 						// whitespace buffer.
+			cout << "  "; 													// whitespace buffer.
 			cin >> heuristic_choice;
 		}
 
 	// Confirm userInput. If userInput selected Default Puzzle option print the puzzle to the display.
 	// If user selected custom puzzle call .setBoard() to input custom puzzle. If selected quit, exit program.
-	switch (heuristic_choice)
-	{
-
-	case 1: cout << "Uniform Cost Search selected" << endl; uniform_cost_search(testBoard);
-		break;
-	case 2: cout << "A* with the Misplaced Tile heuristic selected." << endl; graph_search(testBoard, 1);
-		break;
-	case 3: cout << "A* with the Manhattan distance heuristic selected." << endl; graph_search(testBoard, 2);
-		break;
-	//Secret Option Used to compare heuristics.
-	case 4: cout << "All tests selected" << endl;
-			cout << "Puzzle:" << endl;
+	switch (heuristic_choice) {
+		case 1: {
+			cout << "  Uniform Cost Search selected" 										<< endl; uniform_cost_search(testBoard);
+			break;
+		}
+		case 2: {
+			cout << "  A* with Misplaced Tile heuristic selected." 			<< endl; graph_search(testBoard, 1);
+			break;
+		}
+		case 3: {
+			cout << "  A* with Manhattan Distance heuristic selected." 	<< endl; graph_search(testBoard, 2);
+			break;
+		}
+		case 4: {	// Secret Option Used to compare heuristics.
+			cout << "  All tests selected" 	<< endl;
+			cout << "  Puzzle:" 						<< endl;
 			testBoard.printBoard();
-			cout << "Uniform Cost Search test " << endl;
+			cout << "  Uniform Cost Search test " << endl;
 			uniform_cost_search(testBoard);
-			cout << "Misplaced Tile test "  << endl;
+			cout << "  Misplaced Tile test "  		<< endl;
 			graph_search(testBoard, 1);
-			cout << "Manhattan Distance test "  << endl <<endl;
+			cout << "  Manhattan Distance test "  << endl <<endl;
 			graph_search(testBoard, 2);
 
-			//displays statistical information
-			cout << "Uniform_Cost_Search_Avg_Expansions: " << Uniform_Cost_Search_Avg_Expansions << endl;
-			cout << "Uniform_Cost_Search_Avg_PQ: " << Uniform_Cost_Search_Avg_PQ << endl << endl;
+			// Display statistical information
+			cout << "  Uniform_Cost_Search_Avg_Expansions: " 	<< Uniform_Cost_Search_Avg_Expansions << endl;
+			cout << "  Uniform_Cost_Search_Avg_PQ: " 					<< Uniform_Cost_Search_Avg_PQ 				<< endl << endl;
 
-			cout << "Manhattan_Avg_Expansions: " << Manhattan_Avg_Expansions << endl;
-			cout << "Manhattan_Avg_PQ: " << Manhattan_Avg_PQ << endl << endl;
+			cout << "  Manhattan_Avg_Expansions: " 	<< Manhattan_Avg_Expansions << endl;
+			cout << "  Manhattan_Avg_PQ: " 					<< Manhattan_Avg_PQ << endl << endl;
 
-			cout << "Misplaced_Tile_Avg_Expansions: " << Misplaced_Tile_Avg_Expansions << endl;
-			cout << "Misplaced_Tile_Avg_PQ:" << Misplaced_Tile_Avg_PQ << endl << endl;
-		break;
-	default: cout << "Invalid Input. Please be sure to enter \"1\" , \"2.\", or \"3.\"" << endl;
-		break;
+			cout << "  Misplaced_Tile_Avg_Expansions: " << Misplaced_Tile_Avg_Expansions << endl;
+			cout << "  Misplaced_Tile_Avg_PQ:" 					<< Misplaced_Tile_Avg_PQ << endl << endl;
+			break;
+		}
+		default: {
+			cout << "  Invalid Input. Please be sure to enter \"1\" , \"2.\", or \"3.\"" << endl;
+			break;
+		}
 	}
 }
 
