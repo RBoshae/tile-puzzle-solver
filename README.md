@@ -35,11 +35,7 @@ ctrl-c
 ```
 ## Running the tests
 
-Follow the interface to enter custom puzzles.
-
-### Break down into end to end tests
-
-if a solution is found the program returns the solution trace, otherwise the program returns indicates there is no solution. 
+Follow the interface to enter custom puzzles. When a solution is found the program returns the solution trace, otherwise the program returns indicates there is no solution. 
 
 ## Author
 
