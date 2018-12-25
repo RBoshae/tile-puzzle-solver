@@ -1,6 +1,10 @@
 # Sliding Puzzle Solver Using A*
 
-In this project I implement the A* search algorithm using C++. A* evaluates nodes by combining *g(n)*, the cost to reach the node, and *h(n)*, the cost to get from the node to the goal. When costs of *g(n)* and *h(n)* are summed together the result is *f(n)*, the estimated cost of the cheapest solution through *n*. A* is both complete and optimal. The algorithm is identical to Uniform-Cost-Search except that A* uses *g*+*h* instead of *g*.
+In this project I implement the A* search algorithm using C++. A* is the best path-finding and graph traversal algorithm becuase it is borht optimal and comlete. A*
+evaluates nodes by estimating the cost of the cheapest solution through *n*. The cheapest solution is estimated by summing the cost to reach the node, *g(n)*, and 
+the cost to get from the node to the goal, *h(n)*. 
+
+If you discard the *h(n)* component, the algorithm acts the same as a Uniform-Cost-Search.
 
 ## Getting Started
 
@@ -8,11 +12,12 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-To run this code you need GCC (or your favorite C++ compiler) installed on your machine. For instructions on how to install GCC please refer to this [video link](https://www.youtube.com/watch?v=8Ib7nwc33uA)
+To run this code you need g++ (or your favorite C++ compiler) installed on your machine. For instructions on how to install g++ please refer to this 
+[video link.](https://www.youtube.com/watch?v=8Ib7nwc33uA)
 
 ### Installing
 
-Once GCC has been installed on your machine you are ready to run the program.
+Once the compiler has been installed on your machine you are ready to run the program.
 
 Start by opening a terminal. Next, navigate to the project directory and enter "make" to compile the code:
 
