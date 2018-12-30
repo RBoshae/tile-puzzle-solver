@@ -86,27 +86,27 @@ void main_menu() {
 	int heuristic_choice;							// Alternative to using userInput. Allows for easier to read code.
 
 	// Prompt #1
-cout <<	" _____   _        _     _                                                           " 			<< endl;
-cout << "|  __ \\ (_)      | |   ( )                                                          " 		<< endl;
-cout << "| |__) | _   ___ | | __|/ ___                                                       " 			<< endl;
-cout << "|  _  / | | / __|| |/ /  / __|                                                      " 			<< endl;
-cout << "| | \\ \\ | || (__ |   <   \\__ \\                                                      " 	<< endl;
-cout << "|_|  \\ \\|_| \\___||_|\\_\\  |___/                                                      " << endl;
-cout <<	"  ___          _____                   _          _____         _                   " 			<< endl;
-cout <<	" / _ \\        |  __ \\                 | |        / ____|       | |                  " 		<< endl;
-cout << "| (_) |______ | |__) |_   _  ____ ____| |  ___  | (___    ___  | |__   __ ___  _ __ " 			<< endl;
-cout <<	" > _ <|______||  ___/| | | ||_  /|_  /| | / _ \   \\___ \\  / _ \\ | |\\ \\ / // _ \\| '__|" << endl;
-cout << "| (_) |       | |    | |_| | / /  / / | ||  __/  ____) || (_) || | \\ V / | __/| |   " 		<< endl;
-cout <<	" \\___/        |_|     \\__,_|/___|/___||_| \\___| |_____/  \\___/ |_|  \\_/  \\___||_|   " 	<< endl;
-cout << "====================================================================================" 			<< endl;
-cout << "  Welcome to Rick's 8-puzzle solver."                                                  		<< endl;
-cout << endl;
-cout << "  Enter Puzzle Option:"                            	                                   		<< endl;
-cout << "  1 - Use default puzzle"                                                              		<< endl;
-cout << "  2 - Enter your own puzzle."                                                          		<< endl;
-cout << "  0 - Quit."                                                                            		<< endl;
-cout << "------------------------------------------------------------------------------------" 			<< endl;
-cout << "  choice: ";
+	cout <<	" _____   _        _     _                                                       " 				<< endl;
+	cout << "|  __ \\ (_)      | |   ( )                                                     " 				<< endl;
+	cout << "| |__) | _   ___ | | __|/ ___                                                   " 				<< endl;
+	cout << "|  _  / | | / __|| |/ /  / __|                                                  " 				<< endl;
+	cout << "| | \\ \\ | || (__ |   <   \\__ \\                                              " 				<< endl;
+	cout << "|_|  \\ \\|_| \\___||_|\\_\\  |___/                                             " 				<< endl;
+	cout <<	"  ___      _____                   _          _____         _                   " 				<< endl;
+	cout <<	" / _ \\    |  __ \\                 | |        / ____|       | |                " 				<< endl;
+	cout << "| (_) |__ | |__) |_   _  ____ ____| |  ___  | (___    ___  | |__   __ ___  _ __ " 				<< endl;
+	cout <<	" > _ <|__||  ___/| | | ||_  /|_  /| | / _ \\  \\___ \\  / _ \\ | |\\ \\ / // _ \\| '__|" << endl;
+	cout << "| (_) |   | |    | |_| | / /  / / | ||  __/  ____) || (_) || | \\ V / | __/| |   " 			<< endl;
+	cout <<	" \\___/    |_|     \\__,_|/___|/___||_| \\___| |_____/  \\___/ |_|  \\_/  \\___||_|   " 	<< endl;
+	cout << "================================================================================" 				<< endl;
+	cout << "Welcome to Rick's 8-puzzle solver."                                                  		<< endl;
+	cout << endl;
+	cout << "  Enter Puzzle Option:"                            	                                   	<< endl;
+	cout << "  1 - Use default puzzle"                                                              	<< endl;
+	cout << "  2 - Enter your own puzzle."                                                          	<< endl;
+	cout << "  0 - Quit."                                                                            	<< endl;
+	cout << "--------------------------------------------------------------------------------"		 		<< endl;
+	cout << "  choice: ";
 
 cin >> userInput;
 	// TODO: Write test cases for while(cin.fail()){...}
