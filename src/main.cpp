@@ -81,9 +81,11 @@ int main() {
  * user if asked if they would like to view the solution trace.
  */
 void main_menu() {
-	int userInput = 0;                // stores menu option inputted by user.
+
+	int userInput;		 	  	            // stores menu option inputted by user.
 	Board testBoard = random_board();
-	int heuristic_choice;							// Alternative to using userInput. Allows for easier to read code.
+
+	int heuristic_choice;								// Alternative to using userInput. Allows for easier to read code.
 
 	// Prompt #1
 	cout <<	" _____   _        _     _                                                       " 				<< endl;
@@ -99,19 +101,29 @@ void main_menu() {
 	cout << "| (_) |   | |    | |_| | / /  / / | ||  __/  ____) || (_) || | \\ V / | __/| |   " 			<< endl;
 	cout <<	" \\___/    |_|     \\__,_|/___|/___||_| \\___| |_____/  \\___/ |_|  \\_/  \\___||_|   " 	<< endl;
 	cout << "================================================================================" 				<< endl;
-	cout << "Welcome to Rick's 8-puzzle solver."                                                  		<< endl;
 	cout << endl;
-	cout << "  Enter Puzzle Option:"                            	                                   	<< endl;
-	cout << "  1 - Use default puzzle"                                                              	<< endl;
-	cout << "  2 - Enter your own puzzle."                                                          	<< endl;
-	cout << "  0 - Quit."                                                                            	<< endl;
-	cout << "--------------------------------------------------------------------------------"		 		<< endl;
-	cout << "  choice: ";
+	cout << "Welcome to Rick's 8-puzzle solver. This program features an AI that can solve   "     		<< endl;
+	cout << "any 3x3 sliding tile puzzle (assuming a solution exists). You may choose to     "				<< endl;
+	cout << "enter your own custom puzzle, a default puzzle, or a randomly generated puzzle. "				<< endl;
+	cout << "The AI uses the famous A* search algorithm. Once a puzzle is ready to solve you "        << endl;
+	cout << "you may select which heuristic to use."                                          << endl << endl;
+	cout << "Press Enter to continue.";
+	cin.ignore();
+	cout << endl;
+	cout << "--------------------------------------------------------------------------------"<< endl << endl;
+	cout << endl;
+	cout << "What type of puzzle would you like to use?"       	                                   	  << endl;
+	cout << endl;
+	cout << "Choose from the following:"								       	                              << endl << endl;
+	cout << "\t1 \tEnter a custom puzzle."      			                                               	<< endl;
+	cout << "\t2 \tGenerate a random puzzle."                                                       	<< endl;
+	cout << "\t3 \tUse the default puzzle"                                                    << endl << endl;
+	cout << "What'll it be: ";
+	cin >> userInput;
 
-cin >> userInput;
-	// TODO: Write test cases for while(cin.fail()){...}
+
 	// Validate user input. If userInput is invalid try again, otherwise continue.
-	while (cin.fail() || userInput > 2 || userInput < -1) {		 // cin.fail() checks to see if the value in the
+	while (cin.fail() || userInput > 3 || userInput < -1) {		 // cin.fail() checks to see if the value in the
 																														 // cin stream is the correct type, if not returns
 																														 // true, otherwise false. Additional or statament
 																														 // validates the user seleceted an available
@@ -119,37 +131,40 @@ cin >> userInput;
 
 			cin.clear();                                           // cin.clear() corrects the stream
 			cin.ignore();                                          // cin.ignore() skips the left over stream data
-			cout << "  Please enter 1 or 2 only." << endl;
-			cout << "  "; 																				 // whitespace buffer
+			cout << "Please be sure to enter 1, 2, or 3 only." << endl;
+			cout << "So, what'll it be: ";
 			cin >> userInput;
-		}
+	} // end while loop
 
-cout << "====================================================================================" << endl;
+	cout << "--------------------------------------------------------------------------------"		 		<< endl;
+
 
 	// Confirm userInput. If userInput selected Default Puzzle option print the puzzle to the display.
 	// If user selected custom puzzle call .setBoard() to input custom puzzle. If selected quit, exit program.
 	switch (userInput)
 	{
-		case 0: {
-			cout << "  Quitting Program" << endl;
+		case 1: {
+			cout << "You chose to enter your own puzzle. Great!" << endl << endl;
+			testBoard.setBoard();                                // declare new board object
 			exit(0);
 			break;
 		}
-		case 1: {
-			cout << "  Default puzzle selected." << endl << endl;
-			cout << "  Default Puzzle:" << endl;
+		case 2: {
+			cout << "You got it. Generating a random puzzle now." << endl << endl;
+			cout << "Here it is:" << endl;
+			testBoard.setBoard();                                // declare new board object
 			testBoard.printBoard();
 			cout << endl;
 			break;
 		}
-		case 2: {
-			cout << "  Custom puzzle selected." << endl << endl;
-			cout << "  This is your Board:" 		<< endl;
-			testBoard.setBoard();                                // declare new board object
+		case 3: {
+			cout << "Default selected." << endl << endl;
+			cout << "Here's what your default board looks like:" 		<< endl;
+			testBoard.printBoard();
 			break;
 		}
 		default: {
-			cout << "  Error, Invalid input." << endl;
+			cout << "Error, Invalid input. Quitting program." << endl;
 			exit(1);
 			break;
 		}
