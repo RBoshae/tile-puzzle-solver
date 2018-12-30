@@ -136,7 +136,7 @@ void main_menu() {
 			cin >> userInput;
 	} // end while loop
 
-	cout << "--------------------------------------------------------------------------------"		 		<< endl;
+	cout << "--------------------------------------------------------------------------------"	<< endl << endl;
 
 
 	// Confirm userInput. If userInput selected Default Puzzle option print the puzzle to the display.
@@ -145,8 +145,18 @@ void main_menu() {
 	{
 		case 1: {
 			cout << "You chose to enter your own puzzle. Great!" << endl << endl;
+
+			cout << "To set your board start by entering one digit at a time. Once you've      " << endl;
+			cout << "entered the digit press enter. Continue entering digits until the board is" << endl;
+			cout << "is filled. Be sure you enter a digit between 0-9 and do not enter the same" << endl;
+			cout << "digit twice. Use 0 to represent the blank tile."									   << endl << endl;
+			cout << "Set your board: "
 			testBoard.setBoard();                                // declare new board object
-			exit(0);
+
+			cout << "Your board has been set. Here it is: "
+			testBoard.printBoard();
+			cout << "Is this board okay? (Press y to continue or n to reset the board.)"
+			cin >> userInput;
 			break;
 		}
 		case 2: {

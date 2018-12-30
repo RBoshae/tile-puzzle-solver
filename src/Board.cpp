@@ -1,23 +1,50 @@
 #include "../include/Board.h"
 
+// Checks if passed configuration is legal returns true if legal
+// otherwise returns false.
+bool checkConfig(int _boardConfig[NUMBER_OF_TILES])
+{
+	for (int i = 0; i <= NUMBER_OF_TILES; i++) {
+		if (_boardConfig[i] < 0 || _boardConfig[i] > 8) return false;
+
+		// TODO: Optimize
+		for (int j = 0; j < i; j++){
+			if _boardConfig[j] == _boardConfig[i] return false;
+		}
+		if (_boardConfig[i] == 0) {
+			blank_row_pos = i/3;
+			blank_col_pos = i%3;
+		}
+	}
+	return true; // All checks pass
+}
+
+
 Board::Board()
 {
-	int count = 1;
-	int misplaced_tile = 0;
-	int manhattan_distance = 0;
-
-	move_applied = "initial state";
+	// Sets first and second row of the board.
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 3; j++) {
-
 			board_configuration[i][j] = count;
 			count++;
 		}
 	}
-		 blank_row_pos = 2; blank_col_pos = 0;
-		board_configuration[blank_row_pos][blank_col_pos] = 0;
-		board_configuration[2][1] = 7;
-		board_configuration[2][2] = 8;
+	// Sets third row of board.
+  blank_row_pos = 2; blank_col_pos = 0;
+	board_configuration[blank_row_pos][blank_col_pos] = 0;
+	board_configuration[2][1] = 7;
+	board_configuration[2][2] = 8;
+}
+
+Board::Board(int _boardConfig[3][3])
+{
+	if (::checkConfig(_boardConfig[3][3])){
+		m_boardConfiguration = _values;
+	} else {
+		for (int i = 0; i < NUMBER_OF_TILES; i++) {
+			m_boardConfiguration[i] = i;
+		}
+	}
 }
 
 
@@ -25,6 +52,13 @@ Board::~Board()
 {
 }
 
+bool Board::set(int _values[9])
+{
+	// TODO: Validate _values.
+	m_values = _values;
+}
+
+// DEPRECATED
 void Board::setBoard()
 {
 	char user_input[100];
