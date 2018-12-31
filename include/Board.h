@@ -42,8 +42,9 @@ public:
 																							 // illegal values/placement
 													            				 // is detected.
 
+	void print();
+	void randomize();
 
-	void printBoard();      // TODO: Refactor. Rename function to print.
 	string move(int action);// TODO: Refactor. Seperate move into four
 													// actions: up, down, left, right. Change
 													// return type to boolean to represent if
@@ -57,20 +58,13 @@ public:
 	// DEPRECATED
 	// int getMisplacedTileDistance(); // TODO: Deprecate. Move to Node class
 	// int getManhattanDistance();			// TODO: Deprecate. Move to Node class
-	void randomBoard();							// TODO: Deprecate.
 	void setBoard();								// TODO: Deprecate
 	void setToGoalState();  				// TODO: Deprecate
 private:
 	int m_boardConfiguration[NUMBER_OF_TILES];
-
-	//keeps track of blank tile so we do not have to search for it later.
 	int m_blankTileLocation;
 
 	void setBlankTileLocation(int _location);
-	string move_applied;		// TODO: Deprecate
-
-	int misplaced_tile;			// TODO: Deprecate
-	int manhattan_distance;	// TODO: Deprecate\
 
 };
 

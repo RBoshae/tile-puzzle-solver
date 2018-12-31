@@ -14,7 +14,7 @@
 #include <ctime>
 #include <algorithm>
 #include "../include/Board.h"
-#include "../include/Node.h"
+// #include "../include/Node.h" // TODO Refactor
 
 using namespace std;
 
@@ -37,7 +37,7 @@ using namespace std;
 
 // Forward Function Declarations.
 void startMenu();
-void main_menu();		// calls interface for user to interact with program.
+void chooseBoard(Board *_board);		// calls interface for user to interact with program.
 
 // bool graph_search(Board b, int heuristic_decision);
 // bool uniform_cost_search(Board b);
@@ -113,7 +113,7 @@ void startMenu() {
 
 void chooseBoard(Board* _board){
 
-	extern const int NUMBER_OF_TILES;
+	const int NUMBER_OF_TILES = 9;
 	int userInput;		 	        					// stores menu option inputted by user.
 	int tempBoardConfig[NUMBER_OF_TILES];	// Stores user defined board.
 
@@ -156,29 +156,36 @@ void chooseBoard(Board* _board){
  			cout << "entered the digit press enter. Continue entering digits until the board is" << endl;
  			cout << "is filled. Be sure you enter a digit between 0-9 and do not enter the same" << endl;
  			cout << "digit twice. Use 0 to represent the blank tile."									   << endl << endl;
- 			cout << "Set your board: "
+ 			cout << "Set your board: "																									 				 << endl;
 
+			for (int i = 0; i < NUMBER_OF_TILES; i++) {
+				cin >> tempBoardConfig[i];
+				cout << " ";
+				if (i%3 == 0 && i != 0) {
+					cout << endl;
+				}
+			}
 
-			testBoard.setBoard();                                // declare new board object
+			_board->set(tempBoardConfig);
 
- 			cout << "Your board has been set. Here it is: "
- 			testBoard.printBoard();
- 			cout << "Is this board okay? (Press y to continue or n to reset the board.)"
+ 			cout << "Your board has been set. Here it is: " << endl;
+ 			_board->print();
+ 			cout << "Is this board okay? (Press y to continue or n to reset the board.)";
  			cin >> userInput;
  			break;
  		}
  		case 2: {
  			cout << "You got it. Generating a random puzzle now." << endl << endl;
  			cout << "Here it is:" << endl;
- 			testBoard.setBoard();                                // declare new board object
- 			testBoard.printBoard();
+ 			_board->randomize();                                // declare new board object
+ 			_board->print();
  			cout << endl;
  			break;
  		}
  		case 3: {
  			cout << "Default selected." << endl << endl;
  			cout << "Here's what your default board looks like:" 		<< endl;
- 			testBoard.printBoard();
+ 			_board->print();
  			break;
  		}
  		default: {

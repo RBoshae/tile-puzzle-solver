@@ -32,7 +32,8 @@ Node* Node::getParentNode() {
 
 Node Node::previous_state(Node current_state)
 {
-	if (current_state.move_applied == "blank tile right") current_state.getBoard().move(3); return current_state;
+	// if (current_state.move_applied == "blank tile right") current_state.getBoard().move(3); return current_state;
+	return current_state; // TODO: Remove line.
 }
 
 
@@ -40,8 +41,8 @@ Node Node::previous_state(Node current_state)
 
 void Node::setBoard(Board b)
 {
-	manhattan_distance = b.getManhattanDistance();
-	misplaced_tile = b.getMisplacedTileDistance();
+	// manhattan_distance = b.getManhattanDistance();
+	// misplaced_tile = b.getMisplacedTileDistance();
 
 	node_board = b;
 }
@@ -53,7 +54,7 @@ Board Node::getBoard()
 
 void Node::printNodeBoard()
 {
-	node_board.printBoard();
+	// node_board.printBoard();
 }
 
 int Node::getNodeDepth(){

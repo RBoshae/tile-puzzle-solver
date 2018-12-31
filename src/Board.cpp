@@ -64,7 +64,9 @@ Board::~Board()
 bool Board::set(int _boardConfiguration[NUMBER_OF_TILES])
 {
 	if (::checkConfig(_boardConfiguration)){
-		copy(m_boardConfiguration, m_boardConfiguration + NUMBER_OF_TILES, _boardConfiguration);
+		for(int i = 0; i < NUMBER_OF_TILES; i++){
+			m_boardConfiguration[i] = _boardConfiguration[i];
+		}
 		return true;
 	}
 	else {
@@ -159,20 +161,21 @@ void Board::setToGoalState()
 
 
 
-void Board::printBoard()
+void Board::print()
 {
-	// for (int i = 0; i < 3; i++) {
-	// 	for (int j = 0; j < 3; j++) {
-	// 		if (board_configuration[i][j] == 0) cout << "b ";
-	// 		else
-	// 		{
-	// 			cout << board_configuration[i][j] << " ";
-	// 		}
-	//
-	// 	}
-	// 	cout << endl;
-	// }
-	// return;
+	for (int i = 0; i < NUMBER_OF_TILES; i++) {
+			if (m_boardConfiguration[i] == 0)
+			{
+				cout << "b ";
+			}
+			else
+			{
+				cout << m_boardConfiguration[i] << " ";
+			}
+
+			if (i%3 == 0 && i!=0) cout << endl;
+	}
+	return;
 }
 
 string Board::move(int action)
@@ -225,10 +228,11 @@ string Board::move(int action)
 }
 
 
-void Board::randomBoard()
+void Board::randomize()
 {
-	// Later I may include a function to randomize the board.
+	// TODO: randomize the board.
 }
+
 // overloaded == operator
 bool Board::operator==(const Board& other) const {
 	bool isIdentical = true;
