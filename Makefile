@@ -1,5 +1,5 @@
 COMPILE = g++
-FLAGS =-Wall -ansi -pedantic
+FLAGS =-Wall -ansi -pedantic -std=c++1z
 
 OBJS = ./bin/Board.o ./bin/Node.o
 
