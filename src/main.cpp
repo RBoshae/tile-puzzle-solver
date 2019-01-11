@@ -117,6 +117,7 @@ void chooseBoard(Board* _board){
 
 	const int NUMBER_OF_TILES = 9;
 	int userInput;		 	        					// stores menu option inputted by user.
+	char userInput_c;							// stores alpha input from user.
 	int tempBoardConfig[NUMBER_OF_TILES];	// Stores user defined board.
 
 	cout << endl;
@@ -160,22 +161,28 @@ void chooseBoard(Board* _board){
  			cout << "digit twice. Use 0 to represent the blank tile."									   << endl << endl;
  			cout << "Set your board: "																									 				 << endl;
 
-			// TODO: Validate user input.
-			setBoardFromUserInput(_board);
+			do {
+				setBoardFromUserInput(_board);
 
-			_board->set(tempBoardConfig);
+				_board->set(tempBoardConfig);
 
- 			cout << "Your board has been set. Here it is: " << endl;
- 			_board->print();
- 			cout << "Is this board okay? (Press y to continue or n to reset the board.)";
- 			cin >> userInput;
+				cout << "Your board has been set. Here is what it looks like: " << endl << endl;
+				_board->print();
+				cout << endl;
+				cout << "Is this board okay? (Enter n to reset. Enter any other key to continue.): ";
+				cin >> userInput_c;
+				if (userInput_c == 'n' || userInput_c == 'N') {
+					cout << "Okay, lets try again." << endl <<endl;
+					cout << "set your board: " << endl << endl;
+				}
+			} while (userInput_c == 'n' || userInput_c == 'N');
 
  			break;
  		}
  		case 2: {
  			cout << "You got it. Generating a random puzzle now." << endl << endl;
+			_board->randomize();                                // declare new board object
  			cout << "Here it is:" << endl;
- 			_board->randomize();                                // declare new board object
  			_board->print();
  			cout << endl;
  			break;
@@ -192,7 +199,7 @@ void chooseBoard(Board* _board){
  			break;
  		}
  	}
- }
+} // End of choose board
 
 
 // Helper Functions
@@ -225,8 +232,8 @@ void setBoardFromUserInput(Board *_board) {
 		// Ensure user did not input the same digit twice
 		for(int j = 0; j < i; j++) {
 			if (tempBoardConfig[j] == tempBoardConfig[i]) {
-				cout << "You already picked number " << tempBoardConfig[i] << ". Please " << endl;
-				cout << "choose a different number." << endl << endl;
+				cout << "You already picked number " << tempBoardConfig[i] << ". Please ";
+				cout << "pick a different number." << endl << endl;
 				//
 				// // Reprint board.
 				// for (int j = 0; j < i; j++) {
@@ -250,7 +257,9 @@ void setBoardFromUserInput(Board *_board) {
 			}
 		}
 	}
-	_board->set(tempBoardConfig);	// Assign values to passed in board.
+	if(!_board->set(tempBoardConfig)){ // Assign values to passed in board.
+		cerr << "Invalid board" << endl;
+	}
 	return;
 }
 // void main_menu() {

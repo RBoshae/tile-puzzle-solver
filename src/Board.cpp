@@ -9,7 +9,7 @@ const int DEFAULT_CONFIG[NUMBER_OF_TILES] = {1,2,3,4,5,6,7,8,0};
 // Helper functions
 bool checkConfig(int *_boardConfig)
 {
-	for (int i = 0; i <= NUMBER_OF_TILES; i++) {
+	for (int i = 0; i < NUMBER_OF_TILES; i++) {
 		if (_boardConfig[i] < 0 || _boardConfig[i] > 8) return false;
 
 		// TODO: Optimize
@@ -173,7 +173,7 @@ void Board::print()
 				cout << m_boardConfiguration[i] << " ";
 			}
 
-			if (i%3 == 0 && i!=0) cout << endl;
+			if ((i+1)%3 == 0) cout << endl;
 	}
 	return;
 }
