@@ -1,3 +1,5 @@
+#include <cassert>						// assert
+#include <algorithm>					// algorithm
 #include "../include/Board.h"
 
 // Checks if passed configuration is legal returns true if legal
@@ -43,16 +45,10 @@ Board::Board()
 
 Board::Board(int _boardConfiguration[NUMBER_OF_TILES])
 {
-	if (::checkConfig(_boardConfiguration)) {
-		for(int i = 0; i < NUMBER_OF_TILES; i++){
-			m_boardConfiguration[i] = _boardConfiguration[i];
-		}
-	}
-	else {
-		cerr << "Invalid board configuration. Setting board to default configuration." << endl;
-		for (int i = 0; i < NUMBER_OF_TILES; i++){
-			m_boardConfiguration[i] = DEFAULT_CONFIG[i];
-		}
+	assert(::checkConfig(_boardConfiguration));
+
+	for(int i = 0; i < NUMBER_OF_TILES; i++) {
+		m_boardConfiguration[i] = _boardConfiguration[i];
 	}
 }
 
@@ -230,7 +226,15 @@ string Board::move(int action)
 
 void Board::randomize()
 {
-	// TODO: randomize the board.
+	random_shuffle(std::begin(m_boardConfiguration), std::end(m_boardConfiguration));
+	// find blank tile _location
+	for (int location = 0; location < NUMBER_OF_TILES; location++) {
+		if(m_boardConfiguration[location] == 0){
+			m_blankTileLocation = location;
+			break;
+		}
+	}
+	return;
 }
 
 // overloaded == operator
