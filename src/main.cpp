@@ -37,7 +37,8 @@ using namespace std;
 
 // Forward Function Declarations.
 void startMenu();
-void chooseBoard(Board *_board);		// calls interface for user to interact with program.
+void chooseBoard(Board *_board);						// calls interface for user to interact with program.
+void setBoardFromUserInput(Board *_board);	// prompts user for input to set board. returns set board.
 
 // bool graph_search(Board b, int heuristic_decision);
 // bool uniform_cost_search(Board b);
@@ -159,13 +160,8 @@ void chooseBoard(Board* _board){
  			cout << "digit twice. Use 0 to represent the blank tile."									   << endl << endl;
  			cout << "Set your board: "																									 				 << endl;
 
-			for (int i = 0; i < NUMBER_OF_TILES; i++) {
-				cin >> tempBoardConfig[i];
-				cout << " ";
-				if (i%3 == 0 && i != 0) {
-					cout << endl;
-				}
-			}
+			// TODO: Validate user input.
+			setBoardFromUserInput(_board);
 
 			_board->set(tempBoardConfig);
 
@@ -173,6 +169,7 @@ void chooseBoard(Board* _board){
  			_board->print();
  			cout << "Is this board okay? (Press y to continue or n to reset the board.)";
  			cin >> userInput;
+
  			break;
  		}
  		case 2: {
@@ -197,6 +194,65 @@ void chooseBoard(Board* _board){
  	}
  }
 
+
+// Helper Functions
+void setBoardFromUserInput(Board *_board) {
+	int tempBoardConfig[NUMBER_OF_TILES];
+	for (int i = 0; i < NUMBER_OF_TILES; i++) {
+
+		cout << "Enter value: ";
+		cin >> tempBoardConfig[i];
+		cout << endl;
+
+		cout << "Your board:" << endl;
+		// Reprint board.
+		for (int j = 0; j < NUMBER_OF_TILES; j++) {
+			if (j <= i){
+				if (tempBoardConfig[j] == 0) {
+					cout << "b ";
+				} else {
+				cout << tempBoardConfig[j] << " ";
+				}
+			} else {
+					cout << "X ";
+			}
+			if ((j+1)%3 == 0) {
+				cout << endl;
+			}
+		}
+		cout << endl;
+
+		// Ensure user did not input the same digit twice
+		for(int j = 0; j < i; j++) {
+			if (tempBoardConfig[j] == tempBoardConfig[i]) {
+				cout << "You already picked number " << tempBoardConfig[i] << ". Please " << endl;
+				cout << "choose a different number." << endl << endl;
+				//
+				// // Reprint board.
+				// for (int j = 0; j < i; j++) {
+				// 	cout << tempBoardConfig[j] << " ";
+				// 	if (i%3 == 0 && j !=0) {
+				// 		cout << endl;
+				// 	}
+				i--; // Let user reenter value.
+				break;
+			} else if (tempBoardConfig[i] < 0 || tempBoardConfig[i]>(NUMBER_OF_TILES-1)) {
+				cout << "Be sure to pick a number between 0-8" << endl;
+				//
+				// // Reprint board.
+				// for (int j = 0; j < i; j++) {
+				// 	cout << tempBoardConfig[j] << " ";
+				// 	if (i%3 == 0 && j !=0) {
+				// 		cout << endl;
+				// 	}
+				i--;
+				break;
+			}
+		}
+	}
+	_board->set(tempBoardConfig);	// Assign values to passed in board.
+	return;
+}
 // void main_menu() {
 
 
