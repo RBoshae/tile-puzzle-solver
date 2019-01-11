@@ -100,11 +100,12 @@ void startMenu() {
 	cout <<	" \\___/    |_|     \\__,_|/___|/___||_| \\___| |_____/  \\___/ |_|  \\_/  \\___||_|   " 	<< endl;
 	cout << "================================================================================" 				<< endl;
 	cout << endl;
-	cout << "Welcome to Rick's 8-puzzle solver. This program features an AI that can solve   "     		<< endl;
-	cout << "any 3x3 sliding tile puzzle (assuming a solution exists). You may choose to     "				<< endl;
-	cout << "enter your own custom puzzle, a default puzzle, or a randomly generated puzzle. "				<< endl;
-	cout << "The AI uses the famous A* search algorithm. Once a puzzle is ready to solve you "        << endl;
-	cout << "you may select which heuristic to use."                                          << endl << endl;
+	cout << "Welcome to Rick's 8-puzzle solver. This program features the famous A* search   "     		<< endl;
+	cout << "to solve any 3x3 sliding tile puzzle (assuming a solution exists). To start,    "				<< endl;
+	cout << "choose between entering a custom puzzle, a default puzzle, or randomly          "				<< endl;
+	cout << "generating a puzzle. Next, choose which heuristic to use in the A* algorithm.   "        << endl;
+	cout << "Once the puzzle is solved you may choose to view the solution trace or search   "        << endl;
+	cout << "analytics."                                                                      << endl << endl;
 	cout << "Press Enter to continue.";
 	cin.ignore();
 	cout << endl;
