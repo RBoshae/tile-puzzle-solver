@@ -45,7 +45,7 @@ public:
 	void print();
 	void randomize();
 
-	string move(int action);// TODO: Refactor. Seperate move into four
+	bool move(Move action);	// TODO: Refactor.
 													// actions: up, down, left, right. Change
 													// return type to boolean to represent if
 													// the board was changed (true) or not (false)

@@ -56,9 +56,11 @@ void setBoardFromUserInput(Board *_board);	// prompts user for input to set boar
 // double Misplaced_Tile_Avg_PQ;
 
 int main() {
-	Board userBoard;
-	startMenu();
-	chooseBoard(&userBoard);
+	Board userBoard;					// The board the program will solve.
+	Heuristic heuristic;			// The hearistic to apply to the A* search 
+	startMenu();							// Provide program information to user.
+	chooseBoard(&userBoard);	// Set up board.
+	chooseHeuristic();				// Pick hearistic to use.
 
 	return 0;
 }
