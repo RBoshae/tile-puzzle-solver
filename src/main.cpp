@@ -14,6 +14,7 @@
 #include <ctime>
 #include <algorithm>
 #include "../include/Board.h"
+#include "../include/A_Star.h"
 // #include "../include/Node.h" // TODO Refactor
 
 using namespace std;
@@ -38,7 +39,8 @@ using namespace std;
 // Forward Function Declarations.
 void startMenu();
 void chooseBoard(Board *_board);						// calls interface for user to interact with program.
-void setBoardFromUserInput(Board *_board);	// prompts user for input to set board. returns set board.
+void setBoardFromUserInput(Board *_board);				// prompts user for input to set board. returns set board.
+A_Star::HEURISTIC chooseHeuristic();
 
 // bool graph_search(Board b, int heuristic_decision);
 // bool uniform_cost_search(Board b);
@@ -56,12 +58,13 @@ void setBoardFromUserInput(Board *_board);	// prompts user for input to set boar
 // double Misplaced_Tile_Avg_PQ;
 
 int main() {
-	Board userBoard;					// The board the program will solve.
-	Heuristic heuristic;			// The hearistic to apply to the A* search 
-	startMenu();							// Provide program information to user.
-	chooseBoard(&userBoard);	// Set up board.
-	chooseHeuristic();				// Pick hearistic to use.
-
+	Board userBoard;							// The board the program will solve.
+	A_Star temp;
+	// Heuristic heuristic;						// The hearistic to apply to the A* search 
+	startMenu();								// Provide program information to user.
+	chooseBoard(&userBoard);					// Set up board.
+	A_Star::HEURISTIC h = chooseHeuristic();	// Pick hearistic to use.
+	cout << "End of Program." << endl;
 	return 0;
 }
 
@@ -264,74 +267,71 @@ void setBoardFromUserInput(Board *_board) {
 	}
 	return;
 }
+
+A_Star::HEURISTIC chooseHeuristic(){
+	A_Star::HEURISTIC heuristic_choice;
+	int userInput;
+
+	cout << "====================================================================================" 			<< endl;
+	cout << "  Pick an algorithm to solve your puzzle." 		 << endl;
+	cout << endl;
+	cout << "  1 - Uniform Cost Search. (Warning: Likely to be VERY slow)" << endl;
+	cout << "  2 - A* with Misplaced Tile heuristic."     		<< endl;
+	cout << "  3 - A* with Manhattan Distance heuristic." 		<< endl;
+	cout << "------------------------------------------------------------------------------------" 			<< endl;
+	cout << "  choice: "; 
+
+	cin >> userInput;														// Store user choice in heuristic_choice variable.
+
+	while (cin.fail() || userInput < 0 || userInput > 3){					// cin.fail() checks to see if the value in the
+																			// cin stream is the correct type, if not returns
+																			// true, otherwise false.
+		cin.clear();              											// cin.clear() corrects the stream
+		cin.ignore();             											// cin.ignore() skips the left over stream data
+		cout << "  Please pick either 1, 2, or 3." << endl;
+		cout << "  "; 														// whitespace buffer.
+		cin >> userInput;
+	}
+
+	// Confirm userInput. If userInput selected Default Puzzle option print the puzzle to the display.
+	// If user selected custom puzzle call .setBoard() to input custom puzzle. If selected quit, exit program.
+	switch (heuristic_choice) {
+		case 1: {
+			cout << "Uniform Cost Search selected" << endl; 
+			heuristic_choice = A_Star::UNIFORM_COST_SEARCH;
+			break;
+		}
+		case 2: {
+			cout << "  A* with Misplaced Tile heuristic selected." << endl; 
+			heuristic_choice = A_Star::MISPLACED_TILE;
+			break;
+		}
+		case 3: {
+			cout << "  A* with Manhattan Distance heuristic selected." << endl;
+			heuristic_choice = A_Star::MANHATTAN_DISTANCE;
+			break;
+		}
+		case 4: {	// Secret Option Used to compare heuristics.
+			cout << "  All tests selected" 	<< endl;
+			heuristic_choice = A_Star::ALL;
+			break;
+		}
+		default: {
+			cout << "  Invalid Input. Please be sure to enter \"1\" , \"2.\", or \"3.\"" << endl;
+			break;
+		}
+	}
+
+	return heuristic_choice;
+}
 // void main_menu() {
 
 
 //  int heuristic_choice;								// Alternative to using userInput. Allows for easier to read code.
 // 	//Prompt #2
-// 	cout << "====================================================================================" 			<< endl;
-// 	cout << "  Pick an algorithm to solve your puzzle." 		 << endl;
-// 	cout << endl;
-// 	cout << "  1 - Uniform Cost Search. (Warning: Likely to be VERY slow)" << endl;
-// 	cout << "  2 - A* with Misplaced Tile heuristic."     		<< endl;
-// 	cout << "  3 - A* with Manhattan Distance heuristic." 		<< endl;
-// 	cout << "------------------------------------------------------------------------------------" 			<< endl;
-// 	cout << "  choice: ";
+
 //
-// 	cin >> heuristic_choice;		// Store user choice in heuristic_choice variable.
-//
-// 	while (cin.fail() || heuristic_choice < 0 || heuristic_choice > 3){		// cin.fail() checks to see if the value in the
-// 		 																																		// cin stream is the correct type, if not returns
-// 																																				// true, otherwise false.
-// 			cin.clear();              							// cin.clear() corrects the stream
-// 			cin.ignore();             							// cin.ignore() skips the left over stream data
-// 			cout << "  Please pick either 1, 2, or 3." << endl;
-// 			cout << "  "; 													// whitespace buffer.
-// 			cin >> heuristic_choice;
-// 		}
-//
-// 	// Confirm userInput. If userInput selected Default Puzzle option print the puzzle to the display.
-// 	// If user selected custom puzzle call .setBoard() to input custom puzzle. If selected quit, exit program.
-// 	switch (heuristic_choice) {
-// 		case 1: {
-// 			cout << "  Uniform Cost Search selected" 										<< endl; uniform_cost_search(testBoard);
-// 			break;
-// 		}
-// 		case 2: {
-// 			cout << "  A* with Misplaced Tile heuristic selected." 			<< endl; graph_search(testBoard, 1);
-// 			break;
-// 		}
-// 		case 3: {
-// 			cout << "  A* with Manhattan Distance heuristic selected." 	<< endl; graph_search(testBoard, 2);
-// 			break;
-// 		}
-// 		case 4: {	// Secret Option Used to compare heuristics.
-// 			cout << "  All tests selected" 	<< endl;
-// 			cout << "  Puzzle:" 						<< endl;
-// 			testBoard.printBoard();
-// 			cout << "  Uniform Cost Search test " << endl;
-// 			uniform_cost_search(testBoard);
-// 			cout << "  Misplaced Tile test "  		<< endl;
-// 			graph_search(testBoard, 1);
-// 			cout << "  Manhattan Distance test "  << endl <<endl;
-// 			graph_search(testBoard, 2);
-//
-// 			// Display statistical information
-// 			cout << "  Uniform_Cost_Search_Avg_Expansions: " 	<< Uniform_Cost_Search_Avg_Expansions << endl;
-// 			cout << "  Uniform_Cost_Search_Avg_PQ: " 					<< Uniform_Cost_Search_Avg_PQ 				<< endl << endl;
-//
-// 			cout << "  Manhattan_Avg_Expansions: " 	<< Manhattan_Avg_Expansions << endl;
-// 			cout << "  Manhattan_Avg_PQ: " 					<< Manhattan_Avg_PQ << endl << endl;
-//
-// 			cout << "  Misplaced_Tile_Avg_Expansions: " << Misplaced_Tile_Avg_Expansions << endl;
-// 			cout << "  Misplaced_Tile_Avg_PQ:" 					<< Misplaced_Tile_Avg_PQ << endl << endl;
-// 			break;
-// 		}
-// 		default: {
-// 			cout << "  Invalid Input. Please be sure to enter \"1\" , \"2.\", or \"3.\"" << endl;
-// 			break;
-// 		}
-// 	}
+
 // }
 //
 //

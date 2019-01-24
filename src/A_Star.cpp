@@ -6,99 +6,101 @@
  * \brief Function definitions for A_Star
  */
 
-template <class DataType>
-A_Star<DataType>::A_Star(int (*hf)(const DataType &), <DataType> &gs)
-:  nodes_expanded(0), max_nodes_in_queue(0), goal_depth(0)
-{
-  heuristicFunction = hf;           // Assign client provided heuristic.
-  goal_state = gs;                  // Assign client provided goal state.
-}
-template <class DataType>
-bool A_Star<DataType>::uniformCostSearch(const DataType & newObject)
-{
-  Node* initial_node = new Node();  // Allocate space for initial node.
-  initial_node->obj = newObject;
-  current_node = initial_node;      // set current_node to initial_node
+#include "../include/Board.h"
 
-  frontier.push(current);
+// template <class DataType>
+// A_Star<DataType>::A_Star(int (*hf)(const DataType &), <DataType> &gs)
+// :  nodes_expanded(0), max_nodes_in_queue(0), goal_depth(0)
+// {
+//   heuristicFunction = hf;           // Assign client provided heuristic.
+//   goal_state = gs;                  // Assign client provided goal state.
+// }
+// template <class DataType>
+// bool A_Star<DataType>::uniformCostSearch(const DataType & newObject)
+// {
+//   Node* initial_node = new Node();  // Allocate space for initial node.
+//   initial_node->obj = newObject;
+//   current_node = initial_node;      // set current_node to initial_node
 
-  // Keep expanding nodes until found goal state or frontier is empty.
-  while (!frontier.empty()) {
+//   frontier.push(current);
 
-		current = frontier.top();       // Set current to the lowest-cost
-                                    // node in frontier
-		frontier.pop();                 // Pop frontier
+//   // Keep expanding nodes until found goal state or frontier is empty.
+//   while (!frontier.empty()) {
 
-		// Remove popped board from in_q
-    auto search = in_q.find(current->obj);  // Check if current object is
-                                            // in in_q
-		if (search != in_q.end()) {
-			in_q.erase(search);
-		}
+// 		current = frontier.top();       // Set current to the lowest-cost
+//                                     // node in frontier
+// 		frontier.pop();                 // Pop frontier
 
-		// Perform goal test on current node
-		if (current->obj == goal_state) {
-			goal_depth = current->getNodeDepth();
-      return true;           // Uniform Cost Search is complete.
-    }
+// 		// Remove popped board from in_q
+//     auto search = in_q.find(current->obj);  // Check if current object is
+//                                             // in in_q
+// 		if (search != in_q.end()) {
+// 			in_q.erase(search);
+// 		}
 
-    // Goal test failed. Continue search
-    explored.insert(current->getBoard());         // Add current node to
-                                                  // explored set.
+// 		// Perform goal test on current node
+// 		if (current->obj == goal_state) {
+// 			goal_depth = current->getNodeDepth();
+//       return true;           // Uniform Cost Search is complete.
+//     }
 
-		// Conditional output that will differ the first
-    // expansion from all others.
-		if (current->nodeDepth() == 0) {
-			cout << "Expanding state" << endl;
-			current->printObj();
-		}
-		else {
-			cout << "The best state to expand with g(n) = "
-           << current->nodeDepth() << " is..." << endl;
-			current->printObj();
-		}
+//     // Goal test failed. Continue search
+//     explored.insert(current->getBoard());         // Add current node to
+//                                                   // explored set.
 
-		nodes_expanded++;                   // Increment number of nodes expanded.
+// 		// Conditional output that will differ the first
+//     // expansion from all others.
+// 		if (current->nodeDepth() == 0) {
+// 			cout << "Expanding state" << endl;
+// 			current->printObj();
+// 		}
+// 		else {
+// 			cout << "The best state to expand with g(n) = "
+//            << current->nodeDepth() << " is..." << endl;
+// 			current->printObj();
+// 		}
 
-    // Expand node / Generate children
-    // For each legal action, create a child node. If child node is not yet
-    // in the explored or frontier add to frontier.
-    for (int action = 0; action < action_count - 1; i++) {
+// 		nodes_expanded++;                   // Increment number of nodes expanded.
 
-      <DataType> childObj = applyAction(current, i);  // applyAction
-                                                      // transforms current
-                                                      // obj to child obj.
+//     // Expand node / Generate children
+//     // For each legal action, create a child node. If child node is not yet
+//     // in the explored or frontier add to frontier.
+//     for (int action = 0; action < action_count - 1; i++) {
 
-
-      auto search = explored.find(childObj); // Check if child_node is
-                                             // already in explored_set.
-      if (search != explored.end()) {        // If child exists, skip insert.
-        continue;
-      }
-
-      search = in_q.find(childObj);          // Check if child_node is
-                                             // already in explored_set
-				if (search != in_q.end() ) {
-						continue;                        // If child exists, skip insert.
-				}
+//       <DataType> childObj = applyAction(current, i);  // applyAction
+//                                                       // transforms current
+//                                                       // obj to child obj.
 
 
-      // Child not in explored_set or in_q. Wrap childObj in a node and
-      // insert into frontier.
-      Node* child_node = new Node;          // Create new childe node.
-      child_node->obj = childObj;           // Wrap childObj in node.
-      in_q.insert(child_node);              // Add node to in_q
-      frontier.push(child_node);            // Add node to frontier.
+//       auto search = explored.find(childObj); // Check if child_node is
+//                                              // already in explored_set.
+//       if (search != explored.end()) {        // If child exists, skip insert.
+//         continue;
+//       }
+
+//       search = in_q.find(childObj);          // Check if child_node is
+//                                              // already in explored_set
+// 				if (search != in_q.end() ) {
+// 						continue;                        // If child exists, skip insert.
+// 				}
 
 
-		} // End of for loop.
+//       // Child not in explored_set or in_q. Wrap childObj in a node and
+//       // insert into frontier.
+//       Node* child_node = new Node;          // Create new childe node.
+//       child_node->obj = childObj;           // Wrap childObj in node.
+//       in_q.insert(child_node);              // Add node to in_q
+//       frontier.push(child_node);            // Add node to frontier.
 
-    // Parent node expanded. Check/Record maximum number of nodes in frontier.
-    if (frontier.size() > max_nodes_in_q)
-      max_nodes_in_q = frontier.size();
 
-  } // End of While loop
+// 		} // End of for loop.
 
-  // Frontier is empty. Thus, no solution.
-  return false;
-}
+//     // Parent node expanded. Check/Record maximum number of nodes in frontier.
+//     if (frontier.size() > max_nodes_in_q)
+//       max_nodes_in_q = frontier.size();
+
+//   } // End of While loop
+
+//   // Frontier is empty. Thus, no solution.
+//   return false;
+// }

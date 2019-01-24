@@ -25,11 +25,13 @@ bool checkConfig(int *_boardConfig)
 Board::Board()
 {
 	// Representation of board.
-	//  +------+
+	//  -------
 	//	|0|1|2|
+	//  |-+-+-|
 	//	|3|4|5|
+	//  |-+-+-|
 	//  |6|7|8|
-	//  +-----+
+	//  -------
 
 	for (int i = 0; i < 6; i++){
 		m_boardConfiguration[i] = DEFAULT_CONFIG[i];
@@ -174,7 +176,7 @@ void Board::print()
 	return;
 }
 
-string Board::move(int action)
+bool Board::move(MOVE action)
 {
 	// //locate position of blank tile on board. Reminder that 0 is the placeholder for the blank tile.
 	// switch (action)
@@ -220,7 +222,7 @@ string Board::move(int action)
 	// compute_misplaced_tile_distance();
 	//
 	// return move_applied;
-	return "null";
+	return true;
 }
 
 

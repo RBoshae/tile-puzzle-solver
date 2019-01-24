@@ -18,14 +18,14 @@
 
 using namespace std;
 
-// Global Constants.
 const int NUMBER_OF_TILES = 9;
+enum class MOVE {UP, DOWN, LEFT, RIGHT};
 
 class Board
 {
 public:
 	Board();								// Creates a board object with a default
-													// puzzle assigned.
+											// puzzle assigned.
 
 	Board(int _boardConfig[NUMBER_OF_TILES]);	// Creates a board object with a
 																						// user defined puzzle. Each array
@@ -45,7 +45,7 @@ public:
 	void print();
 	void randomize();
 
-	bool move(Move action);	// TODO: Refactor.
+	bool move(MOVE action);							// TODO: Refactor.
 													// actions: up, down, left, right. Change
 													// return type to boolean to represent if
 													// the board was changed (true) or not (false)
@@ -65,7 +65,6 @@ private:
 	int m_blankTileLocation;
 
 	void setBlankTileLocation(int _location);
-
 };
 
 #endif
