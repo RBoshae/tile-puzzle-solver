@@ -24,14 +24,14 @@ enum class MOVE {UP, DOWN, LEFT, RIGHT};
 class Board
 {
 public:
-	Board();								// Creates a board object with a default
-											// puzzle assigned.
+	Board();																		// Creates a board object with a default
+																							// puzzle assigned.
 
-	Board(int _boardConfig[NUMBER_OF_TILES]);	// Creates a board object with a
-																						// user defined puzzle. Each array
-																						// index represent the placement of
-																						// the tile from top left to bottom
-																						// right.
+	Board(int _boardConfig[NUMBER_OF_TILES]);		// Creates a board object with a
+																							// user defined puzzle. Each array
+																							// index represent the placement of
+																							// the tile from top left to bottom
+																							// right.
 	~Board();
 
 	bool set(int _boardConfig[NUMBER_OF_TILES]); // Sets board. Returns true if
@@ -45,26 +45,17 @@ public:
 	void print();
 	void randomize();
 
-	bool move(MOVE action);							// TODO: Refactor.
-													// actions: up, down, left, right. Change
-													// return type to boolean to represent if
-													// the board was changed (true) or not (false)
-
+	bool move(MOVE action);												// actions: up, down, left, right. Change
+																								// return type to boolean to represent if
+																								// the board was changed (true) or not (false)
 
 	bool operator==(const Board &other) const;
-	// bool operator<(const Board &other) const;
 
-
-	// DEPRECATED
-	// int getMisplacedTileDistance(); // TODO: Deprecate. Move to Node class
-	// int getManhattanDistance();			// TODO: Deprecate. Move to Node class
-	void setBoard();								// TODO: Deprecate
-	void setToGoalState();  				// TODO: Deprecate
 private:
 	int m_boardConfiguration[NUMBER_OF_TILES];
 	int m_blankTileLocation;
 
-	void setBlankTileLocation(int _location);
+	void findAndSetBlankTileLocation();
 };
 
 #endif

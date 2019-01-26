@@ -24,7 +24,7 @@ bool checkConfig(int *_boardConfig)
 
 Board::Board()
 {
-	// Representation of board.
+	// Abstractr representation of board.
 	//  -------
 	//	|0|1|2|
 	//  |-+-+-|
@@ -51,6 +51,9 @@ Board::Board(int _boardConfiguration[NUMBER_OF_TILES])
 
 	for(int i = 0; i < NUMBER_OF_TILES; i++) {
 		m_boardConfiguration[i] = _boardConfiguration[i];
+		if(_boardConfiguration[i] == 0) {
+			m_blankTileLocation = i;
+		}
 	}
 }
 
@@ -64,6 +67,9 @@ bool Board::set(int _boardConfiguration[NUMBER_OF_TILES])
 	if (::checkConfig(_boardConfiguration)){
 		for(int i = 0; i < NUMBER_OF_TILES; i++){
 			m_boardConfiguration[i] = _boardConfiguration[i];
+			if(_boardConfiguration[i] == 0) {
+				m_blankTileLocation = i;
+			}
 		}
 		return true;
 	}
@@ -71,93 +77,6 @@ bool Board::set(int _boardConfiguration[NUMBER_OF_TILES])
 		return false;
 	}
 }
-
-// DEPRECATED
-void Board::setBoard()
-{
-	// char user_input[100];
-	// int column_pos = 0;
-	//
-	// cout << "Enter your puzzle, use a zero to represent the blank" << endl;
-	//
-	// // TODO: Reduce the following code to a neat for loop.
-	//
-	// cout << "Enter the first row, use space or tabs between numbers      ";
-	// cin.ignore();
-	// cin.getline(user_input, sizeof(user_input));  //cout << endl;
-	//
-	// //loop that will parse user input and store it in a Board data structure
-	// for (int i = 0; i < 100; i++) {
-	// 	if (user_input[i] >= '0' && user_input[i] <= '9') {
-	// 		board_configuration[0][column_pos] = user_input[i] - '0';
-	//
-	// 		if (board_configuration[0][column_pos] == 0) {
-	// 			blank_row_pos = 0;
-	// 			blank_col_pos = column_pos;
-	// 		}
-	// 		column_pos++;
-	// 	}
-	// }
-	//
-	// column_pos = 0;
-	//
-	// cout << "Enter the second row, use space or tabs between numbers     ";
-	//
-	// cin.getline(user_input, sizeof(user_input));//  cout << endl;
-	// for (int i = 0; i < 100; i++) {
-	// 	if (user_input[i] >= '0' && user_input[i] <= '9') {
-	// 		board_configuration[1][column_pos] = user_input[i] - '0';
-	//
-	// 		if (board_configuration[1][column_pos] == 0) {
-	// 			blank_row_pos = 1;
-	// 			blank_col_pos = column_pos;
-	// 		}
-	//
-	// 		column_pos++;
-	// 	}
-	// }
-	//
-	// column_pos = 0;
-	//
-	// cout << "Enter the third row, use space or tabs between numbers      ";
-	//
-	// cin.getline(user_input, sizeof(user_input));  //cout << endl;
-	// for (int i = 0; i < 100; i++) {
-	// 	if (user_input[i] >= '0' && user_input[i] <= '9') {
-	// 		board_configuration[2][column_pos] = user_input[i] - '0';
-	//
-	// 		if (board_configuration[2][column_pos] == 0) {
-	// 			blank_row_pos = 2;
-	// 			blank_col_pos = column_pos;
-	// 		}
-	//
-	// 		column_pos++;
-	// 	}
-	// }
-	// compute_manhattan_distance();
-	// compute_misplaced_tile_distance();
-	// return;
-}
-
-
-
-void Board::setToGoalState()
-{
-	// int count = 1;
-	// for (int i = 0; i < 3; i++) {
-	// 	for (int j = 0; j < 3; j++) {
-	//
-	// 		board_configuration[i][j] = count;
-	// 		count++;
-	// 	}
-	//
-	// 	blank_col_pos = 2; blank_row_pos = 2;
-	// 	board_configuration[blank_row_pos][blank_col_pos] = 0;
-	//
-	// }
-}
-
-
 
 void Board::print()
 {
@@ -176,53 +95,44 @@ void Board::print()
 	return;
 }
 
-bool Board::move(MOVE action)
+bool Board::move(Board::MOVE action)
 {
-	// //locate position of blank tile on board. Reminder that 0 is the placeholder for the blank tile.
-	// switch (action)
-	// {
-	// case 1: //up
-	// 	if (blank_row_pos > 0) {
-	// 		board_configuration[blank_row_pos][blank_col_pos] = board_configuration[blank_row_pos - 1][blank_col_pos];
-	// 		board_configuration[blank_row_pos - 1][blank_col_pos] = 0;
-	// 		blank_row_pos--;
-	// 		move_applied = "blank tile up";
-	// 	}
-	//
-	// 	break;
-	// case 2: //down
-	// 	if (blank_row_pos < 2) {
-	// 		board_configuration[blank_row_pos][blank_col_pos] = board_configuration[blank_row_pos + 1][blank_col_pos];
-	// 		board_configuration[blank_row_pos + 1][blank_col_pos] = 0;
-	// 		blank_row_pos++;
-	// 		move_applied = "blank tile down";
-	// 	}
-	// 	break;
-	// case 3: //left
-	// 	if (blank_col_pos > 0) {
-	// 		board_configuration[blank_row_pos][blank_col_pos] = board_configuration[blank_row_pos][blank_col_pos - 1];
-	// 		board_configuration[blank_row_pos][blank_col_pos - 1] = 0;
-	// 		blank_col_pos--;
-	// 		move_applied = "blank tile left";
-	// 	}
-	// 	break;
-	// case 4: //right
-	// 	if (blank_col_pos < 2) {
-	// 		board_configuration[blank_row_pos][blank_col_pos] = board_configuration[blank_row_pos][blank_col_pos + 1];
-	// 		board_configuration[blank_row_pos][blank_col_pos + 1] = 0;
-	// 		blank_col_pos++;
-	// 		move_applied = "blank tile right";
-	// 	}
-	// 	break;
-	// default:
-	// 	break;
-	// }
-	//
-	// compute_manhattan_distance();
-	// compute_misplaced_tile_distance();
-	//
-	// return move_applied;
-	return true;
+	bool moveApplied = false;
+	switch (action)
+	{
+	case (Board::UP): //up
+		if (m_blankTileLocation - 4 > 0) {
+			m_boardConfiguration[m_blankTileLocation] = m_blankTileLocation[m_blankTileLocation-4];
+			m_blankTileLocation = m_blankTileLocation - 4;
+			moveApplied = true;
+		}
+		break;
+	case (Board::DOWN): //down
+	if (m_blankTileLocation + 4 < NUMBER_OF_TILES) {
+		m_boardConfiguration[m_blankTileLocation] = m_blankTileLocation[m_blankTileLocation+4];
+		m_blankTileLocation = m_blankTileLocation + 4;
+		moveApplied = true;
+	}
+		break;
+	case (Board::LEFT): //left
+	if (m_blankTileLocation - 1 > 0) {
+		m_boardConfiguration[m_blankTileLocation] = m_blankTileLocation[m_blankTileLocation-1];
+		m_blankTileLocation = m_blankTileLocation - 1;
+		moveApplied = true;
+	}
+		break;
+	case (Board::RIGHT): //right
+	if (m_blankTileLocation + 1 > 0) {
+		m_boardConfiguration[m_blankTileLocation] = m_blankTileLocation[m_blankTileLocation+1];
+		m_blankTileLocation = m_blankTileLocation + 1;
+		moveApplied = true;
+	}
+		break;
+	default:
+		break;
+	}
+
+	return moveApplied;
 }
 
 
@@ -252,6 +162,11 @@ bool Board::operator==(const Board& other) const {
 }
 
 // Private Function Definitions.
-void Board::setBlankTileLocation(int _location) {
-	m_blankTileLocation = _location;
+void Board::findAndSetBlankTileLocation() {
+	for (int location = 0; location < NUMBER_OF_TILES; i++) {
+		if (this->m_boardConfiguration[i] == 0 {
+			m_blankTileLocation = location;
+			break;
+		}
+	}
 }
