@@ -95,35 +95,35 @@ void Board::print()
 	return;
 }
 
-bool Board::move(Board::MOVE action)
+bool Board::move(MOVE action)
 {
 	bool moveApplied = false;
 	switch (action)
 	{
-	case (Board::UP): //up
+	case (MOVE::UP): //up
 		if (m_blankTileLocation - 4 > 0) {
-			m_boardConfiguration[m_blankTileLocation] = m_blankTileLocation[m_blankTileLocation-4];
+			m_boardConfiguration[m_blankTileLocation] = m_boardConfiguration[m_blankTileLocation-4];
 			m_blankTileLocation = m_blankTileLocation - 4;
 			moveApplied = true;
 		}
 		break;
-	case (Board::DOWN): //down
+	case (MOVE::DOWN): //down
 	if (m_blankTileLocation + 4 < NUMBER_OF_TILES) {
-		m_boardConfiguration[m_blankTileLocation] = m_blankTileLocation[m_blankTileLocation+4];
+		m_boardConfiguration[m_blankTileLocation] = m_boardConfiguration[m_blankTileLocation+4];
 		m_blankTileLocation = m_blankTileLocation + 4;
 		moveApplied = true;
 	}
 		break;
-	case (Board::LEFT): //left
+	case (MOVE::LEFT): //left
 	if (m_blankTileLocation - 1 > 0) {
-		m_boardConfiguration[m_blankTileLocation] = m_blankTileLocation[m_blankTileLocation-1];
+		m_boardConfiguration[m_blankTileLocation] = m_boardConfiguration[m_blankTileLocation-1];
 		m_blankTileLocation = m_blankTileLocation - 1;
 		moveApplied = true;
 	}
 		break;
-	case (Board::RIGHT): //right
+	case (MOVE::RIGHT): //right
 	if (m_blankTileLocation + 1 > 0) {
-		m_boardConfiguration[m_blankTileLocation] = m_blankTileLocation[m_blankTileLocation+1];
+		m_boardConfiguration[m_blankTileLocation] = m_boardConfiguration[m_blankTileLocation+1];
 		m_blankTileLocation = m_blankTileLocation + 1;
 		moveApplied = true;
 	}
@@ -163,8 +163,8 @@ bool Board::operator==(const Board& other) const {
 
 // Private Function Definitions.
 void Board::findAndSetBlankTileLocation() {
-	for (int location = 0; location < NUMBER_OF_TILES; i++) {
-		if (this->m_boardConfiguration[i] == 0 {
+	for (int location = 0; location < NUMBER_OF_TILES; location++) {
+		if (this->m_boardConfiguration[location] == 0) {
 			m_blankTileLocation = location;
 			break;
 		}
