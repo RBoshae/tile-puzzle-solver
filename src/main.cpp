@@ -14,7 +14,7 @@
 #include <ctime>
 #include <algorithm>
 #include "../include/Board.h"
-#include "../include/A_Star.h"
+// #include "../include/A_Star.h"
 // #include "../include/Node.h" // TODO Refactor
 
 using namespace std;
@@ -36,11 +36,13 @@ using namespace std;
 // 	}
 // };
 
+enum class HEURISTIC {MISPLACED_TILE, MANHATTAN_DISTANCE, UNIFORM_COST_SEARCH, ALL};
+
 // Forward Function Declarations.
 void startMenu();
 void chooseBoard(Board *_board);						// calls interface for user to interact with program.
 void setBoardFromUserInput(Board *_board);				// prompts user for input to set board. returns set board.
-A_Star::HEURISTIC chooseHeuristic();
+HEURISTIC chooseHeuristic();
 
 // bool graph_search(Board b, int heuristic_decision);
 // bool uniform_cost_search(Board b);
@@ -59,11 +61,11 @@ A_Star::HEURISTIC chooseHeuristic();
 
 int main() {
 	Board userBoard;							// The board the program will solve.
-	A_Star temp;
-	// Heuristic heuristic;						// The hearistic to apply to the A* search 
+	// A_Star temp;
+	// Heuristic heuristic;						// The hearistic to apply to the A* search
 	startMenu();								// Provide program information to user.
 	chooseBoard(&userBoard);					// Set up board.
-	A_Star::HEURISTIC h = chooseHeuristic();	// Pick hearistic to use.
+	HEURISTIC h = chooseHeuristic();	// Pick hearistic to use.
 	cout << "End of Program." << endl;
 	return 0;
 }
@@ -268,8 +270,8 @@ void setBoardFromUserInput(Board *_board) {
 	return;
 }
 
-A_Star::HEURISTIC chooseHeuristic(){
-	A_Star::HEURISTIC heuristic_choice;
+HEURISTIC chooseHeuristic(){
+	HEURISTIC heuristic_choice;
 	int userInput;
 
 	cout << "====================================================================================" 			<< endl;
@@ -279,7 +281,7 @@ A_Star::HEURISTIC chooseHeuristic(){
 	cout << "  2 - A* with Misplaced Tile heuristic."     		<< endl;
 	cout << "  3 - A* with Manhattan Distance heuristic." 		<< endl;
 	cout << "------------------------------------------------------------------------------------" 			<< endl;
-	cout << "  choice: "; 
+	cout << "  choice: ";
 
 	cin >> userInput;														// Store user choice in heuristic_choice variable.
 
@@ -295,25 +297,25 @@ A_Star::HEURISTIC chooseHeuristic(){
 
 	// Confirm userInput. If userInput selected Default Puzzle option print the puzzle to the display.
 	// If user selected custom puzzle call .setBoard() to input custom puzzle. If selected quit, exit program.
-	switch (heuristic_choice) {
+	switch (userInput) {
 		case 1: {
-			cout << "Uniform Cost Search selected" << endl; 
-			heuristic_choice = A_Star::UNIFORM_COST_SEARCH;
+			cout << "Uniform Cost Search selected" << endl;
+			heuristic_choice = HEURISTIC::UNIFORM_COST_SEARCH;
 			break;
 		}
 		case 2: {
-			cout << "  A* with Misplaced Tile heuristic selected." << endl; 
-			heuristic_choice = A_Star::MISPLACED_TILE;
+			cout << "  A* with Misplaced Tile heuristic selected." << endl;
+			heuristic_choice = HEURISTIC::MISPLACED_TILE;
 			break;
 		}
 		case 3: {
 			cout << "  A* with Manhattan Distance heuristic selected." << endl;
-			heuristic_choice = A_Star::MANHATTAN_DISTANCE;
+			heuristic_choice = HEURISTIC::MANHATTAN_DISTANCE;
 			break;
 		}
 		case 4: {	// Secret Option Used to compare heuristics.
 			cout << "  All tests selected" 	<< endl;
-			heuristic_choice = A_Star::ALL;
+			heuristic_choice = HEURISTIC::ALL;
 			break;
 		}
 		default: {

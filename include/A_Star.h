@@ -37,14 +37,14 @@ private:
 
   // Variables used for interfacing with graph.
   Node* m_currentNode;                                   // Points to current node.
-  priority_queue<Node*, vector<Node*>, Comp> m_frontier; // a priority queue
+  // priority_queue<Node*, vector<Node*>, Compare> m_frontier; // a priority queue
                                                          // ordered by
                                                          // Path-Cost, with
                                                          // node as the only
                                                          // element
                                                          // TODO: fix Comp para
-  set<DataType> m_explored;                              // Set of expanded nodes.
-  set<DataType> M_inQueue;                               // Mimics nodes priority q. Prevents
+  set<Board*> m_explored;                              // Set of expanded nodes.
+  set<Board*> M_inQueue;                               // Mimics nodes priority q. Prevents
                                                          // new unexplored children that are // already in priority queue from
                                                          // being added redundantly
                                                          // TODO: Find a way to remove in_q by

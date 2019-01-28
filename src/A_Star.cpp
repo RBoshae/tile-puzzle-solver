@@ -25,6 +25,17 @@ bool A_Star::misplacedTile(Board _board){
 bool A_Star::manhattanDistance(Board _board){
   // Stub
 }
+
+class Compare {
+public:
+  bool operator()(Node _leftNode, Node _rightNode)
+  {
+    if (_leftNode.getCost() < __rightNode.getCost())
+    {
+      return true;
+    }
+  }
+}
 // template <class DataType>
 // A_Star<DataType>::A_Star(int (*hf)(const DataType &), <DataType> &gs)
 // :  nodes_expanded(0), max_nodes_in_queue(0), goal_depth(0)
