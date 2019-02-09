@@ -17,6 +17,11 @@ Node::~Node()
 {
 }
 
+int Node::getCost()
+{
+	return f_of_n;
+}
+
 //set current node to point to parent. node_depth is modified here since we must know the depth of our parent to get the depth of the child
 void Node::setParentNode(Node *passed_parent)
 {
@@ -34,17 +39,6 @@ Node Node::previous_state(Node current_state)
 {
 	// if (current_state.move_applied == "blank tile right") current_state.getBoard().move(3); return current_state;
 	return current_state; // TODO: Remove line.
-}
-
-
-
-
-void Node::setBoard(Board b)
-{
-	// manhattan_distance = b.getManhattanDistance();
-	// misplaced_tile = b.getMisplacedTileDistance();
-
-	node_board = b;
 }
 
 Board Node::getBoard()

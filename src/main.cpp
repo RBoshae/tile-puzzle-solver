@@ -14,6 +14,7 @@
 #include <ctime>
 #include <algorithm>
 #include "../include/Board.h"
+#include "../include/A_Star.h"
 // #include "../include/A_Star.h"
 // #include "../include/Node.h" // TODO Refactor
 
@@ -60,12 +61,45 @@ HEURISTIC chooseHeuristic();
 // double Misplaced_Tile_Avg_PQ;
 
 int main() {
-	Board userBoard;							// The board the program will solve.
-	// A_Star temp;
-	// Heuristic heuristic;						// The hearistic to apply to the A* search
-	startMenu();								// Provide program information to user.
+	Board userBoard;									// The board the program will solve.
+	A_Star astar;
+	string userInput;
+
+	startMenu();											// Provide program information to user.
 	chooseBoard(&userBoard);					// Set up board.
-	HEURISTIC h = chooseHeuristic();	// Pick hearistic to use.
+	HEURISTIC heuristicChoice = chooseHeuristic();	// Pick hearistic to use.
+
+	switch (heuristicChoice) {
+		case HEURISTIC::MISPLACED_TILE:
+			astar.misplacedTile(userBoard);
+		break;
+
+		case HEURISTIC::MANHATTAN_DISTANCE:
+			astar.manhattanDistance(userBoard);
+		break;
+
+		case HEURISTIC::UNIFORM_COST_SEARCH:
+			astar.uniformCostSearch(userBoard);
+		break;
+
+		case HEURISTIC::ALL:
+			astar.misplacedTile(userBoard);
+			astar.manhattanDistance(userBoard);
+			astar.uniformCostSearch(userBoard);
+		break;
+
+		default:
+			cout << "Something went wrong." << endl;
+		break;
+	}
+
+	cout << "Goal State Reached. Would you like to see the solution?(y/n): ";
+	cin >> userInput;
+	if (userInput == "y")
+	{
+			astar.printSolution();
+	}
+
 	cout << "End of Program." << endl;
 	return 0;
 }
@@ -131,9 +165,9 @@ void chooseBoard(Board* _board){
 	cout << "What type of puzzle would you like to use?"       	                                   	  << endl;
 	cout << endl;
 	cout << "Choose from the following:"								       	                              << endl << endl;
-	cout << "\t1 \tEnter a custom puzzle."      			                                               	<< endl;
-	cout << "\t2 \tGenerate a random puzzle."                                                       	<< endl;
-	cout << "\t3 \tUse the default puzzle"                                                    << endl << endl;
+	cout << "  1 \tEnter a custom puzzle."      			                                               	<< endl;
+	cout << "  2 \tGenerate a random puzzle."                                                       	<< endl;
+	cout << "  3 \tUse the default puzzle"                                                    << endl << endl;
 	cout << "What'll it be: ";
 	cin >> userInput;
 
@@ -274,13 +308,13 @@ HEURISTIC chooseHeuristic(){
 	HEURISTIC heuristic_choice;
 	int userInput;
 
-	cout << "====================================================================================" 			<< endl;
-	cout << "  Pick an algorithm to solve your puzzle." 		 << endl;
+	cout << "================================================================================" 			<< endl;
+	cout << "Pick an algorithm to solve your puzzle." 		 << endl;
 	cout << endl;
 	cout << "  1 - Uniform Cost Search. (Warning: Likely to be VERY slow)" << endl;
 	cout << "  2 - A* with Misplaced Tile heuristic."     		<< endl;
 	cout << "  3 - A* with Manhattan Distance heuristic." 		<< endl;
-	cout << "------------------------------------------------------------------------------------" 			<< endl;
+	cout << "--------------------------------------------------------------------------------" 			<< endl;
 	cout << "  choice: ";
 
 	cin >> userInput;														// Store user choice in heuristic_choice variable.

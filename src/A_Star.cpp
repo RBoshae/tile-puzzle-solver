@@ -6,7 +6,7 @@
  * \brief Function definitions for A_Star
  */
 
-#include "../include/Board.h"
+#include "../include/A_Star.h"
 
 A_Star::A_Star(){
   // Stub
@@ -26,16 +26,20 @@ bool A_Star::manhattanDistance(Board _board){
   // Stub
 }
 
+void A_Star::printSolution(){
+  // Stub
+}
+
 class Compare {
 public:
   bool operator()(Node _leftNode, Node _rightNode)
   {
-    if (_leftNode.getCost() < __rightNode.getCost())
+    if (_leftNode.getCost() < _rightNode.getCost())
     {
       return true;
     }
   }
-}
+};
 // template <class DataType>
 // A_Star<DataType>::A_Star(int (*hf)(const DataType &), <DataType> &gs)
 // :  nodes_expanded(0), max_nodes_in_queue(0), goal_depth(0)

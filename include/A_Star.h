@@ -10,6 +10,7 @@
  */
 #include "Board.h"
 #include "Node.h"
+#include <set>
 
 class A_Star {
 public:
@@ -20,7 +21,7 @@ public:
   bool misplacedTile(Board _board);
   bool manhattanDistance(Board _board);
 
-  void print_solution();
+  void printSolution();
   void getNumberOfNodesExpanded();
   void getMaxNodesInQueue();
   void getGoalDepth();
