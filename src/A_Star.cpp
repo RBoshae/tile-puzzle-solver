@@ -7,22 +7,30 @@
  */
 
 #include "../include/A_Star.h"
+#include "../include/Node.h"
 
 A_Star::A_Star(){
-  // Stub
+
 }
 
 A_Star::~A_Star(){
   // Stub
 }
 
-bool A_Star::uniformCostSearch(Board _board){
+bool A_Star::uniformCostSearch(Board* _board) {
+  // Initialize the frontier using the inital state of the problem.
+  m_exploredSet.empty();
+  m_frontier.empty();
+
+  Node initialNode(_board, 0);
+  // TODO continue from here.
+
+  current_node = initial_node;      // set current_node to initial_node
+}
+bool A_Star::misplacedTile(Board* _board){
   // Stub
 }
-bool A_Star::misplacedTile(Board _board){
-  // Stub
-}
-bool A_Star::manhattanDistance(Board _board){
+bool A_Star::manhattanDistance(Board* _board){
   // Stub
 }
 

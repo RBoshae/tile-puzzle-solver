@@ -17,37 +17,23 @@ public:
   A_Star();
   ~A_Star();
 
-  bool uniformCostSearch(Board _board);
-  bool misplacedTile(Board _board);
-  bool manhattanDistance(Board _board);
+  bool uniformCostSearch(Board* _board);
+  bool misplacedTile(Board* _board);
+  bool manhattanDistance(Board* _board);
 
   void printSolution();
   void getNumberOfNodesExpanded();
   void getMaxNodesInQueue();
   void getGoalDepth();
+
 private:
+  set<Board*>            m_exploredSet;                  // Set of boards that have already been expanded.
+  priority_queue<Node*>  m_frontier;                     // PQ ordered by the Node with the lowest cost.
 
-
-  Board goal_state;
-
-  // Variables for storing search stats
+  // Search stats.
   int m_nodesExpanded;                                   // Track number of nodes expanded.
   int m_maxNodesInQueue;                                 // Track the maximum number of
                                                          // nodes in the priority queue.
   int m_goalDepth;                                       // Track the depth of the goal state.
 
-  // Variables used for interfacing with graph.
-  Node* m_currentNode;                                   // Points to current node.
-  // priority_queue<Node*, vector<Node*>, Compare> m_frontier; // a priority queue
-                                                         // ordered by
-                                                         // Path-Cost, with
-                                                         // node as the only
-                                                         // element
-                                                         // TODO: fix Comp para
-  set<Board*> m_explored;                              // Set of expanded nodes.
-  set<Board*> M_inQueue;                               // Mimics nodes priority q. Prevents
-                                                         // new unexplored children that are // already in priority queue from
-                                                         // being added redundantly
-                                                         // TODO: Find a way to remove in_q by
-                                                         // using frontier.
 };
