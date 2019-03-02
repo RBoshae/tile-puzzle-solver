@@ -13,7 +13,7 @@ Node::Node(Board const &_board, int _heuristicCost)
 {
 }
 
-Node::Node(Board const &_board, int _heuristicCost, Node const &_parent, string const _moveApplied)
+Node::Node(Board const &_board, int _heuristicCost, Node const &_parent,  string const _moveApplied)
 :
   m_board(_board),
   m_parent(_parent),

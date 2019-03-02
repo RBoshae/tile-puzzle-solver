@@ -16,10 +16,10 @@ class Node
 {
 public:
 	Node(Board const &_board, int _heuristicCost);
-  Node(Board const &_board, Node const &_parent, string const _moveApplied);
+  Node(Board const &_board, int const hearisticCost, Node const &_parent);
+
 	~Node();
 
-  // void 	setParent(Node *passed_parent);
   Node* getParentNode();
 
   int 	getPathCost();
@@ -30,12 +30,12 @@ public:
 
 
 private:
-  Board   m_board;      	        // Contains copy of Board
-  Node*   m_parent;          	      // Pointer to parent node.
-  string  m_moveDesc;             // Description of move applied to parent to reach current state.
-  int     m_pathCost;             // Also known as g(n).
-  int     m_heuristicCost;        // Also known as h(n).
-	int     m_totalCost;		   	    // Contains value of f(n)
+  Board   m_boardState;      	  // Contains copy of Board
+  Node*   m_parent;          	  // Pointer to parent node.
+  string  m_action;             // Description of move applied to parent to reach current state.
+  int     m_pathCost;           // Also known as g(n).
+  int     m_heuristicCost;      // Also known as h(n).
+	int     m_totalCost;		   	  // Contains value of f(n)
 
 
 };
