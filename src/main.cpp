@@ -61,35 +61,35 @@ HEURISTIC chooseHeuristic();
 // double Misplaced_Tile_Avg_PQ;
 
 int main() {
-	Board userBoard;									// The board the program will solve.
+	Board userBoard;																// The board the program will solve.
 	A_Star astar;
 	string userInput;
 
-	startMenu();											// Provide program information to user.
-	chooseBoard(&userBoard);					// Set up board.
+	startMenu();																		// Provide program information to user.
+	chooseBoard(&userBoard);												// Set up board.
 	HEURISTIC heuristicChoice = chooseHeuristic();	// Pick hearistic to use.
 
 	switch (heuristicChoice) {
 		case HEURISTIC::MISPLACED_TILE:
-			astar.misplacedTile(userBoard);
+			astar.misplacedTile(&userBoard);
 		break;
 
 		case HEURISTIC::MANHATTAN_DISTANCE:
-			astar.manhattanDistance(userBoard);
+			astar.manhattanDistance(&userBoard);
 		break;
 
 		case HEURISTIC::UNIFORM_COST_SEARCH:
-			astar.uniformCostSearch(userBoard);
+			astar.uniformCostSearch(&userBoard);
 		break;
 
 		case HEURISTIC::ALL:
-			astar.misplacedTile(userBoard);
-			astar.manhattanDistance(userBoard);
-			astar.uniformCostSearch(userBoard);
+			astar.misplacedTile(&userBoard);
+			astar.manhattanDistance(&userBoard);
+			astar.uniformCostSearch(&userBoard);
 		break;
 
 		default:
-			cout << "Something went wrong." << endl;
+			cerr << "Something went wrong." << endl;
 		break;
 	}
 
