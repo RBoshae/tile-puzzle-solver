@@ -15,6 +15,7 @@
 class Node
 {
 public:
+  Node();
 	Node(Board const &_board, int _heuristicCost);
   Node(Board const &_board, int const hearisticCost, Node const &_parent);
 

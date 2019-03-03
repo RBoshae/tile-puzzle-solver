@@ -18,7 +18,7 @@ public:
   A_Star();
   ~A_Star();
 
-  Node* graphSearch(Board const &_board);
+  Node* graphSearch(Board &_board);
 
 
   void printSolution();
@@ -27,8 +27,8 @@ public:
   void getGoalDepth();
 
 private:
-  set<Board*>            m_frontierOrExploredSet;        // Set of boards that have already been expanded or in the frontier.
-  priority_queue<Node*>  m_frontierQueue;                // PQ ordered by the Node with the lowest cost.
+  set<Board>             m_frontierOrExploredSet;        // Set of boards that have already been expanded or in the frontier.
+  priority_queue<Node>   m_frontierQueue;                // PQ ordered by the Node with the lowest cost.
 
   // Search stats.
   int m_nodesExpanded;                                   // Track number of nodes expanded.
@@ -37,10 +37,10 @@ private:
   int m_goalDepth;                                       // Track the depth of the goal state.
 
 
-  void initializeFrontier(Board const &_startingBoard);
+  void initializeFrontier(Board &_startingBoard);
   void initializeExploredSet();
-  bool containsGoalState(Node const &_node);
-  void expandAndAddToFrontier(Node const &_node);
+  bool containsGoalState(Node *_node);
+  void expandAndAddToFrontier(Node* _node);
   Node childNode(Node const &_parentNode, MOVE action);
 
 };

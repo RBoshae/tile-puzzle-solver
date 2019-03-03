@@ -17,9 +17,9 @@ A_Star::~A_Star(){
   // Stub
 }
 
-Node* A_Star::graphSearch(Board const &_board) {
+Node* A_Star::graphSearch(Board &_board) {
 
-  Node* chosenNode;
+  Node chosenNode;
 
   initializeFrontier(_board);                                 // Initialize the frontier using the inital state of the problem.
   initializeExploredSet();                                    // Initialize the explored set to be empty.
@@ -28,13 +28,13 @@ Node* A_Star::graphSearch(Board const &_board) {
     chosenNode = m_frontierQueue.top();                       // Choose a leaf node.
     m_frontierQueue.pop();                                    // Remove leaf node from the frontier.
 
-    if (containsGoalState(chosenNode)) {                      // If the node contains a goal state then return the corresponding solution.
-      return chosenNode;
+    if (containsGoalState(&chosenNode)) {                      // If the node contains a goal state then return the corresponding solution.
+      return &chosenNode;
     }
 
-    m_frontierOrExploredSet.insert(&chosenNode.getBoard());   // Add the node to the explored set.
+    m_frontierOrExploredSet.insert(chosenNode.getBoard());   // Add the node to the explored set.
 
-    expandAndAddToFrontier(&chosenNode)                       // expand the chose node, adding the resulting nodes to the frontier
+    expandAndAddToFrontier(&chosenNode);                        // expand the chose node, adding the resulting nodes to the frontier
                                                               // only if not in the frontier or explored set.
 
   }
@@ -46,7 +46,7 @@ void A_Star::printSolution(){
   // Stub
 }
 
-void A_Star::initializeFrontier(Board const &_startingBoard) {
+void A_Star::initializeFrontier(Board &_startingBoard) {
   while(!m_frontierQueue.empty()) {
     m_frontierQueue.pop();
   }
@@ -57,12 +57,13 @@ void A_Star::initializeFrontier(Board const &_startingBoard) {
 
 
 void A_Star::initializeExploredSet() {
-  m_exploredSet.clear();
+  m_frontierOrExploredSet.clear();
 }
 
 
-bool A_Star::containsGoalState(Node const &_node) {
-  Board goalState({1,2,3,4,5,6,7,8,0});
+bool A_Star::containsGoalState(Node *_node) {
+  int goalConfiguration[9] = {1,2,3,4,5,6,7,8,0};
+  Board goalState(goalConfiguration);
 
   if(_node.getBoard() == goalState) {
     return true;

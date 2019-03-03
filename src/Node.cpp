@@ -1,6 +1,17 @@
 #include "../include/Node.h"
 
 
+Node::Node()
+:
+  m_board(),
+  m_parent(nullptr),
+  m_moveDesc(""),
+  m_pathCost(0),
+  m_heuristicCost(),
+  m_totalCost()
+{
+}
+
 
 Node::Node(Board const &_board, int _heuristicCost)
 :
