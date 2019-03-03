@@ -65,14 +65,34 @@ bool A_Star::containsGoalState(Node *_node) {
   int goalConfiguration[9] = {1,2,3,4,5,6,7,8,0};
   Board goalState(goalConfiguration);
 
-  if(_node.getBoard() == goalState) {
+  if(_node->getBoard() == goalState) {
     return true;
   }
   return false;
 }
 
-bool A_Star::expandAndAddToFrontier(Node const &_node) {
-
+void A_Star::expandAndAddToFrontier(Node* _node) {
+  Node child;
+  child = chileNode(_node, MOVE::UP);
+  if (!m_frontierOrExploredSet.find(child)) {
+    m_frontierOrExploredSet.insert(child);
+    m_frontierQueue.insert(child);
+  }
+  child = chileNode(_node, MOVE::DOWN);
+  if (!m_frontierOrExploredSet.find(child)) {
+    m_frontierOrExploredSet.insert(child);
+    m_frontierQueue.insert(child);
+  }
+  child = chileNode(_node, MOVE::LEFT);
+  if (!m_frontierOrExploredSet.find(child)) {
+    m_frontierOrExploredSet.insert(child);
+    m_frontierQueue.insert(child);
+  }
+  child = chileNode(_node, MOVE::RIGHT);
+  if (!m_frontierOrExploredSet.find(child)) {
+    m_frontierOrExploredSet.insert(child);
+    m_frontierQueue.insert(child);
+  }
 }
 
 Node A_Star::childNode(Node const &_parentNode, MOVE action)
