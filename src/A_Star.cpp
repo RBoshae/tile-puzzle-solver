@@ -73,22 +73,22 @@ bool A_Star::containsGoalState(Node *_node) {
 
 void A_Star::expandAndAddToFrontier(Node* _node) {
   Node child;
-  child = chileNode(_node, MOVE::UP);
+  child = childNode(_node, MOVE::UP);
   if (!m_frontierOrExploredSet.find(child)) {
     m_frontierOrExploredSet.insert(child);
     m_frontierQueue.insert(child);
   }
-  child = chileNode(_node, MOVE::DOWN);
+  child = childNode(_node, MOVE::DOWN);
   if (!m_frontierOrExploredSet.find(child)) {
     m_frontierOrExploredSet.insert(child);
     m_frontierQueue.insert(child);
   }
-  child = chileNode(_node, MOVE::LEFT);
+  child = childNode(_node, MOVE::LEFT);
   if (!m_frontierOrExploredSet.find(child)) {
     m_frontierOrExploredSet.insert(child);
     m_frontierQueue.insert(child);
   }
-  child = chileNode(_node, MOVE::RIGHT);
+  child = childNode(_node, MOVE::RIGHT);
   if (!m_frontierOrExploredSet.find(child)) {
     m_frontierOrExploredSet.insert(child);
     m_frontierQueue.insert(child);

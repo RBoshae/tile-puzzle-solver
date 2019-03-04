@@ -63,3 +63,11 @@ Board Node::getBoard()
 {
 	return node_board;
 }
+
+// overloaded < operator
+bool Node::operator <(const Node& _node) {
+   if(m_totalCost < _node.getTotalCost()) {
+      return true;
+   }
+   return false;
+}

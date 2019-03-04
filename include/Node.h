@@ -29,6 +29,9 @@ public:
 
 	Board getBoard();
 
+  // overloaded < operator
+  bool operator <(const Node& _node);
+
 
 private:
   Board   m_boardState;      	  // Contains copy of Board
