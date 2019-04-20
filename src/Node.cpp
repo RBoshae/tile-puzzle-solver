@@ -39,7 +39,11 @@ Node::~Node()
 {
 }
 
-Node* Node::getParentNode() {
+void Node::setParent(Node *_parent) {
+  m_parent = _parent;
+}
+
+Node* Node::getParent() {
 	return m_parent;
 }
 
@@ -59,9 +63,39 @@ int Node::getTotalCost()
 }
 
 
-Board Node::getBoard()
-{
+Board Node::getBoard() {
 	return node_board;
+}
+
+
+bool Node::result(MOVE _action) {
+  bool validMove = m_boardState.move(_action);
+
+  // Update move description.
+  if (validMove) {
+    switch (_action) {
+      case MOVE::UP: {
+        m_actionDesc = "Move Up.";
+        break;
+      }
+      case MOVE::DOWN: {
+        m_actionDesc = "Move Down.";
+        break;
+      }
+      case MOVE::LEFT: {
+        m_actionDesc = "Move Left.";
+        break;
+      }
+      case MOVE::RIGHT: {
+        m_actionDesc = "Move Right.";
+        break;
+      }
+      case default: {
+        break;
+      }
+    }
+
+  }
 }
 
 // overloaded < operator

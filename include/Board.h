@@ -15,7 +15,7 @@
 
 using namespace std;
 
-// Specifies the number of tiles on the board.  
+// Specifies the number of tiles on the board.
 const int NUMBER_OF_TILES = 9;
 enum class MOVE {UP, DOWN, LEFT, RIGHT};
 
@@ -43,7 +43,7 @@ public:
   // and returns false is the move is invalid. If the move is invalid the
   // state of the board is not changed.
   // Possible actions: UP, DOWN, LEFT, RIGHT.
-	bool move(MOVE action);
+	bool move(MOVE _move);
 
 	bool operator==(const Board &other) const;
 

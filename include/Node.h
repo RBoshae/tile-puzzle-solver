@@ -21,22 +21,27 @@ public:
 
 	~Node();
 
-  Node* getParentNode();
+  void  setParent(Node* _parent);
 
-  int 	getPathCost();
+  Node* getParent();
+
+  int	  getPathCost();
   int   getHeuristicCost();
-  int 	getTotalCost();
+  int	  getTotalCost();
+  Board getBoard();
 
-	Board getBoard();
+  // Applies move to board state. Returns true if action is valid.
+  // Returns false if the action is invalid.
+  bool result(MOVE _action);
 
   // overloaded < operator
   bool operator <(const Node& _node);
 
-
 private:
   Board   m_boardState;      	  // Contains copy of Board
   Node*   m_parent;          	  // Pointer to parent node.
-  string  m_action;             // Description of move applied to parent to reach current state.
+  string  m_actionDesc;         // Description of move applied to parent to
+                                // reach current state.
   int     m_pathCost;           // Also known as g(n).
   int     m_heuristicCost;      // Also known as h(n).
 	int     m_totalCost;		   	  // Contains value of f(n)

@@ -33,16 +33,16 @@ Node* A_Star::startGraphSearch(Board &_board) {
     m_frontierPQueue.pop();
 
     // If the node contains a goal state then return the corresponding solution.
-    if (goalTest(chosenNode)) {
-      return chosenNode;
+    if (goalTest(ptrChosenNode)) {
+      return ptrChosenNode;
     }
 
     // Add the node's board to the explored set.
-    m_frontierOrExploredSet.insert(chosenNode->getBoard());
+    m_frontierOrExploredSet.insert(ptrChosenNode->getBoard());
 
     // Expand the chose node, adding the resulting nodes to the frontier
     // only if not in the frontier or explored set.
-    expandAndAddToFrontier(chosenNode);
+    expandAndAddToFrontier(ptrChosenNode);
 
   }
 
@@ -50,7 +50,7 @@ Node* A_Star::startGraphSearch(Board &_board) {
 }
 
 void A_Star::printSolution(){
-  // Stub
+  // TODO: Stub
 }
 
 void A_Star::initializeFrontier(Board &_startingBoard) {
@@ -60,11 +60,8 @@ void A_Star::initializeFrontier(Board &_startingBoard) {
     m_frontierPQueue.pop();
   }
 
-  Node initialNode(_startingBoard);
-  Node* ptrInitailNode = initialNode;
-
-  m_graph.push_back(initialNode);
-  m_frontierPQueue.push(ptrInitailNode);
+  Node *ptrInitialNode = new Node(_startingBoard);
+  m_frontierPQueue.push(ptrInitialNode);
 }
 
 
@@ -73,7 +70,7 @@ void A_Star::initializeExploredSet() {
 }
 
 
-bool A_Star::goalTest(const Node * const _node) {
+bool A_Star::goalTest(Node *_node) {
   int goalConfiguration[9] = {1,2,3,4,5,6,7,8,0};
   Board goalState(goalConfiguration);
 
@@ -83,37 +80,33 @@ bool A_Star::goalTest(const Node * const _node) {
   return false;
 }
 
+
 void A_Star::expandAndAddToFrontier(Node* _node) {
-  Node child;
 
-  child = childNode(_node, MOVE::UP);
-  if (!m_frontierOrExploredSet.find(child)) {
-    m_frontierOrExploredSet.insert(child);
-    m_frontierPQueue.insert(child);
-  }
+  const MOVE ALL_MOVES[] = {MOVE::UP, MOVE::DOWN, MOVE::LEFT, MOVE::RIGHT};
 
-  child = childNode(_node, MOVE::DOWN);
-  if (!m_frontierOrExploredSet.find(child)) {
-    m_frontierOrExploredSet.insert(child);
-    m_frontierPQueue.insert(child);
-  }
+  // Generate child nodes.
+  for(unsigned int moveNumber = 0; moveNumber < 4; moveNumber++) {
 
-  child = childNode(_node, MOVE::LEFT);
-  if (!m_frontierOrExploredSet.find(child)) {
-    m_frontierOrExploredSet.insert(child);
-    m_frontierPQueue.insert(child);
-  }
+    Node *ptrChildNode = childNode(_node, ALL_MOVES[moveNumber]);
 
-  child = childNode(_node, MOVE::RIGHT);
-  if (!m_frontierOrExploredSet.find(child)) {
-    m_frontierOrExploredSet.insert(child);
-    m_frontierPQueue.insert(child);
-  }
+    // Do not add the child node to the fronteir if the child is already
+    //  in the frontier or in the explored set.
+    if (!m_frontierOrExploredSet.find(child)) {
+      m_frontierOrExploredSet.insert(ptrChildNode->getBoard());
+      m_frontierPQueue.insert(ptrChildNode);
+    } else {
+      delete ptrChildNode;
+    }
+
+  } // End of for loop.
 }
 
-Node A_Star::childNode(Node* _parentNode, MOVE action)
+Node* A_Star::childNode(Node* _parentNode, MOVE _move)
 {
-  Node child;
+  Node *child = new Node(_parentNode->board);
+  child->setParent(_parentNode);
+  child->result(_move);
   return child;
 }
 

@@ -1,13 +1,11 @@
-/*!
- * A_Star.h
- * \author Rick Boshae
- * \version 2.0
- * \date 2019-01-11
- * \bug code requires testing.
- *
- * \brief A_Star.h provides an abstraction for A* search algorithm.
- *
- */
+// A_Star.h
+// Author Rick Boshae
+// Version 2.0
+// Date 2019-01-11
+// Bug code requires testing.
+//
+// brief A_Star.h provides an abstraction for A* search algorithm.
+
 #include "Board.h"
 #include "Node.h"
 #include <set>
@@ -30,10 +28,6 @@ public:
 
 private:
 
-  // The underlying structure that will hold all nodes generted. This
-  // structure is also necessary to return the solution trace.
-  vector<Node> m_graph;
-
   // PQ ordered by the Node with the lowest cost.
   priority_queue<Node*> m_frontierPQueue;
 
@@ -51,7 +45,7 @@ private:
   void initializeFrontier(Board &_startingBoard);
   void initializeExploredSet();
   bool goalTest(Node *_node);
-  void expandAndAddToFrontier(Node* _node);
+  void expandAndAddToFrontier(Node *_node);
   Node childNode(Node* _parentNode, MOVE action);
 
 };
