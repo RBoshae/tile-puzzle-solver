@@ -6,12 +6,13 @@
 *
 */
 
+#ifndef __NODE_H__
+#define __NODE_H__
+
 #include "Board.h"
 #include <string>
 #include <vector>
 
-#ifndef __NODE_H__
-#define __NODE_H__
 class Node
 {
 public:
@@ -25,20 +26,20 @@ public:
 
   Node* getParent();
 
-  int	  getPathCost();
-  int   getHeuristicCost();
-  int	  getTotalCost();
-  Board getBoard();
+  int	  getPathCost() const;
+  int   getHeuristicCost() const;
+  int	  getTotalCost() const;
+  Board getBoard() const;
 
   // Applies move to board state. Returns true if action is valid.
   // Returns false if the action is invalid.
   bool result(MOVE _action);
 
   // overloaded < operator
-  bool operator <(const Node& _node);
+  bool operator <(const Node& _rhsNode);
 
 private:
-  Board   m_boardState;      	  // Contains copy of Board
+  Board   m_board;      	      // Contains copy of Board
   Node*   m_parent;          	  // Pointer to parent node.
   string  m_actionDesc;         // Description of move applied to parent to
                                 // reach current state.

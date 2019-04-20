@@ -46,6 +46,6 @@ private:
   void initializeExploredSet();
   bool goalTest(Node *_node);
   void expandAndAddToFrontier(Node *_node);
-  Node childNode(Node* _parentNode, MOVE action);
+  Node* childNode(Node* _parentNode, MOVE action);
 
 };

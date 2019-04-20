@@ -45,7 +45,8 @@ public:
   // Possible actions: UP, DOWN, LEFT, RIGHT.
 	bool move(MOVE _move);
 
-	bool operator==(const Board &other) const;
+	bool operator ==(const Board &other) const;
+	bool operator <(const Board &other) const;
 
 private:
 	int m_boardConfiguration[NUMBER_OF_TILES];

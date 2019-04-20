@@ -3,12 +3,11 @@
 
 Node::Node()
 :
-  m_board(),
   m_parent(nullptr),
-  m_moveDesc(""),
+  m_actionDesc(""),
   m_pathCost(0),
-  m_heuristicCost(),
-  m_totalCost()
+  m_heuristicCost(0),
+  m_totalCost(0)
 {
 }
 
@@ -17,21 +16,10 @@ Node::Node(Board const &_board, int _heuristicCost)
 :
   m_board(_board),
   m_parent(nullptr),
-  m_moveDesc(""),
+  m_actionDesc(""),
   m_pathCost(0),
   m_heuristicCost(_heuristicCost),
   m_totalCost(_heuristicCost)
-{
-}
-
-Node::Node(Board const &_board, int _heuristicCost, Node const &_parent,  string const _moveApplied)
-:
-  m_board(_board),
-  m_parent(_parent),
-  m_moveDesc(_moveApplied),
-  m_pathCost(_parent->getPathCost+1),
-  m_heuristicCost(_heuristicCost),
-  m_totalCost(m_pathCost+m_heuristicCost)
 {
 }
 
@@ -43,33 +31,31 @@ void Node::setParent(Node *_parent) {
   m_parent = _parent;
 }
 
-Node* Node::getParent() {
+Node* Node::getParent() const {
 	return m_parent;
 }
 
-int Node::getPathCost()
-{
+int Node::getPathCost() const {
 	return m_pathCost;
 }
 
-int Node::getHeuristicCost()
-{
+int Node::getHeuristicCost() const {
 	return m_heuristicCost;
 }
 
-int Node::getTotalCost()
+int Node::getTotalCost() const
 {
 	return m_totalCost;
 }
 
 
-Board Node::getBoard() {
-	return node_board;
+Board Node::getBoard() const {
+	return m_board;
 }
 
 
 bool Node::result(MOVE _action) {
-  bool validMove = m_boardState.move(_action);
+  bool validMove = m_board.move(_action);
 
   // Update move description.
   if (validMove) {
@@ -90,17 +76,18 @@ bool Node::result(MOVE _action) {
         m_actionDesc = "Move Right.";
         break;
       }
-      case default: {
+      default: {
         break;
       }
     }
-
   }
+
+  return validMove;
 }
 
 // overloaded < operator
-bool Node::operator <(const Node& _node) {
-   if(m_totalCost < _node.getTotalCost()) {
+bool Node::operator <(const Node& _rhsNode) {
+   if(m_totalCost < _rhsNode.getTotalCost()) {
       return true;
    }
    return false;

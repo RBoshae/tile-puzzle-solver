@@ -161,6 +161,19 @@ bool Board::operator==(const Board& other) const {
 	return isIdentical;
 }
 
+
+// overloaded == operator
+bool Board::operator<(const Board& other) const {
+
+	for (int i = 0; i < NUMBER_OF_TILES; i++) {
+		if (this->m_boardConfiguration[i] < other.m_boardConfiguration[i]) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 // Private Function Definitions.
 void Board::findAndSetBlankTileLocation() {
 	for (int location = 0; location < NUMBER_OF_TILES; location++) {
