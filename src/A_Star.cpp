@@ -74,41 +74,42 @@ bool A_Star::containsGoalState(Node *_node) {
 void A_Star::expandAndAddToFrontier(Node* _node) {
   Node child;
   child = childNode(_node, MOVE::UP);
-  if (!m_frontierOrExploredSet.find(child)) {
-    m_frontierOrExploredSet.insert(child);
-    m_frontierQueue.insert(child);
-  }
-  child = childNode(_node, MOVE::DOWN);
-  if (!m_frontierOrExploredSet.find(child)) {
-    m_frontierOrExploredSet.insert(child);
-    m_frontierQueue.insert(child);
-  }
-  child = childNode(_node, MOVE::LEFT);
-  if (!m_frontierOrExploredSet.find(child)) {
-    m_frontierOrExploredSet.insert(child);
-    m_frontierQueue.insert(child);
-  }
-  child = childNode(_node, MOVE::RIGHT);
-  if (!m_frontierOrExploredSet.find(child)) {
-    m_frontierOrExploredSet.insert(child);
-    m_frontierQueue.insert(child);
-  }
+
+  // if (!(m_frontierOrExploredSet.find(child.getBoard()) == )) {
+  //   m_frontierOrExploredSet.insert(child.getBoard());
+  //   m_frontierQueue.insert(child);
+  // }
+  // child = childNode(_node, MOVE::DOWN);
+  // if (!m_frontierOrExploredSet.find(child.getBoard())) {
+  //   m_frontierOrExploredSet.insert(child.getBoard());
+  //   m_frontierQueue.insert(child);
+  // }
+  // child = childNode(_node, MOVE::LEFT);
+  // if (!m_frontierOrExploredSet.find(child.getBoard())) {
+  //   m_frontierOrExploredSet.insert(child.getBoard());
+  //   m_frontierQueue.insert(child);
+  // }
+  // child = childNode(_node, MOVE::RIGHT);
+  // if (!m_frontierOrExploredSet.find(child.getBoard())) {
+  //   m_frontierOrExploredSet.insert(child.getBoard());
+  //   m_frontierQueue.insert(child);
+  // }
 }
 
-Node A_Star::childNode(Node const &_parentNode, MOVE action)
+Node A_Star::childNode(Node* _parentNode, MOVE action)
 {
-  Node childNode()
-  retrun childNode;
+  Node child;
+  return child;
 }
 
 
-class Compare {
-public:
-  bool operator()(Node _leftNode, Node _rightNode)
-  {
-    if (_leftNode.getCost() < _rightNode.getCost())
-    {
-      return true;
-    }
-  }
-};
+// class Compare {
+// public:
+//   bool operator()(Node _leftNode, Node _rightNode)
+//   {
+//     if (_leftNode.getCost() < _rightNode.getCost())
+//     {
+//       return true;
+//     }
+//   }
+// };
