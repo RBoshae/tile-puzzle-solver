@@ -24,7 +24,7 @@ public:
 
   void  setParent(Node* _parent);
 
-  Node* getParent();
+  Node* getParent() const;
 
   int	  getPathCost() const;
   int   getHeuristicCost() const;

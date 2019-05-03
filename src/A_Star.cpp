@@ -92,7 +92,8 @@ void A_Star::expandAndAddToFrontier(Node* _node) {
 
     // Do not add the child node to the fronteir if the child is already
     //  in the frontier or in the explored set.
-    if (m_frontierOrExploredSet.find(ptrChildNode->getBoard())) {
+    m_frontierOrExploredSet.find(ptrChildNode->getBoard());
+    if (true) {
       m_frontierOrExploredSet.insert(ptrChildNode->getBoard());
       m_frontierPQueue.push(ptrChildNode);
     } else {
