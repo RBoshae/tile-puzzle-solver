@@ -37,8 +37,6 @@ using namespace std;
 // 	}
 // };
 
-enum class HEURISTIC {MISPLACED_TILE, MANHATTAN_DISTANCE, UNIFORM_COST_SEARCH, ALL};
-
 // Forward Function Declarations.
 void startMenu();
 void chooseBoard(Board *_board);						// calls interface for user to interact with program.
@@ -69,30 +67,8 @@ int main() {
 	chooseBoard(&userBoard);												// Set up board.
 	HEURISTIC heuristicChoice = chooseHeuristic();	// Pick hearistic to use.
 
-	switch (heuristicChoice) {
-		case HEURISTIC::MISPLACED_TILE:
-			astar.misplacedTile(&userBoard);
-		break;
-
-		case HEURISTIC::MANHATTAN_DISTANCE:
-			astar.manhattanDistance(&userBoard);
-		break;
-
-		case HEURISTIC::UNIFORM_COST_SEARCH:
-			astar.uniformCostSearch(&userBoard);
-		break;
-
-		case HEURISTIC::ALL:
-			astar.misplacedTile(&userBoard);
-			astar.manhattanDistance(&userBoard);
-			astar.uniformCostSearch(&userBoard);
-		break;
-
-		default:
-			cerr << "Something went wrong." << endl;
-		break;
-	}
-
+  astar.startGraphSearch(userBoard, heuristicChoice);
+  
 	cout << "Goal State Reached. Would you like to see the solution?(y/n): ";
 	cin >> userInput;
 	if (userInput == "y")

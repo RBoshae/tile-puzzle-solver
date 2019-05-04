@@ -17,14 +17,16 @@ A_Star::~A_Star(){
   // Stub
 }
 
-Node* A_Star::startGraphSearch(Board &_board) {
+Node* A_Star::startGraphSearch(Board const &_initialState,
+                               HEURISTIC _hearisticOption) {
 
   Node* ptrChosenNode;
 
   // Initialize the frontier using the initial state of the problem.
-  initializeFrontier(_board);
+  initializeFrontier(_initialState);
   initializeExploredSet();
 
+  cout << "Starting seach." << endl;
   // Start processing the frontier using the graph search algorithm.
   while(!m_frontierPQueue.empty()) {
 
@@ -42,7 +44,7 @@ Node* A_Star::startGraphSearch(Board &_board) {
 
     // Expand the chose node, adding the resulting nodes to the frontier
     // only if not in the frontier or explored set.
-    expandAndAddToFrontier(ptrChosenNode);
+    expandAndAddToFrontier(*ptrChosenNode);
 
   }
 
@@ -53,15 +55,17 @@ void A_Star::printSolution(){
   // TODO: Stub
 }
 
-void A_Star::initializeFrontier(Board &_startingBoard) {
+void A_Star::initializeFrontier(Board const &_startingBoard) {
 
+  cout << "Initializing..." << endl;
   // Empty the priority queue.
   while(!m_frontierPQueue.empty()) {
     m_frontierPQueue.pop();
   }
 
-  Node *ptrInitialNode = new Node(_startingBoard);
-  m_frontierPQueue.push(ptrInitialNode);
+  Node* pInitialBoard = new Node(_startingBoard);
+
+  m_frontierPQueue.push(pInitialBoard);
 }
 
 
@@ -81,14 +85,14 @@ bool A_Star::goalTest(Node *_node) {
 }
 
 
-void A_Star::expandAndAddToFrontier(Node* _node) {
+void A_Star::expandAndAddToFrontier(Node &_node) {
 
   const MOVE ALL_MOVES[] = {MOVE::UP, MOVE::DOWN, MOVE::LEFT, MOVE::RIGHT};
 
   // Generate child nodes.
   for(unsigned int moveNumber = 0; moveNumber < 4; moveNumber++) {
 
-    Node *ptrChildNode = childNode(_node, ALL_MOVES[moveNumber]);
+    Node *ptrChildNode = createChildNode(_node, ALL_MOVES[moveNumber]);
 
     // Do not add the child node to the fronteir if the child is already
     //  in the frontier or in the explored set.
@@ -103,10 +107,10 @@ void A_Star::expandAndAddToFrontier(Node* _node) {
   } // End of for loop.
 }
 
-Node* A_Star::childNode(Node* _parentNode, MOVE _move)
+Node* A_Star::createChildNode(Node &_parentNode, MOVE _move)
 {
-  Node *child = new Node(_parentNode->getBoard());
-  child->setParent(_parentNode);
+  Node *child = new Node(_parentNode.getBoard());
+  child->setParent(&_parentNode);
   child->result(_move);
   return child;
 }

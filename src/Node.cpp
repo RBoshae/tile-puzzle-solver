@@ -27,12 +27,20 @@ Node::~Node()
 {
 }
 
-void Node::setParent(Node *_parent) {
+void Node::setParent(Node * _parent) {
   m_parent = _parent;
 }
 
 Node* Node::getParent() const {
 	return m_parent;
+}
+
+void Node::setChild(Node * _child) {
+  m_children.push_back(_child);
+}
+
+vector<Node*> Node::getChildren() const {
+	return m_children;
 }
 
 int Node::getPathCost() const {

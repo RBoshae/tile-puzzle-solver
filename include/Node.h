@@ -22,9 +22,11 @@ public:
 
 	~Node();
 
-  void  setParent(Node* _parent);
-
+  void  setParent(Node * _parent);
   Node* getParent() const;
+
+  void          setChild(Node * _child);
+  vector<Node*> getChildren() const;
 
   int	  getPathCost() const;
   int   getHeuristicCost() const;
@@ -36,16 +38,16 @@ public:
   bool result(MOVE _action);
 
   // overloaded < operator
-  bool operator <(const Node& _rhsNode);
+  bool operator <(Node const &_rhsNode);
 
 private:
-  Board   m_board;      	      // Contains copy of Board
-  Node*   m_parent;          	  // Pointer to parent node.
-  string  m_actionDesc;         // Description of move applied to parent to
-                                // reach current state.
-  int     m_pathCost;           // Also known as g(n).
-  int     m_heuristicCost;      // Also known as h(n).
-	int     m_totalCost;		   	  // Contains value of f(n)
+  Board         m_board;      	      // Board state.
+  Node *         m_parent;          	  // Pointer to parent node.
+  vector<Node*> m_children;           // Pointer to child node.
+  string        m_actionDesc;         // Move applied to reach current state.
+  int           m_pathCost;           // Also known as g(n).
+  int           m_heuristicCost;      // Also known as h(n).
+	int           m_totalCost;		   	  // Contains value of f(n)
 
 
 };

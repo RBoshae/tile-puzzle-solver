@@ -30,7 +30,7 @@ public:
 	~Board();
 
   // Returns true if board was changed. Returns false is board was not changed.
-  // The board will not change to set values if the illegal
+  // The board will not change to set values if illegal
   // values/placement is detected.
 	bool set(int _boardConfig[NUMBER_OF_TILES]);
 
