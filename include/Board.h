@@ -50,7 +50,7 @@ public:
 
 private:
 	int m_boardConfiguration[NUMBER_OF_TILES];
-	int m_blankTileLocation;
+	int m_blankTileIndex;
 
 	void findAndSetBlankTileLocation();
 };

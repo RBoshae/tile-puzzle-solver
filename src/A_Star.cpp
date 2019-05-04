@@ -23,14 +23,16 @@ Node* A_Star::startGraphSearch(Board const &_initialState,
   Node* ptrChosenNode;
 
   // Initialize the frontier using the initial state of the problem.
+  cout << "Initializing..." << endl;
   initializeFrontier(_initialState);
   initializeExploredSet();
 
-  cout << "Starting seach." << endl;
+  cout << "Starting seach." << endl << endl;
   // Start processing the frontier using the graph search algorithm.
   while(!m_frontierPQueue.empty()) {
 
     // Take a node from the front of the frontier priority queue.
+
     ptrChosenNode = m_frontierPQueue.top();
     m_frontierPQueue.pop();
 
@@ -44,6 +46,8 @@ Node* A_Star::startGraphSearch(Board const &_initialState,
 
     // Expand the chose node, adding the resulting nodes to the frontier
     // only if not in the frontier or explored set.
+    cout << "Expanding node:" << endl;
+    ptrChosenNode->getBoard().print();
     expandAndAddToFrontier(*ptrChosenNode);
 
   }
@@ -57,7 +61,6 @@ void A_Star::printSolution(){
 
 void A_Star::initializeFrontier(Board const &_startingBoard) {
 
-  cout << "Initializing..." << endl;
   // Empty the priority queue.
   while(!m_frontierPQueue.empty()) {
     m_frontierPQueue.pop();

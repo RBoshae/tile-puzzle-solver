@@ -24,7 +24,7 @@ bool checkConfig(int *_boardConfig)
 
 Board::Board()
 {
-	// Abstractr representation of board.
+	// Abstract representation of board.
 	//  -------
 	//	|0|1|2|
 	//  |-+-+-|
@@ -42,19 +42,12 @@ Board::Board()
 	m_boardConfiguration[8] = 8;
 	m_boardConfiguration[6] = 0;
 
-	m_blankTileLocation = 6;				// Store location of blank tile.
+	m_blankTileIndex = 6;				// Store location of blank tile.
 }
 
 Board::Board(int _boardConfiguration[NUMBER_OF_TILES])
 {
-	assert(::checkConfig(_boardConfiguration));
-
-	for(int i = 0; i < NUMBER_OF_TILES; i++) {
-		m_boardConfiguration[i] = _boardConfiguration[i];
-		if(_boardConfiguration[i] == 0) {
-			m_blankTileLocation = i;
-		}
-	}
+	set(_boardConfiguration);
 }
 
 
@@ -68,7 +61,7 @@ bool Board::set(int _boardConfiguration[NUMBER_OF_TILES])
 		for(int i = 0; i < NUMBER_OF_TILES; i++){
 			m_boardConfiguration[i] = _boardConfiguration[i];
 			if(_boardConfiguration[i] == 0) {
-				m_blankTileLocation = i;
+				m_blankTileIndex = i;
 			}
 		}
 		return true;
@@ -95,36 +88,70 @@ void Board::print()
 	return;
 }
 
+
+// Abstract representation of board.
+//  -------
+//	|0|1|2|
+//  |-+-+-|
+//	|3|4|5|
+//  |-+-+-|
+//  |6|7|8|
+//  -------
 bool Board::move(MOVE action)
 {
 	bool moveApplied = false;
 	switch (action)
 	{
 	case (MOVE::UP): //up
-		if (m_blankTileLocation - 4 > 0) {
-			m_boardConfiguration[m_blankTileLocation] = m_boardConfiguration[m_blankTileLocation-4];
-			m_blankTileLocation = m_blankTileLocation - 4;
+		//  -------
+		//	|3|1|2|
+		//  |-+-+-|
+		//	|0|4|5|
+		//  |-+-+-|
+		//  |6|7|8|
+		//  -------
+		if (m_blankTileIndex > 2) {
+			// Move non-blank tile to blank tile location.
+			m_boardConfiguration[m_blankTileIndex] = m_boardConfiguration[m_blankTileIndex-3];
+
+			// Set blank tile.
+			m_blankTileIndex = m_blankTileIndex - 3;
+			m_boardConfiguration[m_blankTileIndex] = 0;
 			moveApplied = true;
 		}
 		break;
 	case (MOVE::DOWN): //down
-	if (m_blankTileLocation + 4 < NUMBER_OF_TILES) {
-		m_boardConfiguration[m_blankTileLocation] = m_boardConfiguration[m_blankTileLocation+4];
-		m_blankTileLocation = m_blankTileLocation + 4;
+		//  -------
+		//	|3|1|2|
+		//  |-+-+-|
+		//	|0|4|5|
+		//  |-+-+-|
+		//  |6|7|8|
+		//  -------
+	if (m_blankTileIndex + 3 < NUMBER_OF_TILES - 1) {
+		// Move non-blank tile to blank tile location.
+		m_boardConfiguration[m_blankTileIndex] = m_boardConfiguration[m_blankTileIndex+3];
+
+		// Set blank tile.
+		m_blankTileIndex = m_blankTileIndex + 3;
+		m_boardConfiguration[m_blankTileIndex] = 0;
 		moveApplied = true;
 	}
 		break;
 	case (MOVE::LEFT): //left
-	if (m_blankTileLocation - 1 > 0) {
-		m_boardConfiguration[m_blankTileLocation] = m_boardConfiguration[m_blankTileLocation-1];
-		m_blankTileLocation = m_blankTileLocation - 1;
+	if (m_blankTileIndex%3 != 0) {
+		// Move non-blank tile to blank tile location.
+		m_boardConfiguration[m_blankTileIndex] = m_boardConfiguration[m_blankTileIndex-1];
+		m_blankTileIndex = m_blankTileIndex - 1;
+		m_boardConfiguration[m_blankTileIndex] = 0;
 		moveApplied = true;
 	}
 		break;
 	case (MOVE::RIGHT): //right
-	if (m_blankTileLocation + 1 > 0) {
-		m_boardConfiguration[m_blankTileLocation] = m_boardConfiguration[m_blankTileLocation+1];
-		m_blankTileLocation = m_blankTileLocation + 1;
+	if ((m_blankTileIndex + 1)%3 != 0) {
+		m_boardConfiguration[m_blankTileIndex] = m_boardConfiguration[m_blankTileIndex+1];
+		m_blankTileIndex = m_blankTileIndex + 1;
+		m_boardConfiguration[m_blankTileIndex] = 0;
 		moveApplied = true;
 	}
 		break;
@@ -140,12 +167,7 @@ void Board::randomize()
 {
 	random_shuffle(std::begin(m_boardConfiguration), std::end(m_boardConfiguration));
 	// find blank tile _location
-	for (int location = 0; location < NUMBER_OF_TILES; location++) {
-		if(m_boardConfiguration[location] == 0){
-			m_blankTileLocation = location;
-			break;
-		}
-	}
+	findAndSetBlankTileLocation();
 	return;
 }
 
@@ -176,9 +198,9 @@ bool Board::operator<(const Board& other) const {
 
 // Private Function Definitions.
 void Board::findAndSetBlankTileLocation() {
-	for (int location = 0; location < NUMBER_OF_TILES; location++) {
-		if (this->m_boardConfiguration[location] == 0) {
-			m_blankTileLocation = location;
+	for (int index = 0; index < NUMBER_OF_TILES; index++) {
+		if (this->m_boardConfiguration[index] == 0) {
+			m_blankTileIndex = index;
 			break;
 		}
 	}
