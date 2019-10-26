@@ -39,8 +39,8 @@ using namespace std;
 
 // Forward Function Declarations.
 void startMenu();
-void chooseBoard(Board *_board);						// calls interface for user to interact with program.
-void setBoardFromUserInput(Board *_board);				// prompts user for input to set board. returns set board.
+void chooseBoard(Board* _board);            // calls interface for user to interact with program.
+void setBoardFromUserInput(Board* _board);  // prompts user for input to set board. returns set board.
 HEURISTIC chooseHeuristic();
 
 // bool graph_search(Board b, int heuristic_decision);
@@ -59,15 +59,15 @@ HEURISTIC chooseHeuristic();
 // double Misplaced_Tile_Avg_PQ;
 
 int main() {
-	Board userBoard;																// The board the program will solve.
+	Board board;  // The board the program will solve.
 	A_Star astar;
 	string userInput;
 
-	startMenu();																		// Provide program information to user.
-	chooseBoard(&userBoard);												// Set up board.
-	HEURISTIC heuristicChoice = chooseHeuristic();	// Pick hearistic to use.
+	startMenu();                                    // Provide program information to user.
+	chooseBoard(&board);                            // Set up board.
+	HEURISTIC heuristicChoice = chooseHeuristic();  // Pick hearistic to use.
 
-  astar.startGraphSearch(userBoard, heuristicChoice);
+	astar.startGraphSearch(board, heuristicChoice);
   
 	cout << "Goal State Reached. Would you like to see the solution?(y/n): ";
 	cin >> userInput;
@@ -85,21 +85,25 @@ int main() {
  * Usage: 	 main_menu();
  * --------------------------------
  * main_menu is the interface provided to the user to interact with the program.
- * The user is greeted and given three options: Default Puzzle, Custom Puzzle, or Quit.
- * The Default Puzzle option uses a computer-generated board. The Custom Puzzle option
- * allows the user to input their own board. Quit exits the program.
+ * The user is greeted and given three options: Default Puzzle, Custom Puzzle,
+ * or Quit. The Default Puzzle option uses a computer-generated board. The 
+ * Custom Puzzle option allows the user to input their own board. Quit exits the
+ * program.
  *
- * The following menu prompts the user to choose a heuristic to use for A* search.
- * At present there are three options: Uniform Cost Search (the slowest), Misplaced Tile,
- * or Manhattan Distance. There is also a secret fourth option to test all heuristics.
+ * The following menu prompts the user to choose a heuristic to use for A* 
+ * search. At present there are three options: Uniform Cost Search (the  
+ * slowest), Misplaced Tile, or Manhattan Distance. There is also a secret 
+ * fourth option to test all heuristics.
  *
- * After the user has chosen their desired heuristic the program proceeds to solve the
- * the 8-tile puzzle. Each best state board is outputted to the terminal before it is expanded.
- * Stats are also shown to indicate the g(n), h(n), and f(n) values ate each state.
+ * After the user has chosen their desired heuristic the program proceeds to 
+ * solve the 8-tile puzzle. Each best state board is outputted to the terminal
+ * before it is expanded. Stats are also shown to indicate the g(n), h(n), and 
+ * f(n) values ate each state.
  *
- * When a goal state is reached the program outputs the total number of nodes expanded. The
- * maximum number of nodes in queue at any one time. The depth of the goal node. Finally the
- * user if asked if they would like to view the solution trace.
+ * When a goal state is reached the program outputs the total number of nodes 
+ * expanded. The maximum number of nodes in queue at any one time. The depth of 
+ * the goal node. Finally the user if asked if they would like to view the 
+ * solution trace.
  */
 
 void startMenu() {
@@ -128,35 +132,37 @@ void startMenu() {
 	cin.ignore();
 	cout << endl;
 	cout << "--------------------------------------------------------------------------------"<< endl << endl;
-} // End of startMenu.
+}  // End of startMenu.
 
 void chooseBoard(Board* _board){
 
-	const int NUMBER_OF_TILES = 9;
-	int userInput;		 	        					// stores menu option inputted by user.
-	char userInput_c;							// stores alpha input from user.
-	int tempBoardConfig[NUMBER_OF_TILES];	// Stores user defined board.
+	// const int NUMBER_OF_TILES = 9;
+	int userInput;                         // stores menu option inputted by user.
+	// int tempBoardConfig[NUMBER_OF_TILES];  // Stores user defined board.
+	char userInput_c;                      // stores alpha input from user.
 
 	cout << endl;
-	cout << "What type of puzzle would you like to use?"       	                                   	  << endl;
+	cout << "What type of puzzle would you like to use?"  << endl;
 	cout << endl;
-	cout << "Choose from the following:"								       	                              << endl << endl;
-	cout << "  1 \tEnter a custom puzzle."      			                                               	<< endl;
-	cout << "  2 \tGenerate a random puzzle."                                                       	<< endl;
-	cout << "  3 \tUse the default puzzle"                                                    << endl << endl;
+	
+	cout << "Choose from the following:"       << endl << endl;
+	cout << "  1 \tEnter a custom puzzle."     << endl;
+	cout << "  2 \tGenerate a random puzzle."  << endl;
+	cout << "  3 \tUse the default puzzle"     << endl << endl;
 	cout << "What'll it be: ";
 	cin >> userInput;
 
 
- 	// Validate user input. If userInput is invalid try again, otherwise continue.
- 	while (cin.fail() || userInput > 3 || userInput < -1) {		 // cin.fail() checks to see if the value in the
- 																														 // cin stream is the correct type, if not returns
- 																														 // true, otherwise false. Additional or statament
- 																														 // validates the user seleceted an available
- 																														 // option.
+ 	// Validate user input. If userInput is invalid try again, otherwise 
+	// continue.
+ 	while (cin.fail() || userInput > 3 || userInput < -1) {		// cin.fail() checks to see if the value in the
+																// cin stream is the correct type, if not returns
+																// true, otherwise false. Additional or statament
+																// validates the user seleceted an available
+																// option.
 
- 			cin.clear();                                           // cin.clear() corrects the stream
- 			cin.ignore();                                          // cin.ignore() skips the left over stream data
+ 			cin.clear();   // cin.clear() corrects the stream
+ 			cin.ignore();  // cin.ignore() skips the left over stream data
  			cout << "Please be sure to enter 1, 2, or 3 only." << endl;
  			cout << "So, what'll it be: ";
  			cin >> userInput;
@@ -165,8 +171,9 @@ void chooseBoard(Board* _board){
  	cout << "--------------------------------------------------------------------------------"	<< endl << endl;
 
 
- 	// Confirm userInput. If userInput selected Default Puzzle option print the puzzle to the display.
- 	// If user selected custom puzzle call .setBoard() to input custom puzzle. If selected quit, exit program.
+ 	// Confirm userInput. If userInput selected Default Puzzle option print the 
+ 	// puzzle to the display. If user selected custom puzzle call setBoard() to 
+	// input custom puzzle. If selected quit, exit program.
  	switch (userInput)
  	{
  		case 1: {
@@ -175,13 +182,13 @@ void chooseBoard(Board* _board){
  			cout << "To set your board start by entering one digit at a time. Once you've      " << endl;
  			cout << "entered the digit press enter. Continue entering digits until the board is" << endl;
  			cout << "is filled. Be sure you enter a digit between 0-9 and do not enter the same" << endl;
- 			cout << "digit twice. Use 0 to represent the blank tile."									   << endl << endl;
- 			cout << "Set your board: "																									 				 << endl;
+ 			cout << "digit twice. Use 0 to represent the blank tile."                            << endl << endl;
+ 			cout << "Set your board: "                                                           << endl;
 
 			do {
 				setBoardFromUserInput(_board);
 
-				_board->set(tempBoardConfig);
+				// _board->set(tempBoardConfig);
 
 				cout << "Your board has been set. Here is what it looks like: " << endl << endl;
 				_board->print();
@@ -222,16 +229,16 @@ void chooseBoard(Board* _board){
 // Helper Functions
 void setBoardFromUserInput(Board *_board) {
 	int tempBoardConfig[NUMBER_OF_TILES];
-	for (int i = 0; i < NUMBER_OF_TILES; i++) {
+	for (int tile = 0; tile < NUMBER_OF_TILES; tile++) {
 
 		cout << "Enter value: ";
-		cin >> tempBoardConfig[i];
+		cin >> tempBoardConfig[tile];
 		cout << endl;
 
 		cout << "Your board:" << endl;
 		// Reprint board.
 		for (int j = 0; j < NUMBER_OF_TILES; j++) {
-			if (j <= i){
+			if (j <= tile){
 				if (tempBoardConfig[j] == 0) {
 					cout << "b ";
 				} else {
@@ -247,9 +254,9 @@ void setBoardFromUserInput(Board *_board) {
 		cout << endl;
 
 		// Ensure user did not input the same digit twice
-		for(int j = 0; j < i; j++) {
-			if (tempBoardConfig[j] == tempBoardConfig[i]) {
-				cout << "You already picked number " << tempBoardConfig[i] << ". Please ";
+		for(int j = 0; j < tile; j++) {
+			if (tempBoardConfig[j] == tempBoardConfig[tile]) {
+				cout << "You already picked number " << tempBoardConfig[tile] << ". Please ";
 				cout << "pick a different number." << endl << endl;
 				//
 				// // Reprint board.
@@ -258,9 +265,9 @@ void setBoardFromUserInput(Board *_board) {
 				// 	if (i%3 == 0 && j !=0) {
 				// 		cout << endl;
 				// 	}
-				i--; // Let user reenter value.
+				tile--; // Let user reenter value.
 				break;
-			} else if (tempBoardConfig[i] < 0 || tempBoardConfig[i]>(NUMBER_OF_TILES-1)) {
+			} else if (tempBoardConfig[tile] < 0 || tempBoardConfig[tile]>(NUMBER_OF_TILES-1)) {
 				cout << "Be sure to pick a number between 0-8" << endl;
 				//
 				// // Reprint board.
@@ -269,7 +276,7 @@ void setBoardFromUserInput(Board *_board) {
 				// 	if (i%3 == 0 && j !=0) {
 				// 		cout << endl;
 				// 	}
-				i--;
+				tile--;
 				break;
 			}
 		}
