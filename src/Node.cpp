@@ -3,20 +3,20 @@
 
 Node::Node()
 :
-  m_parent(nullptr),
-  m_actionDesc(""),
-  m_pathCost(0),
-  m_heuristicCost(0),
-  m_totalCost(0)
+  m_parent{nullptr},
+  m_actionDesc{""},
+  m_pathCost{0},
+  m_heuristicCost{0},
+  m_totalCost{0}
 {
 }
 
 
-Node::Node(Board const &_board, int _heuristicCost)
+Node::Node(Board const &_board, int _heuristicCost = 0)
 :
   m_board(_board),
   m_parent(nullptr),
-  m_actionDesc(""),
+  m_actionDesc("Initial State."),
   m_pathCost(0),
   m_heuristicCost(_heuristicCost),
   m_totalCost(_heuristicCost)
@@ -27,11 +27,11 @@ Node::~Node()
 {
 }
 
-void Node::setParent(Node * _parent) {
+void Node::setParent(const Node* const _parent) {
   m_parent = _parent;
 }
 
-Node* Node::getParent() const {
+const Node* Node::getParent() const {
 	return m_parent;
 }
 

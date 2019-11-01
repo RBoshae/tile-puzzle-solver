@@ -22,10 +22,10 @@ public:
 
 	~Node();
 
-  void  setParent(Node * _parent);
-  Node* getParent() const;
+  void  setParent(const Node* const _parent);
+  const Node* getParent() const;
 
-  void          setChild(Node * _child);
+  void          setChild(Node* _child);
   vector<Node*> getChildren() const;
 
   int	  getPathCost() const;
@@ -42,7 +42,7 @@ public:
 
 private:
   Board         m_board;      	      // Board state.
-  Node *         m_parent;          	  // Pointer to parent node.
+  const Node*   m_parent;          	  // Pointer to parent node.
   vector<Node*> m_children;           // Pointer to child node.
   string        m_actionDesc;         // Move applied to reach current state.
   int           m_pathCost;           // Also known as g(n).

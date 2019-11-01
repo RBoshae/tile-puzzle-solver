@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "Node.h"
+#include "Board.h"
 
 enum class HEURISTIC {
 	MISPLACED_TILE, 
@@ -24,9 +25,9 @@ public:
 	~A_Star();
 
 	// Returns the solution to the problem.
-	Node* search(
-		const Node& _initialNode,
-		HEURISTIC   _hearisticOption 
+	Node* graphSearch(
+		const Board& _boardProblem,
+		HEURISTIC   _hearisticChoice 
 	);
 
 	void printSolution();
@@ -40,7 +41,7 @@ private:
 	priority_queue<Node*> m_frontierPQueue;
 
 	// Tracks states that have already been expanded or in the frontier.
-	set<Node> m_frontierOrExploredSet;
+	set<Board> m_frontierOrExploredSet;
 
 	// Pointer to goal node containing the goal state.
 	Node* m_goalNode;
@@ -51,10 +52,10 @@ private:
   int m_goalDepth;
 
 
-  void   initializeFrontier(const Node& _startingBoard);
+  void   initializeFrontier(const Board& _initialBoard);
   void   initializeExploredSet();
-  bool   goalTest(const Node& _node);
-  void   expandAndAddToFrontier(Node &_node);
-  Node*  createChildNode(const Node &_parentNode, MOVE action);
+  bool   containsGoalState(const Node* const _node);
+  void   expandAndAddToFrontier(const Node* const _node);
+  Node*  createChildNode(const Node* const _parentNode, MOVE action);
 
 };
