@@ -39,8 +39,8 @@ using namespace std;
 
 // Forward Function Declarations.
 void startMenu();
-void chooseBoard(Board* _board);            // calls interface for user to interact with program.
-void setBoardFromUserInput(Board* _board);  // prompts user for input to set board. returns set board.
+void chooseBoard(Node* _board);            // calls interface for user to interact with program.
+void setBoardFromUserInput(Node* _board);  // prompts user for input to set board. returns set board.
 HEURISTIC chooseHeuristic();
 
 // bool graph_search(Board b, int heuristic_decision);
@@ -59,7 +59,7 @@ HEURISTIC chooseHeuristic();
 // double Misplaced_Tile_Avg_PQ;
 
 int main() {
-	Board board;  // The board the program will solve.
+	Node board;  // The board the program will solve.
 	A_Star astar;
 	string userInput;
 
@@ -67,7 +67,7 @@ int main() {
 	chooseBoard(&board);                            // Set up board.
 	HEURISTIC heuristicChoice = chooseHeuristic();  // Pick hearistic to use.
 
-	astar.startGraphSearch(board, heuristicChoice);
+	astar.search(board, heuristicChoice);
   
 	cout << "Goal State Reached. Would you like to see the solution?(y/n): ";
 	cin >> userInput;
@@ -134,11 +134,9 @@ void startMenu() {
 	cout << "--------------------------------------------------------------------------------"<< endl << endl;
 }  // End of startMenu.
 
-void chooseBoard(Board* _board){
+void chooseBoard(Node* _board){
 
-	// const int NUMBER_OF_TILES = 9;
 	int userInput;                         // stores menu option inputted by user.
-	// int tempBoardConfig[NUMBER_OF_TILES];  // Stores user defined board.
 	char userInput_c;                      // stores alpha input from user.
 
 	cout << endl;
@@ -227,7 +225,7 @@ void chooseBoard(Board* _board){
 
 
 // Helper Functions
-void setBoardFromUserInput(Board *_board) {
+void setBoardFromUserInput(Node *_board) {
 	int tempBoardConfig[NUMBER_OF_TILES];
 	for (int tile = 0; tile < NUMBER_OF_TILES; tile++) {
 
@@ -291,29 +289,30 @@ HEURISTIC chooseHeuristic(){
 	HEURISTIC heuristic_choice;
 	int userInput;
 
-	cout << "================================================================================" 			<< endl;
-	cout << "Pick an algorithm to solve your puzzle." 		 << endl;
+	cout << "================================================================================"  << endl;
+	cout << "Pick an algorithm to solve your puzzle."  << endl;
 	cout << endl;
 	cout << "  1 - Uniform Cost Search. (Warning: Likely to be VERY slow)" << endl;
-	cout << "  2 - A* with Misplaced Tile heuristic."     		<< endl;
-	cout << "  3 - A* with Manhattan Distance heuristic." 		<< endl;
-	cout << "--------------------------------------------------------------------------------" 			<< endl;
+	cout << "  2 - A* with Misplaced Tile heuristic."      << endl;
+	cout << "  3 - A* with Manhattan Distance heuristic."  << endl;
+	cout << "--------------------------------------------------------------------------------"  << endl;
 	cout << "  choice: ";
 
-	cin >> userInput;														// Store user choice in heuristic_choice variable.
+	cin >> userInput;  // Store user choice in heuristic_choice variable.
 
-	while (cin.fail() || userInput < 0 || userInput > 3){					// cin.fail() checks to see if the value in the
-																			// cin stream is the correct type, if not returns
-																			// true, otherwise false.
-		cin.clear();              											// cin.clear() corrects the stream
-		cin.ignore();             											// cin.ignore() skips the left over stream data
+	while (cin.fail() || userInput < 0 || userInput > 3){	// cin.fail() checks to see if the value in the
+															// cin stream is the correct type, if not returns
+															// true, otherwise false.
+		cin.clear();   // cin.clear() corrects the stream
+		cin.ignore();  // cin.ignore() skips the left over stream data
 		cout << "  Please pick either 1, 2, or 3." << endl;
-		cout << "  "; 														// whitespace buffer.
+		cout << "  ";  // whitespace buffer.
 		cin >> userInput;
 	}
 
-	// Confirm userInput. If userInput selected Default Puzzle option print the puzzle to the display.
-	// If user selected custom puzzle call .setBoard() to input custom puzzle. If selected quit, exit program.
+	// Confirm userInput. If userInput selected Default Puzzle option print the
+	// puzzle to the display. If user selected custom puzzle call .setBoard() to
+	// input custom puzzle. If selected quit, exit program.
 	switch (userInput) {
 		case 1: {
 			cout << "Uniform Cost Search selected" << endl;

@@ -24,25 +24,25 @@ class Board
 public:
 	Board();
 
-  // Creates a board object with a user defined puzzle. Each array index
-  // represent the placement of the tile from top left to bottom right.
+	// Creates a board object with a user defined puzzle. Each array index
+	// represent the placement of the tile from top left to bottom right.
 	Board(int _boardConfig[NUMBER_OF_TILES]);
 	~Board();
 
-  // Returns true if board was changed. Returns false is board was not changed.
-  // The board will not change to set values if illegal
-  // values/placement is detected.
+	// Returns true if board was changed. Returns false is board was not changed.
+	// The board will not change to set values if illegal
+	// values/placement is detected.
 	bool set(int _boardConfig[NUMBER_OF_TILES]);
 
 	void print();
 
-  // Randomize the board configuration.
+	// Randomize the board configuration.
 	void randomize();
 
-  // Moves the position of the blank tile. Returns true if the move is valid
-  // and returns false is the move is invalid. If the move is invalid the
-  // state of the board is not changed.
-  // Possible actions: UP, DOWN, LEFT, RIGHT.
+	// Moves the position of the blank tile. Returns true if the move is valid
+	// and returns false is the move is invalid. If the move is invalid the
+	// state of the board is not changed.
+	// Possible actions: UP, DOWN, LEFT, RIGHT.
 	bool move(MOVE _move);
 
 	bool operator ==(const Board &other) const;
@@ -51,8 +51,8 @@ public:
 private:
 	int m_boardConfiguration[NUMBER_OF_TILES];
 	int m_blankTileIndex;
-
 	void findAndSetBlankTileLocation();
+
 };
 
 #endif
