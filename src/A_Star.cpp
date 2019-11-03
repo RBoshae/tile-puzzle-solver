@@ -1,26 +1,28 @@
 //
- // A_Star.cpp
- // author Rick Boshae
- // version 1.0
- // date 2018-08-08
- // brief Function definitions for A_Star
- //
+// A_Star.cpp
+// author Rick Boshae
+// version 1.0
+// date 2018-08-08
+// brief Function definitions for A_Star
+//
 
 #include "../include/A_Star.h"
 #include "../include/Node.h"
 
-A_Star::A_Star(){
-
+A_Star::A_Star()
+:
+m_heuristic{HEURISTIC::UNIFORM_COST_SEARCH},
+m_nodesExpanded{0},
+m_maxNodesInQueue{0},
+m_goalDepth{0}
+{
 }
 
 A_Star::~A_Star(){
   // Stub
 }
 
-Node* A_Star::graphSearch(
-  Board const &_boardProblem, 
-  HEURISTIC _hearisticChoice
-  ) {
+Node* A_Star::graphSearch(Board const &_boardProblem) {
 
   // Initialize the frontier using the initial state of the problem.
   cout << "Initializing..." << endl;
@@ -28,10 +30,17 @@ Node* A_Star::graphSearch(
   initializeExploredSet();
 
   cout << "Starting seach." << endl << endl;
+
   // Start processing the frontier using the graph search algorithm.
   while(!m_frontierPQueue.empty()) {
 
-    // Choose leaf node from the front of the frontier priority queue.
+    // Update max nodes in queue.
+    if(m_nodesExpanded < m_frontierPQueue.size())
+    {
+      m_nodesExpanded = m_frontierPQueue.size();
+    }
+
+    // Choose the shallowest node in the frontier.
     Node* pChosenNode = m_frontierPQueue.top();
     m_frontierPQueue.pop();
 
@@ -41,7 +50,7 @@ Node* A_Star::graphSearch(
     }
 
     ///
-    // Goal test failed.
+    // Goal test failed. Continue searching...
     ///
 
     // Add the node's board to the explored set.
@@ -111,14 +120,40 @@ void A_Star::expandAndAddToFrontier(const Node* const _node) {
       delete pChildNode;
     }
   } // End of for loop.
+
+  // Update nodes expanded
+  ++m_nodesExpanded;
 }
+
 
 Node* A_Star::createChildNode(const Node* const _parentNode, MOVE _move)
 {
   Node* childNode = new Node(_parentNode->getBoard());
   childNode->setParent(_parentNode);
   childNode->result(_move);
-  // TODO Add Step cost, based on heuristic.
+  childNode->setPathCost(1 + childNode->getParent()->getPathCost());
+  
+  // Set heauristic cost.
+  switch (m_heuristic)
+  {
+  case HEURISTIC::UNIFORM_COST_SEARCH:
+    childNode->setHeuristcCost(0);
+    break;
+  case HEURISTIC::MISPLACED_TILE:
+    /* code */
+    break;
+  case HEURISTIC::MANHATTAN_DISTANCE:
+    /* code */
+    break;
+  case HEURISTIC::ALL:
+    /* code */
+    break;
+  
+  default:
+    cerr << "Something went wrong with heuristic choice. Exiting" << endl;
+    exit(1);
+    break;
+  }
 
   return childNode;
 }

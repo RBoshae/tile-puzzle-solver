@@ -20,54 +20,23 @@
 
 using namespace std;
 
-//Used to make object comparison in priority queue
-// struct Comp {
-// 	bool operator () (Node lhs, Node rhs) {
-// 		if (lhs.getFofN() == rhs.getFofN()) {
-// 			return lhs.getNodeDepth() > rhs.getNodeDepth();
-// 		}
-// 		return lhs.getFofN() > rhs.getFofN();
-// 	}
-//
-// 	bool operator () (Node* lhs, Node* rhs) {
-// 		if (lhs->getFofN() == rhs->getFofN()) {
-// 			return lhs->getNodeDepth() > rhs->getNodeDepth();
-// 		} else
-// 		return lhs->getFofN() > rhs->getFofN();
-// 	}
-// };
-
 // Forward Function Declarations.
 void startMenu();
-void chooseBoard(Node* _board);            // calls interface for user to interact with program.
+void chooseBoard(Board* _board);            // calls interface for user to interact with program.
 void setBoardFromUserInput(Node* _board);  // prompts user for input to set board. returns set board.
 HEURISTIC chooseHeuristic();
 
-// bool graph_search(Board b, int heuristic_decision);
-// bool uniform_cost_search(Board b);
-// Node* createChildNode(Node *parent, int action, int h);
-// Board random_board();
-//
-// //Global Vaiables used to collect data on heuristics
-// double Uniform_Cost_Search_Avg_Expansions;
-// double Uniform_Cost_Search_Avg_PQ;
-//
-// double Manhattan_Avg_Expansions;
-// double Manhattan_Avg_PQ;
-//
-// double Misplaced_Tile_Avg_Expansions;
-// double Misplaced_Tile_Avg_PQ;
-
 int main() {
-	Node board;  // The board the program will solve.
 	A_Star astar;
+	Board board;  // The board the program will solve.
 	string userInput;
 
 	startMenu();                                    // Provide program information to user.
 	chooseBoard(&board);                            // Set up board.
 	HEURISTIC heuristicChoice = chooseHeuristic();  // Pick hearistic to use.
 
-	astar.search(board, heuristicChoice);
+	astar.setHeuristic(heuristicChoice);
+	astar.graphSearch(board);
   
 	cout << "Goal State Reached. Would you like to see the solution?(y/n): ";
 	cin >> userInput;
@@ -134,7 +103,7 @@ void startMenu() {
 	cout << "--------------------------------------------------------------------------------"<< endl << endl;
 }  // End of startMenu.
 
-void chooseBoard(Node* _board){
+void chooseBoard(Board* _board){
 
 	int userInput;                         // stores menu option inputted by user.
 	char userInput_c;                      // stores alpha input from user.
@@ -186,8 +155,6 @@ void chooseBoard(Node* _board){
 			do {
 				setBoardFromUserInput(_board);
 
-				// _board->set(tempBoardConfig);
-
 				cout << "Your board has been set. Here is what it looks like: " << endl << endl;
 				_board->print();
 				cout << endl;
@@ -225,7 +192,7 @@ void chooseBoard(Node* _board){
 
 
 // Helper Functions
-void setBoardFromUserInput(Node *_board) {
+void setBoardFromUserInput(Board* _board) {
 	int tempBoardConfig[NUMBER_OF_TILES];
 	for (int tile = 0; tile < NUMBER_OF_TILES; tile++) {
 

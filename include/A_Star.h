@@ -24,11 +24,10 @@ public:
 	A_Star();
 	~A_Star();
 
+	void setHeuristic(HEURISTIC _choice);
+
 	// Returns the solution to the problem.
-	Node* graphSearch(
-		const Board& _boardProblem,
-		HEURISTIC   _hearisticChoice 
-	);
+	Node* graphSearch(const Board& _boardProblem);
 
 	void printSolution();
 
@@ -37,6 +36,8 @@ public:
 	void getGoalDepth();
 
 private:
+
+	HEURISTIC m_heuristic;
 	// PQ ordered by the Node with the lowest cost.
 	priority_queue<Node*> m_frontierPQueue;
 
@@ -46,16 +47,16 @@ private:
 	// Pointer to goal node containing the goal state.
 	Node* m_goalNode;
 
-  // Search stats.
-  int m_nodesExpanded;
-  int m_maxNodesInQueue;
-  int m_goalDepth;
+	// Search stats.
+	unsigned int m_nodesExpanded;
+	unsigned int m_maxNodesInQueue;
+	unsigned int m_goalDepth;
 
 
-  void   initializeFrontier(const Board& _initialBoard);
-  void   initializeExploredSet();
-  bool   containsGoalState(const Node* const _node);
-  void   expandAndAddToFrontier(const Node* const _node);
-  Node*  createChildNode(const Node* const _parentNode, MOVE action);
+	void   initializeFrontier(const Board& _initialBoard);
+	void   initializeExploredSet();
+	bool   containsGoalState(const Node* const _node);
+	void   expandAndAddToFrontier(const Node* const _node);
+	Node*  createChildNode(const Node* const _parentNode, MOVE action);
 
 };
