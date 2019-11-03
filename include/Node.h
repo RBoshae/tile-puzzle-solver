@@ -17,7 +17,7 @@ class Node
 {
 public:
   Node();
-	Node(Board const &_board, int _heuristicCost);
+	Node(Board const &_board, int _heuristicCost = 0);
   Node(Board const &_board, int const hearisticCost, Node const &_parent);
 
 	~Node();
@@ -33,6 +33,7 @@ public:
   int   getHeuristicCost() const;
   int	  getTotalCost() const;
   Board getBoard() const;
+  string getActionApplied() const;
 
   // Applies move to board state. Returns true if action is valid.
   // Returns false if the action is invalid.

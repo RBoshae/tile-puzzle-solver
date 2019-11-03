@@ -23,7 +23,7 @@ using namespace std;
 // Forward Function Declarations.
 void startMenu();
 void chooseBoard(Board* _board);            // calls interface for user to interact with program.
-void setBoardFromUserInput(Node* _board);  // prompts user for input to set board. returns set board.
+void setBoardFromUserInput(Board* _board);  // prompts user for input to set board. returns set board.
 HEURISTIC chooseHeuristic();
 
 int main() {
@@ -38,11 +38,16 @@ int main() {
 	astar.setHeuristic(heuristicChoice);
 	astar.graphSearch(board);
   
-	cout << "Goal State Reached. Would you like to see the solution?(y/n): ";
+	cout << "Goal State Reached." << endl;
+	cout << "Goal depth: "     << astar.getGoalDepth() << endl;
+	cout << "Nodes expanded: " << astar.getNumberOfNodesExpanded() << endl;
+	cout << "Max nodes in queue: " << astar.getMaxNodesInQueue() << endl;
+	cout << "Would you like to see the solution?(y/n): ";
 	cin >> userInput;
 	if (userInput == "y")
 	{
-			astar.printSolution();
+		cout << endl;
+		astar.printSolution();
 	}
 
 	cout << "End of Program." << endl;

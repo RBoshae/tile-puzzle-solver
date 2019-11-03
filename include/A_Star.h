@@ -31,9 +31,9 @@ public:
 
 	void printSolution();
 
-	void getNumberOfNodesExpanded();
-	void getMaxNodesInQueue();
-	void getGoalDepth();
+	unsigned int getNumberOfNodesExpanded();
+	unsigned int getMaxNodesInQueue();
+	unsigned int getGoalDepth();
 
 private:
 

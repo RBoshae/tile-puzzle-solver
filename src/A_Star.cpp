@@ -18,14 +18,22 @@ m_goalDepth{0}
 {
 }
 
-A_Star::~A_Star(){
-  // Stub
+A_Star::~A_Star() {
+  while(!m_frontierPQueue.empty()) {
+    Node* pNode = m_frontierPQueue.top();
+    m_frontierPQueue.pop();
+    delete pNode;
+  }
+}
+
+void A_Star::setHeuristic(HEURISTIC _choice) {
+  m_heuristic = _choice;
 }
 
 Node* A_Star::graphSearch(Board const &_boardProblem) {
 
   // Initialize the frontier using the initial state of the problem.
-  cout << "Initializing..." << endl;
+  cout << "Initializing...";
   initializeFrontier(_boardProblem);
   initializeExploredSet();
 
@@ -35,9 +43,9 @@ Node* A_Star::graphSearch(Board const &_boardProblem) {
   while(!m_frontierPQueue.empty()) {
 
     // Update max nodes in queue.
-    if(m_nodesExpanded < m_frontierPQueue.size())
+    if(m_maxNodesInQueue < m_frontierPQueue.size())
     {
-      m_nodesExpanded = m_frontierPQueue.size();
+      m_maxNodesInQueue = m_frontierPQueue.size();
     }
 
     // Choose the shallowest node in the frontier.
@@ -46,7 +54,8 @@ Node* A_Star::graphSearch(Board const &_boardProblem) {
 
     // If the node contains a goal state then return the corresponding solution.
     if(containsGoalState(pChosenNode)) {
-      return pChosenNode;
+      m_goalDepth = pChosenNode->getPathCost();
+      return m_goalNode = pChosenNode;
     }
 
     ///
@@ -67,9 +76,43 @@ Node* A_Star::graphSearch(Board const &_boardProblem) {
   return nullptr;
 }
 
-void A_Star::printSolution(){
-  // TODO: Stub
+unsigned int A_Star::getNumberOfNodesExpanded() {
+  return m_nodesExpanded;
 }
+
+
+unsigned int A_Star::getMaxNodesInQueue() {
+  return m_maxNodesInQueue;
+}
+
+
+unsigned int A_Star::getGoalDepth() {
+  return m_goalDepth;
+}
+
+
+void A_Star::printSolution(){
+  
+  // Get solution information.
+  const Node* pCurrentNode = m_goalNode;
+  vector<const Node*> solution;
+  while (pCurrentNode->getParent() != nullptr)
+  {
+    solution.push_back(pCurrentNode);
+    pCurrentNode = pCurrentNode->getParent();
+  }
+
+  solution.push_back(pCurrentNode);
+
+  for(int index = solution.size()-1; index >= 0; --index) {
+    cout << solution.at(index)->getActionApplied() << endl;
+    solution.at(index)->getBoard().print();
+    cout << endl; 
+  }
+
+
+}
+
 
 void A_Star::initializeFrontier(Board const &_initialBoard) {
 
@@ -78,7 +121,7 @@ void A_Star::initializeFrontier(Board const &_initialBoard) {
     m_frontierPQueue.pop();
   }
 
-  Node* pInitialBoard = new Node(_initialBoard);
+  Node* pInitialBoard = new Node(_initialBoard, 0);
 
   m_frontierPQueue.push(pInitialBoard);
 }

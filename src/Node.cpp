@@ -11,7 +11,7 @@ Node::Node()
 }
 
 
-Node::Node(const Board& _board, int _heuristicCost = 0)
+Node::Node(const Board& _board, int _heuristicCost)
 :
   m_board{_board},
   m_parent{nullptr},
@@ -77,6 +77,10 @@ Board Node::getBoard() const {
 	return m_board;
 }
 
+string Node::getActionApplied() const {
+  return m_actionDesc;
+}
+
 
 bool Node::result(MOVE _action) {
   bool isValidMove = m_board.move(_action);
@@ -114,7 +118,7 @@ bool Node::result(MOVE _action) {
 
 // overloaded < operator
 bool Node::operator <(const Node& _rhsNode) {
-   if(m_totalCost < _rhsNode.getTotalCost()) {
+   if((m_pathCost + m_heuristicCost) < _rhsNode.getTotalCost()) {
       return true;
    }
    return false;
