@@ -118,12 +118,14 @@ void A_Star::initializeFrontier(Board const &_initialBoard) {
 
   // Empty the priority queue.
   while(!m_frontierPQueue.empty()) {
+    Node* topNode = m_frontierPQueue.top();
     m_frontierPQueue.pop();
+    delete topNode;
   }
 
-  Node* pInitialBoard = new Node(_initialBoard, 0);
+  Node* pInitialNode = new Node(_initialBoard, 0);
 
-  m_frontierPQueue.push(pInitialBoard);
+  m_frontierPQueue.push(pInitialNode);
 }
 
 
