@@ -13,12 +13,12 @@ Node::Node()
 
 Node::Node(const Board& _board, int _heuristicCost)
 :
-  m_board{_board},
   m_parent{nullptr},
   m_actionDesc{"Initial State."},
   m_pathCost{0},
   m_heuristicCost{_heuristicCost}
 {
+  m_board =_board;
 }
 
 

@@ -19,6 +19,17 @@ enum class HEURISTIC {
 	UNIFORM_COST_SEARCH, 
 	ALL};
 
+struct customCompare
+{
+    bool operator()(const Node* lhs, const Node* rhs)
+    {
+        return lhs->getTotalCost() < rhs->getTotalCost();
+    }
+};
+
+
+
+
 class A_Star {
 public:
 	A_Star();
@@ -39,7 +50,7 @@ private:
 
 	HEURISTIC m_heuristic;
 	// PQ ordered by the Node with the lowest cost.
-	priority_queue<Node*> m_frontierPQueue;
+	priority_queue<Node*, vector<Node *>, customCompare > m_frontierPQueue;
 
 	// Tracks states that have already been expanded or in the frontier.
 	set<Board> m_frontierOrExploredSet;

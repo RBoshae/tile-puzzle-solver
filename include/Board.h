@@ -32,7 +32,7 @@ public:
 	// Returns true if board was changed. Returns false is board was not changed.
 	// The board will not change to set values if illegal
 	// values/placement is detected.
-	bool set(int _boardConfig[NUMBER_OF_TILES]);
+	bool set(const int _boardConfig[NUMBER_OF_TILES]);
 
 	void print();
 
@@ -45,6 +45,7 @@ public:
 	// Possible actions: UP, DOWN, LEFT, RIGHT.
 	bool move(MOVE _move);
 
+	void operator =(const Board &other);
 	bool operator ==(const Board &other) const;
 	bool operator <(const Board &other) const;
 

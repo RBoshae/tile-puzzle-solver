@@ -67,11 +67,9 @@ Node* A_Star::graphSearch(Board const &_boardProblem) {
 
     // Expand the chose node, adding the resulting nodes to the frontier
     // only if not in the frontier or explored set.
-    cout << "Expanding node:" << endl;
+    cout << "Expanding node with total cost " <<  pChosenNode->getTotalCost() << ":" << endl;
     pChosenNode->getBoard().print();
     expandAndAddToFrontier(pChosenNode);
-
-    delete pChosenNode;  // Done with Node, so delete it.
   }
 
   return nullptr;
@@ -111,7 +109,7 @@ void A_Star::printSolution(){
     cout << endl; 
   }
 
-
+  cout << "Solution reached." << endl;
 }
 
 
@@ -157,13 +155,12 @@ void A_Star::expandAndAddToFrontier(const Node* const _node) {
 
     // Do not add the child node to the fronteir if the child is already
     //  in the frontier or in the explored set.
-    if(
-      m_frontierOrExploredSet.find(pChildNode->getBoard()) 
-      == m_frontierOrExploredSet.end()) {
+    if(m_frontierOrExploredSet.count(pChildNode->getBoard())) 
+    {
+      delete pChildNode;
+    } else {
       m_frontierOrExploredSet.insert(pChildNode->getBoard());
       m_frontierPQueue.push(pChildNode);
-    } else {
-      delete pChildNode;
     }
   } // End of for loop.
 

@@ -9,7 +9,7 @@
 const int DEFAULT_CONFIG[NUMBER_OF_TILES] = {1,2,3,4,5,6,7,8,0};
 
 // Helper functions
-bool checkConfig(int *_boardConfig)
+bool checkConfig(const int *_boardConfig)
 {
 	for (int i = 0; i < NUMBER_OF_TILES; i++) {
 		if (_boardConfig[i] < 0 || _boardConfig[i] > 8) return false;
@@ -24,7 +24,7 @@ bool checkConfig(int *_boardConfig)
 
 Board::Board()
 {
-	// Abstract representation of board.
+	// Abstract representation of board. Numbers are position, not value.
 	//  -------
 	//	|0|1|2|
 	//  |-+-+-|
@@ -33,16 +33,16 @@ Board::Board()
 	//  |6|7|8|
 	//  -------
 
-	for (int i = 0; i < 6; i++){
+	for (int i = 0; i < NUMBER_OF_TILES; i++){
 		m_boardConfiguration[i] = DEFAULT_CONFIG[i];
 	}
 
 	// Sets third row of board.
-	m_boardConfiguration[7] = 7;
-	m_boardConfiguration[8] = 8;
-	m_boardConfiguration[6] = 0;
+	m_boardConfiguration[2] = 0;
+	m_boardConfiguration[5] = 3;
+	m_boardConfiguration[8] = 6;
 
-	m_blankTileIndex = 6;				// Store location of blank tile.
+	m_blankTileIndex = 2;				// Store location of blank tile.
 }
 
 Board::Board(int _boardConfiguration[NUMBER_OF_TILES])
@@ -55,7 +55,7 @@ Board::~Board()
 {
 }
 
-bool Board::set(int _boardConfiguration[NUMBER_OF_TILES])
+bool Board::set(const int _boardConfiguration[NUMBER_OF_TILES])
 {
 	if (::checkConfig(_boardConfiguration)){
 		for(int i = 0; i < NUMBER_OF_TILES; i++){
@@ -168,6 +168,12 @@ void Board::randomize()
 	random_shuffle(std::begin(m_boardConfiguration), std::end(m_boardConfiguration));
 	// find blank tile _location
 	findAndSetBlankTileLocation();
+	return;
+}
+
+
+void Board::operator =(const Board &other) {
+	set(other.m_boardConfiguration);
 	return;
 }
 
