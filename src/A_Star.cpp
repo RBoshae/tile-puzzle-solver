@@ -34,8 +34,8 @@ Node* A_Star::graphSearch(Board const &_boardProblem) {
 
   // Initialize the frontier using the initial state of the problem.
   cout << "Initializing...";
-  initializeFrontier(_boardProblem);
   initializeExploredSet();
+  initializeFrontier(_boardProblem);
 
   cout << "Starting seach." << endl << endl;
 
@@ -71,6 +71,7 @@ Node* A_Star::graphSearch(Board const &_boardProblem) {
     pChosenNode->getBoard().print();
     expandAndAddToFrontier(pChosenNode);
 
+    delete pChosenNode;  // Done with Node, so delete it.
   }
 
   return nullptr;
