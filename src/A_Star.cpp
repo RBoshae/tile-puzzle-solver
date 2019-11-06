@@ -160,7 +160,7 @@ void A_Star::expandAndAddToFrontier(const Node* const _node) {
       m_frontierOrExploredSet.insert(pChildNode->getBoard());
       m_frontierPQueue.push(pChildNode);
     } else {
-      // delete pChildNode;
+      delete pChildNode;
     }
   } // End of for loop.
 
