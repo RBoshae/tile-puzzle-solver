@@ -15,6 +15,10 @@ bool testTopRightRightMove();
 bool testTopRightUpMove();
 bool testTopRightDownMove();
 
+bool testCenterRightDownMove();
+
+bool testBottomLeftDownMove();
+
 int main() {
  
   cout << "Center Left Move: ";
@@ -75,6 +79,22 @@ int main() {
 
   cout << "Top Right Down Move: ";
   if(testTopRightDownMove()) {
+    cout << " Passed";
+  } else {
+    cout << " Failed";
+  }
+  cout << endl;
+
+  cout << "Center Right Down Move: ";
+  if(testCenterRightDownMove()) {
+    cout << " Passed";
+  } else {
+    cout << " Failed";
+  }
+  cout << endl;
+
+  cout << "Bottom Left Down Move";
+  if(testBottomLeftDownMove()) {
     cout << " Passed";
   } else {
     cout << " Failed";
@@ -229,6 +249,52 @@ bool testTopRightDownMove() {
   MOVE down = MOVE::DOWN;
   int initialBoardConfig[]  = {1, 2, 0, 4, 5, 3, 6, 7, 8};
   int expectedBoardConfig[] = {1, 2, 3, 4, 5, 0, 6, 7, 8};
+  Board testBoard{initialBoardConfig};
+  Board expectedResult(expectedBoardConfig);
+
+  // Action
+  testBoard.move(down);
+
+  // Test
+  if(testBoard == expectedResult) {
+    return true;
+  }
+  assert(false);
+  return false;
+}
+
+bool testCenterRightDownMove() {
+  // Setup
+  MOVE down = MOVE::DOWN;
+  int initialBoardConfig[]  = {1, 2, 3, 
+                               4, 5, 0, 
+                               7, 8, 6};
+  int expectedBoardConfig[] = {1, 2, 3, 
+                               4, 5, 6, 
+                               7, 8, 0};
+  Board testBoard{initialBoardConfig};
+  Board expectedResult(expectedBoardConfig);
+
+  // Action
+  testBoard.move(down);
+
+  // Test
+  if(testBoard == expectedResult) {
+    return true;
+  }
+  assert(false);
+  return false;
+}
+
+bool testBottomLeftDownMove() {
+  // Setup
+  MOVE down = MOVE::DOWN;
+  int initialBoardConfig[]  = {1, 2, 3, 
+                               4, 5, 6, 
+                               0, 7, 8};
+  int expectedBoardConfig[] = {1, 2, 3, 
+                               4, 5, 6, 
+                               0, 7, 8};
   Board testBoard{initialBoardConfig};
   Board expectedResult(expectedBoardConfig);
 

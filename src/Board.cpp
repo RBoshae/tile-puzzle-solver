@@ -110,7 +110,7 @@ bool Board::move(MOVE action)
 		//  |-+-+-|
 		//  |6|7|8|
 		//  -------
-		if (m_blankTileIndex > 2) {
+		if(m_blankTileIndex > 2) {
 			// Move non-blank tile to blank tile location.
 			m_boardConfiguration[m_blankTileIndex] = m_boardConfiguration[m_blankTileIndex-3];
 
@@ -128,7 +128,7 @@ bool Board::move(MOVE action)
 		//  |-+-+-|
 		//  |6|7|8|
 		//  -------
-	if (m_blankTileIndex + 3 < NUMBER_OF_TILES - 1) {
+	if (m_blankTileIndex + 3 < NUMBER_OF_TILES) {
 		// Move non-blank tile to blank tile location.
 		m_boardConfiguration[m_blankTileIndex] = m_boardConfiguration[m_blankTileIndex+3];
 
