@@ -179,21 +179,22 @@ void Board::operator =(const Board &other) {
 
 // overloaded == operator
 bool Board::operator==(const Board& other) const {
-	bool isIdentical = true;
+	bool isIdentical = false;
 	for (int i = 0; i < NUMBER_OF_TILES; i++) {
-		if (this->m_boardConfiguration[i] != other.m_boardConfiguration[i]) {
-			isIdentical = false;
-			break;
+		if (this->m_boardConfiguration[i] == other.m_boardConfiguration[i]) {
+			isIdentical = true;
+		} else {
+			return false;
 		}
 	}
 	return isIdentical;
 }
 
 
-// overloaded == operator
+// overloaded < operator
 bool Board::operator<(const Board& other) const {
 
-	for (int i = 0; i < NUMBER_OF_TILES; i++) {
+	for (int i = 0; i < NUMBER_OF_TILES; ++i) {
 		if (this->m_boardConfiguration[i] < other.m_boardConfiguration[i]) {
 			return true;
 		}

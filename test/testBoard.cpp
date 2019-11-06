@@ -3,6 +3,7 @@
 #include "../include/Board.h"
 
 #include <iostream>
+#include <set>
 #include <cassert>
 
 bool testCenterLeftMove();
@@ -18,6 +19,11 @@ bool testTopRightDownMove();
 bool testCenterRightDownMove();
 
 bool testBottomLeftDownMove();
+
+bool testEquality();
+bool testInequality();
+
+bool testBoardSet();
 
 int main() {
  
@@ -100,6 +106,31 @@ int main() {
     cout << " Failed";
   }
   cout << endl;
+
+  cout << "Equality Test: ";
+  if(testEquality()) {
+    cout << " Passed";
+  } else {
+    cout << " Failed";
+  }
+  cout << endl;
+
+  cout << "Inequality Test: ";
+  if(testInequality()) {
+    cout << " Passed";
+  } else {
+    cout << " Failed";
+  }
+  cout << endl;
+  
+  cout << "Board Set Test: ";
+  if(testBoardSet()) {
+    cout << " Passed";
+  } else {
+    cout << " Failed";
+  }
+  cout << endl;
+  
 
   return 0;
 }
@@ -307,4 +338,58 @@ bool testBottomLeftDownMove() {
   }
   assert(false);
   return false;
+}
+
+
+bool testEquality() {
+  int lhsBoardConfig[] = {1, 2, 3, 
+                          4, 6, 0, 
+                          7, 5, 8};
+  int rhsBoardConfig[] = {1, 2, 3, 
+                          4, 6, 0, 
+                          7, 5, 8};
+  Board lhsBoard(lhsBoardConfig);
+  Board rhsBoard(rhsBoardConfig);
+
+  return (lhsBoard == rhsBoard);
+}
+
+
+bool testInequality() {
+  int lhsBoardConfig[] = {1, 2, 3, 
+                          4, 6, 0, 
+                          7, 5, 8};
+  int rhsBoardConfig[] = {1, 2, 3, 
+                          4, 0, 6, 
+                          7, 5, 8};
+  Board lhsBoard(lhsBoardConfig);
+  Board rhsBoard(rhsBoardConfig);
+
+  return !(lhsBoard == rhsBoard);
+}
+
+
+bool testBoardSet() {
+  set<Board> setOfBoards;
+
+  int boardConfig[] = {1, 2, 3, 
+                       4, 6, 0, 
+                       7, 5, 8};
+  Board board(boardConfig);
+
+  setOfBoards.insert(board);
+
+  board.move(MOVE::UP);
+  setOfBoards.insert(board);
+
+  board.move(MOVE::DOWN);
+  setOfBoards.insert(board);
+
+  board.move(MOVE::LEFT);
+  setOfBoards.insert(board);
+
+  board.move(MOVE::RIGHT);
+  setOfBoards.insert(board);
+
+  return setOfBoards.count(board);
 }
