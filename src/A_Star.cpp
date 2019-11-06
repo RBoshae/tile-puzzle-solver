@@ -155,12 +155,12 @@ void A_Star::expandAndAddToFrontier(const Node* const _node) {
 
     // Do not add the child node to the fronteir if the child is already
     //  in the frontier or in the explored set.
-    if(m_frontierOrExploredSet.count(pChildNode->getBoard())) 
+    if(m_frontierOrExploredSet.count(pChildNode->getBoard()) == 0) 
     {
-      delete pChildNode;
-    } else {
       m_frontierOrExploredSet.insert(pChildNode->getBoard());
       m_frontierPQueue.push(pChildNode);
+    } else {
+      // delete pChildNode;
     }
   } // End of for loop.
 
@@ -173,8 +173,8 @@ Node* A_Star::createChildNode(const Node* const _parentNode, MOVE _move)
 {
   Node* childNode = new Node(_parentNode->getBoard());
   childNode->setParent(_parentNode);
+  childNode->setPathCost(1 + _parentNode->getPathCost());
   childNode->result(_move);
-  childNode->setPathCost(1 + childNode->getParent()->getPathCost());
   
   // Set heauristic cost.
   switch (m_heuristic)
@@ -200,15 +200,3 @@ Node* A_Star::createChildNode(const Node* const _parentNode, MOVE _move)
 
   return childNode;
 }
-
-
-// class Compare {
-// public:
-//   bool operator()(Node _leftNode, Node _rightNode)
-//   {
-//     if (_leftNode.getCost() < _rightNode.getCost())
-//     {
-//       return true;
-//     }
-//   }
-// };

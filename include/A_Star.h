@@ -23,7 +23,7 @@ struct customCompare
 {
     bool operator()(const Node* lhs, const Node* rhs)
     {
-        return lhs->getTotalCost() < rhs->getTotalCost();
+        return lhs->getTotalCost() > rhs->getTotalCost();
     }
 };
 
