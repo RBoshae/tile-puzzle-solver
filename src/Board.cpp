@@ -71,6 +71,19 @@ bool Board::set(const int _boardConfiguration[NUMBER_OF_TILES])
 	}
 }
 
+unsigned int Board::getNumberOfTiles() {
+	return NUMBER_OF_TILES;
+}
+
+
+void Board::getBoardConfig(int* _boardConfig)
+{
+	for(unsigned int i = 0; i < NUMBER_OF_TILES; ++i) {
+		*(_boardConfig + i) = m_boardConfiguration[i];
+	}
+}
+
+
 void Board::print()
 {
 	for (int i = 0; i < NUMBER_OF_TILES; i++) {

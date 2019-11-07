@@ -63,11 +63,13 @@ private:
 	unsigned int m_maxNodesInQueue;
 	unsigned int m_goalDepth;
 
-
 	void   initializeFrontier(const Board& _initialBoard);
 	void   initializeExploredSet();
 	bool   containsGoalState(const Node* const _node);
 	void   expandAndAddToFrontier(const Node* const _node);
 	Node*  createChildNode(const Node* const _parentNode, MOVE action);
+
+	unsigned int computeMisplacedTileDistance(Board _board);
+	unsigned int computeManhattanDistance(Board _board);
 
 };

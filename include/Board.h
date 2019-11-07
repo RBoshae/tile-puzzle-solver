@@ -34,6 +34,9 @@ public:
 	// values/placement is detected.
 	bool set(const int _boardConfig[NUMBER_OF_TILES]);
 
+	unsigned int getNumberOfTiles();
+	void getBoardConfig(int* _boardConfig);
+
 	void print();
 
 	// Randomize the board configuration.

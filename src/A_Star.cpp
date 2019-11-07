@@ -184,7 +184,7 @@ Node* A_Star::createChildNode(const Node* const _parentNode, MOVE _move)
     childNode->setHeuristcCost(0);
     break;
   case HEURISTIC::MISPLACED_TILE:
-    /* code */
+    childNode->setHeuristcCost(computeMisplacedTileDistance(childNode->getBoard()));
     break;
   case HEURISTIC::MANHATTAN_DISTANCE:
     /* code */
@@ -200,4 +200,33 @@ Node* A_Star::createChildNode(const Node* const _parentNode, MOVE _move)
   }
 
   return childNode;
+}
+
+
+// Heuristics
+unsigned int A_Star::computeManhattanDistance(Board _board) {
+  return 0;
+}
+
+
+unsigned int A_Star::computeMisplacedTileDistance(Board _board) {
+  unsigned int misplacedTileDistance = 0;
+  
+  int* boardConfig = new int[_board.getNumberOfTiles()];
+  _board.getBoardConfig(boardConfig);
+  for (unsigned int i = 0; i < _board.getNumberOfTiles()-2; ++i)
+  {
+    if(boardConfig[i] != (int) i+1) {
+      ++misplacedTileDistance;
+    }
+  }
+
+  if(boardConfig[_board.getNumberOfTiles()-1] != 0) {
+    ++misplacedTileDistance;
+  }
+
+  delete boardConfig;
+
+  return misplacedTileDistance;
+  
 }
