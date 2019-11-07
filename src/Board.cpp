@@ -192,12 +192,15 @@ bool Board::operator==(const Board& other) const {
 
 
 // overloaded < operator
-bool Board::operator<(const Board& other) const {
+bool operator<(const Board& lhs, const Board& rhs) {
 
 	for (int i = 0; i < NUMBER_OF_TILES; ++i) {
-		if (this->m_boardConfiguration[i] < other.m_boardConfiguration[i]) {
+		if (lhs.m_boardConfiguration[i] < rhs.m_boardConfiguration[i]) {
 			return true;
 		}
+	}
+	if(lhs.m_blankTileIndex < rhs.m_blankTileIndex) {
+		return true;
 	}
 
 	return false;

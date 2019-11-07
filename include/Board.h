@@ -47,7 +47,7 @@ public:
 
 	void operator =(const Board &other);
 	bool operator ==(const Board &other) const;
-	bool operator <(const Board &other) const;
+	friend bool operator <(const Board &lhs, const Board &rhs);
 
 private:
 	int m_boardConfiguration[NUMBER_OF_TILES];
