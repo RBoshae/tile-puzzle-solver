@@ -35,6 +35,7 @@ make
 Next, navigate to the bin folder and run the program:
 
 ```
+cd bin/
 ./puzzle_solver
 ```
 
