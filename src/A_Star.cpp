@@ -187,7 +187,7 @@ Node* A_Star::createChildNode(const Node* const _parentNode, MOVE _move)
     childNode->setHeuristcCost(computeMisplacedTileDistance(childNode->getBoard()));
     break;
   case HEURISTIC::MANHATTAN_DISTANCE:
-    /* code */
+    childNode->setHeuristcCost(computeManhattanDistance(childNode->getBoard()));
     break;
   case HEURISTIC::ALL:
     /* code */
@@ -205,7 +205,28 @@ Node* A_Star::createChildNode(const Node* const _parentNode, MOVE _move)
 
 // Heuristics
 unsigned int A_Star::computeManhattanDistance(Board _board) {
-  return 0;
+
+  unsigned int manhattanDistance = 0;
+  int* boardConfig = new int[_board.getNumberOfTiles()];
+  _board.getBoardConfig(boardConfig);
+
+	int rowDelta = 0;
+	int colDelta = 0;
+  int counter = 1;
+	for (unsigned int i = 0; i < _board.getNumberOfTiles(); i++) {
+    if(boardConfig[i] != 0) {
+      rowDelta += abs(((boardConfig[i] - 1) / 3) - (counter - 1) / 3);
+      colDelta += abs(((boardConfig[i] % 3) - 1) - ((counter % 3) - 1));
+    }
+    if(boardConfig[i] == 0) {
+      rowDelta += abs(((boardConfig[i] - 1) / 3) - (counter - 1) / 3);
+      colDelta += abs(((boardConfig[i] % 3) - 1) - ((counter % 3) - 1));
+    }
+    counter++;
+  }
+	
+  delete boardConfig;
+  return manhattanDistance = rowDelta + colDelta;
 }
 
 
