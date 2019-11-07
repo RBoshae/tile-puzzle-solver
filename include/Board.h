@@ -1,11 +1,8 @@
-/*
- * File: Board.h
- * ---------------------
- * Board.h provides an abstraction for 8-sliding tile puzzle.
- *
- * Created by Rick Boshae on 1/29/17.
- *
- */
+// File: Board.h
+// ---------------------
+// Board.h provides an abstraction for 8-sliding tile puzzle board.
+//
+// Created by Rick Boshae on 1/29/17.
 
 
 #ifndef BOARD_H
@@ -18,45 +15,47 @@
 
 using namespace std;
 
+// Specifies the number of tiles on the board.
+const int NUMBER_OF_TILES = 9;
+enum class MOVE {UP, DOWN, LEFT, RIGHT};
+
 class Board
 {
 public:
-	int board_configuration[3][3];
-
-
-	// I would like to consider using a switch value rather than an integer value
-	// enum action { blank_up, blank_down, blank_left, blank_right };
-
 	Board();
+
+	// Creates a board object with a user defined puzzle. Each array index
+	// represent the placement of the tile from top left to bottom right.
+	Board(int _boardConfig[NUMBER_OF_TILES]);
 	~Board();
 
-	void setBoard();
-	void setToGoalState();
-	void printBoard();
-	string move(int action);
-	void randomBoard();
+	// Returns true if board was changed. Returns false is board was not changed.
+	// The board will not change to set values if illegal
+	// values/placement is detected.
+	bool set(const int _boardConfig[NUMBER_OF_TILES]);
 
-	bool operator==(const Board &other) const;
-	bool operator<(const Board &other) const;
+	unsigned int getNumberOfTiles();
+	void getBoardConfig(int* _boardConfig);
 
-	int getManhattanDistance();
-	int getMisplacedTileDistance();
+	void print();
 
-	int blank_row_pos;
-	int blank_col_pos;
+	// Randomize the board configuration.
+	void randomize();
+
+	// Moves the position of the blank tile. Returns true if the move is valid
+	// and returns false is the move is invalid. If the move is invalid the
+	// state of the board is not changed.
+	// Possible actions: UP, DOWN, LEFT, RIGHT.
+	bool move(MOVE _move);
+
+	void operator =(const Board &other);
+	bool operator ==(const Board &other) const;
+	friend bool operator <(const Board &lhs, const Board &rhs);
 
 private:
-	//responsible for keeping track of blank tile so we do not have to search for it later.
-	string move_applied;
-
-	int misplaced_tile;
-	int manhattan_distance;
-
-	void compute_manhattan_distance();
-	void compute_misplaced_tile_distance();
-
-protected:
-
+	int m_boardConfiguration[NUMBER_OF_TILES];
+	int m_blankTileIndex;
+	void findAndSetBlankTileLocation();
 
 };
 
