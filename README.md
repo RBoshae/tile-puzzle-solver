@@ -1,12 +1,32 @@
 # Sliding Puzzle Solver Using A*
 
-In this project I implement the A* search algorithm using C++. A* is the best 
-path-finding and graph traversal algorithm because it is both optimal and 
-complete. A* evaluates nodes by estimating the cost of the cheapest solution 
-through *n*. The cheapest solution is estimated by summing the cost to reach 
-the node, *g(n)*, and the cost to get from the node to the goal, *h(n)*. 
+In this project I implement the A* search algorithm, using C++ to solve any
+sliding tile puzzle. 
 
-If you discard the *h(n)* component, the algorithm acts the same as a 
+## Approach
+
+To solve this problem, I use nodes to contain the state of each puzzle. Nodes
+are connected based on the next possible state of a puzzle. The overarching
+concept is to traverse the graph until the goal state aka a solution is found.
+
+This is where A* comes in. The A* search algorithm is used because it is the
+best known path-finding and graph traversal algorithm. A* is both optimal and
+complete. 
+
+In essence, A* works by assigning a cost to each node encountered. The node
+with the cheapest cost is and selected to expand, generating the next potential
+states.
+
+The cost of a node is calculated by summing the cost to reach the node, *g(n)*,
+and cost of the heuristic *h(n)). The heuristic cost is the value assigned to
+get from the node being considerred to the goal node. 
+
+In this project we'll use two heuristics. The first heuristic is the
+manhattan distance. The manhattan distance is calculated by how far away a tile
+is from it's desired location. The second heuristic is based on the number of
+misplaced tiles.
+
+If you discard the heuristic component, the algorithm becomes a
 Uniform-Cost-Search.
 
 ## Getting Started
