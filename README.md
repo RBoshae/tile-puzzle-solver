@@ -22,9 +22,10 @@ and cost of the heuristic *h(n)). The heuristic cost is the value assigned to
 get from the node being considerred to the goal node. 
 
 In this project we'll use two heuristics. The first heuristic is the
-manhattan distance. The manhattan distance is calculated by how far away a tile
-is from it's desired location. The second heuristic is based on the number of
-misplaced tiles.
+manhattan distance and the second is the misplaced tile heuristic. The manhattan
+distance is determined by calculating by how far away a tile is from it's
+desired location. The second heuristic is straight-forward and determined  based
+on the number of misplaced tiles in a given puzzle state.
 
 If you discard the heuristic component, the algorithm becomes a
 Uniform-Cost-Search.
