@@ -1,41 +1,13 @@
-#include <cassert>						// assert
-#include <algorithm>					// algorithm
-#include "../include/Board.h"
+#include "../include/Puzzle.h"
 
-// Checks if passed configuration is legal returns true if legal
-// otherwise returns false.
+#include <cassert>  // ?
+#include <algorithm>  // ?
 
-// Global
-const int DEFAULT_CONFIG[NUMBER_OF_TILES] = {1,2,3,4,5,6,7,8,0};
+Puzzle::Puzzle(unsigned int _tiles) {
 
-// Helper functions
-bool checkConfig(const int *_boardConfig)
-{
-	for (int i = 0; i < NUMBER_OF_TILES; i++) {
-		if (_boardConfig[i] < 0 || _boardConfig[i] > 8) return false;
-
-		// TODO: Optimize
-		for (int j = 0; j < i; j++) {
-			if (_boardConfig[j] == _boardConfig[i]) return false;
-		}
-	}
-	return true; // All checks pass
-}
-
-Board::Board()
-{
-	// Abstract representation of board. Numbers are position, not value.
-	//  -------
-	//	|0|1|2|
-	//  |-+-+-|
-	//	|3|4|5|
-	//  |-+-+-|
-	//  |6|7|8|
-	//  -------
-
-	for (int i = 0; i < NUMBER_OF_TILES; i++){
-		m_boardConfiguration[i] = DEFAULT_CONFIG[i];
-	}
+  for (int i = 0; i < NUMBER_OF_TILES; i++){
+    m_boardConfiguration[i] = DEFAULT_CONFIG[i];
+  }
 
 	// Sets third row of board.
 	m_boardConfiguration[2] = 0;
@@ -227,4 +199,18 @@ void Board::findAndSetBlankTileLocation() {
 			break;
 		}
 	}
+}
+
+// Helper functions
+bool checkConfig(const int *_boardConfig)
+{
+	for (int i = 0; i < NUMBER_OF_TILES; i++) {
+		if (_boardConfig[i] < 0 || _boardConfig[i] > 8) return false;
+
+		// TODO: Optimize
+		for (int j = 0; j < i; j++) {
+			if (_boardConfig[j] == _boardConfig[i]) return false;
+		}
+	}
+	return true; // All checks pass
 }
